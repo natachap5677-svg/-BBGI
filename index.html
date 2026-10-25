@@ -3,162 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard สรุปผลแบบประเมิน BBGI</title>
+    <title>Dashboard สรุปผลแบบประเมินโครงการฝึกอบรม</title>
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Google Fonts -->
+    
+    <!-- Google Fonts: Prompt -->
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        prompt: ['Prompt', 'sans-serif'],
+                    },
+                    colors: {
+                        bbgidark: '#111827', /* Header dark */
+                        bbgiblue: '#254382', /* Card header blue */
+                        bbgigreen: '#2e753a', /* Card header green */
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
         body {
             font-family: 'Prompt', sans-serif;
-            background-color: #e2e8f0; /* สีพื้นหลังนอกแดชบอร์ด */
+            background-color: #e2e8f0;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
+            width: 100vw;
             margin: 0;
-            padding: 10px;
+            overflow: hidden; /* ป้องกันการ Scroll 100% */
         }
-        /* ล็อกสัดส่วนหน้าจอให้เป็น 16:9 เสมอ */
-        .dashboard-container {
-            width: 100%;
-            max-width: 1366px; /* ขนาดกว้างสุด */
-            aspect-ratio: 16 / 9; /* สัดส่วน 16:9 */
-            max-height: 95vh; /* ป้องกันไม่ให้ล้นความสูงจอ */
+        
+        /* คอนเทนเนอร์หลักที่ถูกล็อกสัดส่วน 16:9 */
+        .aspect-ratio-container {
+            width: 100vw;
+            height: 56.25vw; /* 100vw * 9/16 */
+            max-height: 100vh;
+            max-width: 177.78vh; /* 100vh * 16/9 */
             background-color: #f1f5f9;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            border-radius: 8px;
+            position: relative;
         }
-        .header-bg { background-color: #0f172a; } /* สีกรมท่า BBGI */
-        .card-title { background-color: #1e3a8a; color: white; }
-        .card-title-green { background-color: #166534; color: white; }
+
+        /* สำหรับ Custom Scrollbar ในส่วนของ Text Lists */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 4px; }
+
+        /* ช่วยป้องกันไม่ให้ Flex items ทะลุเกินขนาดของตัวเอง */
+        .min-h-0 { min-height: 0; }
     </style>
 </head>
 <body>
 
-    <div class="dashboard-container">
+    <!-- Main 16:9 Container -->
+    <div class="aspect-ratio-container">
         
-        <!-- Header Section (12% height) -->
-        <header class="header-bg text-white px-6 py-3 flex justify-between items-center h-[12%]">
-            <div class="flex items-center gap-6">
-                <!-- โลโก้ RMUTT และ BBGI (ใช้ .png และ object-contain เพื่อไม่ให้รูปโดนตัด) -->
-                <div class="flex items-center gap-3 bg-white/10 px-3 py-1 rounded-xl">
-                    <img src="logoRMUTT.png" alt="RMUTT Logo" class="h-12 w-auto object-contain drop-shadow-md">
-                    <img src="BBGI.png" alt="BBGI Logo" class="h-10 w-auto object-contain drop-shadow-md">
+        <!-- ==================== HEADER (12%) ==================== -->
+        <header class="bg-bbgidark text-white px-4 flex justify-between items-center h-[12%] shrink-0">
+            <div class="flex items-center gap-4 h-full py-2">
+                <!-- โลโก้ RMUTT และ BBGI -->
+                <div class="flex items-center gap-2 h-full bg-white/5 p-1.5 rounded-lg border border-white/10">
+                    <img src="logoRMUTT.png" alt="RMUTT Logo" class="h-full max-h-12 w-auto object-contain">
+                    <img src="BBGI.png" alt="BBGI Logo" class="h-full max-h-10 w-auto object-contain">
                 </div>
-                <div>
-                    <h1 class="text-xl lg:text-2xl font-bold leading-tight">แดชบอร์ดสรุปผลแบบประเมินโครงการฝึกอบรม</h1>
-                    <h2 class="text-md lg:text-lg text-gray-300">การผลิตเอทานอลจากกากน้ำตาลและมันเส้น</h2>
+                <div class="flex flex-col justify-center">
+                    <h1 class="text-base sm:text-lg lg:text-xl font-bold leading-tight drop-shadow-sm">แดชบอร์ดสรุปผลแบบประเมินโครงการฝึกอบรม</h1>
+                    <h2 class="text-xs sm:text-sm text-gray-300 font-medium drop-shadow-sm">การผลิตเอทานอลจากกากน้ำตาลและมันเส้น</h2>
                 </div>
             </div>
-            <div class="flex gap-4">
-                <div>
-                    <label class="block text-[10px] text-gray-300 mb-0.5">สังกัด</label>
-                    <select class="text-sm text-gray-800 rounded px-2 py-1 border-none focus:ring-0 outline-none w-28">
+            <div class="flex gap-3 h-full items-center py-2">
+                <div class="flex flex-col">
+                    <label class="text-[9px] text-gray-300 mb-0.5">สังกัด</label>
+                    <select class="text-xs text-gray-800 rounded px-2 py-1 outline-none w-24 shadow-inner">
                         <option>ทั้งหมด</option>
                         <option>BBGI NP</option>
                     </select>
                 </div>
-                <div>
-                    <label class="block text-[10px] text-gray-300 mb-0.5">กลุ่มปฏิบัติการ</label>
-                    <select class="text-sm text-gray-800 rounded px-2 py-1 border-none focus:ring-0 outline-none w-28">
+                <div class="flex flex-col">
+                    <label class="text-[9px] text-gray-300 mb-0.5">กลุ่มปฏิบัติการ</label>
+                    <select class="text-xs text-gray-800 rounded px-2 py-1 outline-none w-24 shadow-inner">
                         <option>ทั้งหมด</option>
                     </select>
                 </div>
             </div>
         </header>
 
-        <!-- KPI Cards Section (15% height) -->
-        <section class="flex gap-4 px-4 py-3 h-[15%]">
-            <div class="flex-1 bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col overflow-hidden">
-                <div class="card-title text-center text-xs font-bold py-1.5">จำนวนผู้ตอบแบบประเมินทั้งหมด</div>
-                <div class="flex-1 flex items-center justify-center gap-3">
-                    <span class="text-3xl font-black text-blue-900">128 <span class="text-lg font-medium text-gray-600">คน</span></span>
-                    <i class="fa-solid fa-users text-3xl text-blue-800/20"></i>
+        <!-- ==================== KPI CARDS (14%) ==================== -->
+        <section class="flex gap-3 px-3 pt-3 h-[14%] shrink-0">
+            <!-- Card 1 -->
+            <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden">
+                <div class="bg-bbgiblue text-white text-center text-[10px] font-bold py-1">จำนวนผู้ตอบแบบประเมินทั้งหมด</div>
+                <div class="flex-1 flex items-center justify-between px-4 pb-1">
+                    <div class="text-3xl font-black text-blue-900 leading-none">128 <span class="text-xs font-medium text-gray-500">คน</span></div>
+                    <i class="fa-solid fa-users text-2xl text-gray-300"></i>
                 </div>
             </div>
-            <div class="flex-1 bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col overflow-hidden">
-                <div class="card-title-green text-center text-xs font-bold py-1.5">สังกัดที่มีผู้ตอบมากที่สุด</div>
-                <div class="flex-1 flex items-center justify-center gap-3">
-                    <span class="text-3xl font-black text-green-900">BBGI NP</span>
-                    <i class="fa-solid fa-chart-line text-3xl text-green-800/20"></i>
+            <!-- Card 2 -->
+            <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden">
+                <div class="bg-bbgigreen text-white text-center text-[10px] font-bold py-1">สังกัดที่มีผู้ตอบมากที่สุด</div>
+                <div class="flex-1 flex items-center justify-between px-4 pb-1">
+                    <div class="text-2xl font-black text-green-700 leading-none">BBGI NP</div>
+                    <i class="fa-solid fa-chart-line text-2xl text-gray-300"></i>
                 </div>
             </div>
-            <div class="flex-1 bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col overflow-hidden">
-                <div class="card-title text-center text-xs font-bold py-1.5">คะแนนความพึงพอใจเฉลี่ย</div>
-                <div class="flex-1 flex items-center justify-center gap-3">
-                    <span class="text-3xl font-black text-blue-900">4.52<span class="text-lg font-medium text-gray-400">/5</span></span>
-                    <i class="fa-solid fa-star text-3xl text-yellow-400"></i>
+            <!-- Card 3 -->
+            <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden">
+                <div class="bg-bbgiblue text-white text-center text-[10px] font-bold py-1">คะแนนความพึงพอใจเฉลี่ย</div>
+                <div class="flex-1 flex items-center justify-between px-4 pb-1">
+                    <div class="text-3xl font-black text-blue-900 leading-none">4.52<span class="text-xs font-medium text-gray-400">/5</span></div>
+                    <i class="fa-solid fa-star text-2xl text-yellow-400"></i>
                 </div>
             </div>
-            <div class="flex-1 bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col overflow-hidden">
-                <div class="card-title-green text-center text-xs font-bold py-1.5">ร้อยละความต้องการพัฒนาต่อ</div>
-                <div class="flex-1 flex items-center justify-center gap-3">
-                    <span class="text-3xl font-black text-green-900">18%</span>
-                    <i class="fa-solid fa-clipboard-check text-3xl text-green-800/20"></i>
+            <!-- Card 4 -->
+            <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden">
+                <div class="bg-bbgigreen text-white text-center text-[10px] font-bold py-1">ร้อยละความต้องการพัฒนาต่อ</div>
+                <div class="flex-1 flex items-center justify-between px-4 pb-1">
+                    <div class="text-3xl font-black text-green-700 leading-none">18%</div>
+                    <i class="fa-solid fa-clipboard-check text-2xl text-gray-300"></i>
                 </div>
             </div>
         </section>
 
-        <!-- Main Content (Charts & Tables - 73% height) -->
-        <main class="flex-1 flex px-4 pb-4 gap-4 h-[73%]">
+        <!-- ==================== MAIN CHARTS & LISTS (74%) ==================== -->
+        <main class="flex-1 flex px-3 pb-3 pt-3 gap-3 min-h-0">
             
-            <!-- Left Column: Donut Charts (25% width) -->
-            <div class="w-1/4 flex flex-col gap-3">
-                <div class="flex-1 bg-white rounded-lg shadow-sm border border-gray-200 p-3 flex flex-col">
-                    <h3 class="text-sm font-bold text-gray-800 text-center mb-1">ข้อมูลผู้ตอบ: สังกัด</h3>
-                    <div class="relative flex-1 min-h-0"><canvas id="deptChart"></canvas></div>
+            <!-- ====== LEFT COLUMN (Donuts) - 25% Width ====== -->
+            <div class="w-1/4 flex flex-col gap-3 min-h-0 h-full">
+                <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0">
+                    <h3 class="text-[11px] font-bold text-gray-800 text-center mb-1 shrink-0">ข้อมูลผู้ตอบ: สังกัด</h3>
+                    <!-- Wrapper กราฟ ต้องเป็น relative และมี min-h-0 เพื่อบังคับไม่ให้ล้น -->
+                    <div class="relative flex-1 min-h-0 w-full">
+                        <canvas id="deptChart"></canvas>
+                    </div>
                 </div>
-                <div class="flex-1 bg-white rounded-lg shadow-sm border border-gray-200 p-3 flex flex-col">
-                    <h3 class="text-sm font-bold text-gray-800 text-center mb-1">ประสบการณ์การหมัก</h3>
-                    <div class="relative flex-1 min-h-0"><canvas id="expChart"></canvas></div>
-                </div>
-            </div>
-
-            <!-- Middle Column: Grouped Bar & Tables (45% width) -->
-            <div class="w-[45%] flex flex-col gap-3">
-                <div class="h-[60%] bg-white rounded-lg shadow-sm border border-gray-200 p-3 flex flex-col">
-                    <h3 class="text-sm font-bold text-gray-800 text-center mb-2">ผลลัพธ์การเรียนรู้และการนำไปใช้ - ส่วนที่ 2</h3>
-                    <div class="relative flex-1 min-h-0"><canvas id="part2Chart"></canvas></div>
-                </div>
-                <div class="h-[40%] flex flex-col gap-2">
-                    <div class="flex-1 bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col overflow-hidden">
-                        <div class="card-title text-xs font-bold px-3 py-1.5">หัวข้อที่มีประโยชน์ที่สุด</div>
-                        <div class="p-2 overflow-y-auto text-[11px] leading-relaxed text-gray-700 flex-1">
-                            <ul class="list-disc pl-4 space-y-1">
-                                <li>หัวข้อผลิตเอทานอลจากกากน้ำตาลและมันเส้น ได้ความรู้มาก</li>
-                                <li>สรีรวิทยาของยีสต์ ทำให้เข้าใจพฤติกรรมระหว่างหมัก</li>
-                                <li>การประเมินสมดุลมวลสาร สามารถนำไปคำนวณหน้างานได้จริง</li>
-                            </ul>
-                        </div>
+                <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0">
+                    <h3 class="text-[11px] font-bold text-gray-800 text-center mb-1 shrink-0">ประสบการณ์การหมัก</h3>
+                    <div class="relative flex-1 min-h-0 w-full">
+                        <canvas id="expChart"></canvas>
                     </div>
                 </div>
             </div>
 
-            <!-- Right Column: Horizontal Bar & Tables (30% width) -->
-            <div class="w-[30%] flex flex-col gap-3">
-                <div class="h-[60%] bg-white rounded-lg shadow-sm border border-gray-200 p-3 flex flex-col">
-                    <h3 class="text-sm font-bold text-gray-800 text-center mb-2">การประเมินเนื้อหาทฤษฎี - ส่วนที่ 3</h3>
-                    <div class="relative flex-1 min-h-0"><canvas id="part3Chart"></canvas></div>
+            <!-- ====== MIDDLE COLUMN (Grouped Bar + List) - 45% Width ====== -->
+            <div class="w-[45%] flex flex-col gap-3 min-h-0 h-full">
+                <!-- Chart Section (65% height of middle column) -->
+                <div class="h-[65%] bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0">
+                    <h3 class="text-xs font-bold text-gray-800 text-center mb-1 shrink-0">ผลลัพธ์การเรียนรู้และการนำไปใช้ - ส่วนที่ 2</h3>
+                    <div class="flex justify-center items-center gap-3 mb-1 shrink-0 text-[9px] text-gray-600 font-medium">
+                        <div class="flex items-center gap-1"><span class="w-2.5 h-2.5 bg-[#8bb4f2] block rounded-sm"></span> ก่อนอบรม</div>
+                        <div class="flex items-center gap-1"><span class="w-2.5 h-2.5 bg-[#254382] block rounded-sm"></span> หลังอบรม</div>
+                    </div>
+                    <div class="relative flex-1 min-h-0 w-full">
+                        <canvas id="part2Chart"></canvas>
+                    </div>
                 </div>
-                <div class="h-[40%] flex flex-col gap-2">
-                    <div class="flex-1 bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col overflow-hidden">
-                        <div class="card-title text-xs font-bold px-3 py-1.5">ข้อเสนอแนะเพิ่มเติมสำหรับครั้งต่อไป</div>
-                        <div class="p-2 overflow-y-auto text-[11px] leading-relaxed text-gray-700 flex-1">
-                            <ul class="list-disc pl-4 space-y-1">
-                                <li>อยากให้เพิ่มกรณีศึกษาปัญหาจากหน้างานจริง</li>
-                                <li>ควรเพิ่มเวลาในหัวข้อการคำนวณอาหารเสริมยีสต์</li>
-                                <li>ดีมากครับ วิทยากรอธิบายเข้าใจง่ายเห็นภาพชัดเจน</li>
-                            </ul>
-                        </div>
+                <!-- Text List Section (35% height) -->
+                <div class="h-[35%] bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden min-h-0">
+                    <div class="bg-bbgiblue text-white px-3 py-1.5 text-[10px] font-bold shrink-0">หัวข้อที่มีประโยชน์ที่สุด</div>
+                    <div class="p-2.5 overflow-y-auto text-[10px] leading-relaxed text-gray-700 flex-1 bg-slate-50 min-h-0">
+                        <ul class="space-y-1.5 list-disc pl-4">
+                            <li>หัวข้อผลิตเอทานอลจากกากน้ำตาลและมันเส้น ได้ความรู้มากและตรงกับหน้างาน</li>
+                            <li>สรีรวิทยาของยีสต์ ทำให้เข้าใจพฤติกรรมระหว่างหมักและวิธีรับมือ</li>
+                            <li>การประเมินสมดุลมวลสาร สามารถนำไปประยุกต์คำนวณหน้างานได้จริง</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ====== RIGHT COLUMN (Horiz Bar + List) - 30% Width ====== -->
+            <div class="w-[30%] flex flex-col gap-3 min-h-0 h-full">
+                <!-- Chart Section (65% height) -->
+                <div class="h-[65%] bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0">
+                    <h3 class="text-xs font-bold text-gray-800 text-center mb-1 shrink-0">การประเมินเนื้อหาทฤษฎี - ส่วนที่ 3</h3>
+                    <div class="relative flex-1 min-h-0 w-full">
+                        <canvas id="part3Chart"></canvas>
+                    </div>
+                </div>
+                <!-- Text List Section (35% height) -->
+                <div class="h-[35%] bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden min-h-0">
+                    <div class="bg-bbgidark text-white px-3 py-1.5 text-[10px] font-bold shrink-0">ข้อเสนอแนะเพิ่มเติมสำหรับครั้งต่อไป</div>
+                    <div class="p-2.5 overflow-y-auto text-[10px] leading-relaxed text-gray-700 flex-1 bg-slate-50 min-h-0">
+                        <ul class="space-y-1.5 list-disc pl-4">
+                            <li>อยากให้เพิ่มกรณีศึกษาปัญหาจากหน้างานจริง และ Workshop การแก้ปัญหา</li>
+                            <li>ควรเพิ่มเวลาในหัวข้อการคำนวณอาหารเสริมยีสต์ เนื่องจากเนื้อหาค่อนข้างยาก</li>
+                            <li>ดีมากครับ วิทยากรอธิบายเข้าใจง่ายเห็นภาพชัดเจน เอกสารประกอบการสอนดีมาก</li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -166,59 +212,145 @@
         </main>
     </div>
 
-    <!-- Scripts for Chart.js -->
+    <!-- Chart.js Configuration -->
     <script>
-        // ตั้งค่าฟอนต์หลักของกราฟเป็น Prompt
+        // Set global font family
         Chart.defaults.font.family = "'Prompt', sans-serif";
+        Chart.defaults.color = '#475569';
 
-        // กราฟ 1: สังกัด (Donut)
+        // Plugin to ensure labels fit inside tiny donuts
+        const donutOptions = {
+            responsive: true,
+            maintainAspectRatio: false, /* สำคัญมาก เพื่อให้กราฟยืดหดตาม Container */
+            cutout: '55%',
+            layout: { padding: 5 },
+            plugins: {
+                legend: {
+                    position: 'right',
+                    align: 'center',
+                    labels: {
+                        boxWidth: 8,
+                        boxHeight: 8,
+                        font: { size: 9 },
+                        padding: 8,
+                        usePointStyle: true
+                    }
+                },
+                tooltip: {
+                    bodyFont: { size: 10, family: 'Prompt' }
+                }
+            }
+        };
+
+        // 1. Chart: สังกัด (Donut)
         new Chart(document.getElementById('deptChart').getContext('2d'), {
             type: 'doughnut',
             data: {
                 labels: ['BBGI NP', 'BBGI BP', 'BBGI PS', 'อื่นๆ'],
-                datasets: [{ data: [45, 30, 15, 10], backgroundColor: ['#1e3a8a', '#16a34a', '#fbbf24', '#cbd5e1'] }]
+                datasets: [{
+                    data: [39.5, 39.2, 16.8, 4.5],
+                    backgroundColor: ['#254382', '#2e753a', '#eab308', '#cbd5e1'],
+                    borderWidth: 1,
+                    borderColor: '#ffffff'
+                }]
             },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { boxWidth: 10, font: { size: 10 } } } } }
+            options: donutOptions
         });
 
-        // กราฟ 2: ประสบการณ์ (Donut)
+        // 2. Chart: ประสบการณ์ (Donut)
         new Chart(document.getElementById('expChart').getContext('2d'), {
             type: 'doughnut',
             data: {
-                labels: ['น้อยกว่า 1 ปี', '1-3 ปี', '4-6 ปี', 'มากกว่า 6 ปี'],
-                datasets: [{ data: [20, 40, 25, 15], backgroundColor: ['#1e3a8a', '#16a34a', '#fbbf24', '#a855f7'] }]
+                labels: ['< 1 ปี', '1-3 ปี', '4-6 ปี', '> 6 ปี'],
+                datasets: [{
+                    data: [10.3, 36.8, 11.8, 41.1],
+                    backgroundColor: ['#254382', '#2e753a', '#eab308', '#a855f7'],
+                    borderWidth: 1,
+                    borderColor: '#ffffff'
+                }]
             },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { boxWidth: 10, font: { size: 10 } } } } }
+            options: donutOptions
         });
 
-        // กราฟ 3: ก่อน-หลังอบรม ส่วนที่ 2 (Grouped Bar)
+        // 3. Chart: ก่อน-หลังอบรม ส่วนที่ 2 (Grouped Bar)
         new Chart(document.getElementById('part2Chart').getContext('2d'), {
             type: 'bar',
             data: {
                 labels: ['ข้อ 1', 'ข้อ 2', 'ข้อ 3', 'ข้อ 4', 'ข้อ 5', 'ข้อ 6', 'ข้อ 7', 'ข้อ 8'],
                 datasets: [
-                    { label: 'ก่อนอบรม', data: [2.5, 3.1, 2.8, 2.4, 3.0, 3.2, 3.5, 3.6], backgroundColor: '#93c5fd' },
-                    { label: 'หลังอบรม', data: [4.2, 4.5, 4.1, 4.0, 4.6, 4.7, 4.8, 4.9], backgroundColor: '#1e3a8a' }
+                    {
+                        label: 'ก่อนอบรม',
+                        data: [2.5, 3.1, 2.8, 2.4, 3.0, 3.2, 3.5, 3.6],
+                        backgroundColor: '#8bb4f2',
+                        borderRadius: 2,
+                        barPercentage: 0.7,
+                        categoryPercentage: 0.8
+                    },
+                    {
+                        label: 'หลังอบรม',
+                        data: [4.2, 4.5, 4.1, 4.0, 4.6, 4.7, 4.8, 4.9],
+                        backgroundColor: '#254382',
+                        borderRadius: 2,
+                        barPercentage: 0.7,
+                        categoryPercentage: 0.8
+                    }
                 ]
             },
             options: {
-                responsive: true, maintainAspectRatio: false,
-                scales: { y: { beginAtZero: true, max: 5, ticks: { font: { size: 10 } } }, x: { ticks: { font: { size: 10 } } } },
-                plugins: { legend: { position: 'top', labels: { boxWidth: 12, font: { size: 11 } } } }
+                responsive: true,
+                maintainAspectRatio: false, /* สำคัญมาก */
+                layout: { padding: { top: 10, right: 10, bottom: 0, left: 0 } },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 5,
+                        ticks: { font: { size: 9 }, stepSize: 1, padding: 2 },
+                        grid: { color: '#f1f5f9' }
+                    },
+                    x: {
+                        ticks: { font: { size: 9 }, padding: 2 },
+                        grid: { display: false }
+                    }
+                },
+                plugins: {
+                    legend: { display: false } /* ซ่อน Legend เพราะวาดเองเป็น HTML ด้านบนแล้วเพื่อประหยัดพื้นที่ */
+                }
             }
         });
 
-        // กราฟ 4: ทฤษฎี ส่วนที่ 3 (Horizontal Bar)
+        // 4. Chart: ทฤษฎี ส่วนที่ 3 (Horizontal Bar)
         new Chart(document.getElementById('part3Chart').getContext('2d'), {
             type: 'bar',
             data: {
                 labels: ['ข้อ 1', 'ข้อ 2', 'ข้อ 3', 'ข้อ 4', 'ข้อ 5', 'ข้อ 6', 'ข้อ 7', 'ข้อ 8'],
-                datasets: [{ label: 'คะแนนเฉลี่ย', data: [4.8, 4.7, 4.6, 4.5, 4.4, 4.3, 4.2, 4.1], backgroundColor: '#1e3a8a' }]
+                datasets: [{
+                    data: [4.8, 4.7, 4.6, 4.5, 4.4, 4.3, 4.2, 4.1],
+                    backgroundColor: '#254382',
+                    borderRadius: 2,
+                    barPercentage: 0.7,
+                    categoryPercentage: 0.9
+                }]
             },
             options: {
-                indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-                scales: { x: { beginAtZero: true, max: 5, ticks: { font: { size: 10 } } }, y: { ticks: { font: { size: 10 } } } },
-                plugins: { legend: { display: false } }
+                indexAxis: 'y', /* เปลี่ยนเป็นแนวนอน */
+                responsive: true,
+                maintainAspectRatio: false, /* สำคัญมาก */
+                layout: { padding: { top: 5, right: 10, bottom: 0, left: 0 } },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 5,
+                        ticks: { font: { size: 9 }, stepSize: 1 },
+                        grid: { color: '#f1f5f9' }
+                    },
+                    y: {
+                        ticks: { font: { size: 9 }, padding: 4 },
+                        grid: { display: false }
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
             }
         });
     </script>
