@@ -3,252 +3,342 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>แบบประเมินโครงการฝึกอบรม BBGI</title>
+    <title>BBGI Evaluation Dashboard</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts: Prompt -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        prompt: ['Prompt', 'sans-serif'],
+                    },
+                    colors: {
+                        bbgi: {
+                            dark: '#0e2b4d',   /* สีกรมท่า */
+                            green: '#25704b',  /* สีเขียวเข้ม */
+                            lightBlue: '#8cb9e6', /* สีฟ้าอ่อนของกราฟ */
+                            bg: '#f1f5f9'      /* สีพื้นหลัง */
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        body { font-family: 'Sarabun', sans-serif; background-color: #f8fafc; }
-        .table-header { background-color: #1e3a8a; color: white; }
+        body {
+            background-color: #eef2f6;
+            font-family: 'Prompt', sans-serif;
+        }
+        /* Custom scrollbar for small areas if needed */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+        
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="p-4 md:p-6 text-gray-800">
 
-    <div class="max-w-5xl mx-auto bg-white p-6 md:p-10 shadow-lg rounded-xl">
-        <!-- Header -->
-        <div class="text-center mb-8 border-b-2 border-blue-800 pb-4">
-            <h1 class="text-2xl font-bold mb-2">แบบประเมินโครงการฝึกอบรม</h1>
-            <h2 class="text-xl font-bold mb-2">การผลิตเอทานอลจากกากน้ำตาลและมันเส้น</h2>
-            <h3 class="text-lg font-bold mb-2">บริษัท บีบีจีไอ ไบโอเอทานอล จำกัด มหาชน</h3>
-            <p class="text-gray-600">27–30 ตุลาคม 2569 ณ ภาควิชาวิศวกรรมเคมีและวัสดุ คณะวิศวกรรมศาสตร์<br>มหาวิทยาลัยเทคโนโลยีราชมงคลธัญบุรี</p>
+    <div class="max-w-[1400px] mx-auto space-y-4">
+        
+        <!-- ================= HEADER ================= -->
+        <div class="flex flex-col md:flex-row bg-white rounded-xl overflow-hidden card-shadow">
+            <!-- Logo Section -->
+            <div class="bg-white p-4 flex items-center justify-center md:justify-start w-full md:w-[250px] shrink-0">
+                <div class="flex items-center space-x-2">
+                    <!-- SVG Leaf Logo Mockup -->
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C7.5 2 4 5.5 4 10C4 13.5 6 16.5 9 18V22H11V19.5C11.3 19.6 11.7 19.7 12 19.7C16.5 19.7 20 16.2 20 11.7C20 7.2 16.5 2 12 2Z" fill="#25704b"/>
+                        <path d="M12 2C10 4.5 9 7.5 9 11C9 14.5 10 17.5 12 19.7C14 17.5 15 14.5 15 11C15 7.5 14 4.5 12 2Z" fill="#8cb9e6" opacity="0.8"/>
+                    </svg>
+                    <div>
+                        <h1 class="text-2xl font-bold text-bbgi-dark leading-none tracking-tight">BBGI</h1>
+                        <p class="text-[10px] font-semibold text-bbgi-green leading-none">Bio-Based Group</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Title & Filters Section -->
+            <div class="bg-bbgi-dark flex-1 p-4 flex flex-col lg:flex-row items-center justify-between">
+                <div class="text-white mb-4 lg:mb-0 text-center lg:text-left">
+                    <h2 class="text-xl font-semibold">แดชบอร์ดสรุปผลแบบประเมินโครงการฝึกอบรม</h2>
+                    <p class="text-lg">การผลิตเอทานอลจากกากน้ำตาลและมันเส้น</p>
+                </div>
+                
+                <div class="flex flex-wrap items-end justify-center lg:justify-end gap-3 text-sm">
+                    <div class="flex flex-col">
+                        <label class="text-white/80 text-xs mb-1">สังกัด</label>
+                        <select class="bg-white text-gray-700 px-3 py-1.5 rounded outline-none cursor-pointer w-[120px]">
+                            <option>สังกัด</option>
+                            <option>BBGI NP</option>
+                            <option>BBGI BP</option>
+                            <option>BBGI PS</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="text-transparent text-xs mb-1">.</label>
+                        <select class="bg-white text-gray-700 px-3 py-1.5 rounded outline-none cursor-pointer w-[140px]">
+                            <option>กลุ่มปฏิบัติการ</option>
+                            <option>กลุ่ม 1</option>
+                            <option>กลุ่ม 2</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="text-white/80 text-xs mb-1">ช่วงวันที่</label>
+                        <select class="bg-white text-gray-700 px-3 py-1.5 rounded outline-none cursor-pointer w-[120px]">
+                            <option>ช่วงวันที่</option>
+                            <option>ทั้งหมด</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <form id="evaluationForm" onsubmit="submitForm(event)">
+        <!-- ================= KPI CARDS ================= -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Card 1 -->
+            <div class="bg-white rounded-xl overflow-hidden card-shadow border border-gray-200 flex flex-col">
+                <div class="bg-bbgi-dark text-white text-center py-2 text-sm font-medium">จำนวนผู้ตอบแบบประเมินทั้งหมด</div>
+                <div class="p-4 flex items-center justify-between flex-1">
+                    <div class="text-4xl font-bold text-bbgi-dark">128 <span class="text-xl font-normal text-gray-500">คน</span></div>
+                    <i class="fa-solid fa-users text-4xl text-bbgi-dark/80"></i>
+                </div>
+            </div>
             
-            <!-- ส่วนที่ 1: ข้อมูลผู้ตอบแบบประเมิน -->
-            <div class="mb-10">
-                <h3 class="text-lg font-bold mb-4">ส่วนที่ 1 ข้อมูลผู้ตอบแบบประเมิน</h3>
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 bg-gray-50 p-4 rounded border">
-                    <div class="font-semibold text-gray-700">สังกัด</div>
-                    <div class="md:col-span-3 flex flex-wrap gap-4">
-                        <label><input type="radio" name="department" value="BBGI NP" required class="mr-1"> BBGI NP</label>
-                        <label><input type="radio" name="department" value="BBGI BP" class="mr-1"> BBGI BP</label>
-                        <label><input type="radio" name="department" value="BBGI PS" class="mr-1"> BBGI PS</label>
-                        <label><input type="radio" name="department" value="อื่นๆ" class="mr-1"> อื่นๆ <input type="text" name="department_other" class="border-b border-gray-400 bg-transparent focus:outline-none px-2"></label>
+            <!-- Card 2 -->
+            <div class="bg-bbgi-green rounded-xl overflow-hidden card-shadow border border-gray-200 flex flex-col">
+                <div class="bg-[#1e5a3c] text-white text-center py-2 text-sm font-medium">สังกัดที่มีผู้ตอบมากที่สุด</div>
+                <div class="bg-white p-4 flex items-center justify-between flex-1">
+                    <div class="text-4xl font-bold text-bbgi-dark">BBGI NP</div>
+                    <i class="fa-solid fa-chart-line text-4xl text-bbgi-green/80"></i>
+                </div>
+            </div>
+            
+            <!-- Card 3 -->
+            <div class="bg-bbgi-green rounded-xl overflow-hidden card-shadow border border-gray-200 flex flex-col">
+                <div class="bg-[#1e5a3c] text-white text-center py-2 text-sm font-medium">คะแนนความพึงพอใจเฉลี่ย</div>
+                <div class="bg-white p-4 flex items-center justify-between flex-1">
+                    <div class="text-4xl font-bold text-bbgi-dark">4.52<span class="text-xl text-gray-500">/5</span></div>
+                    <i class="fa-solid fa-chart-simple text-4xl text-bbgi-green/80"></i>
+                </div>
+            </div>
+            
+            <!-- Card 4 -->
+            <div class="bg-bbgi-green rounded-xl overflow-hidden card-shadow border border-gray-200 flex flex-col">
+                <div class="bg-[#1e5a3c] text-white text-center py-2 text-sm font-medium">ร้อยละความต้องการพัฒนาต่อ</div>
+                <div class="bg-white p-4 flex items-center justify-between flex-1">
+                    <div class="text-4xl font-bold text-bbgi-dark">18%</div>
+                    <i class="fa-solid fa-clipboard-list text-4xl text-bbgi-green/80"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= CHARTS SECTION ================= -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            
+            <!-- Left: Donut Charts (Col span 3) -->
+            <div class="bg-white p-4 rounded-xl card-shadow border border-gray-200 lg:col-span-3 flex flex-col">
+                <h3 class="text-lg font-semibold text-bbgi-dark mb-4">ข้อมูลผู้ตอบ</h3>
+                
+                <div class="mb-6 flex-1 flex flex-col">
+                    <h4 class="text-sm font-medium text-gray-600 mb-2">สังกัด</h4>
+                    <div class="relative flex-1 min-h-[150px]">
+                        <canvas id="deptChart"></canvas>
                     </div>
-
-                    <div class="font-semibold text-gray-700 mt-2 md:mt-0">กลุ่มปฏิบัติการ</div>
-                    <div class="md:col-span-3 flex flex-wrap gap-4">
-                        <label><input type="radio" name="group" value="กลุ่ม 1" required class="mr-1"> กลุ่ม 1</label>
-                        <label><input type="radio" name="group" value="กลุ่ม 2" class="mr-1"> กลุ่ม 2</label>
-                        <label><input type="radio" name="group" value="กลุ่ม 3" class="mr-1"> กลุ่ม 3</label>
-                        <label><input type="radio" name="group" value="กลุ่ม 4" class="mr-1"> กลุ่ม 4</label>
-                    </div>
-
-                    <div class="font-semibold text-gray-700 mt-2 md:mt-0">ประสบการณ์ด้านการหมัก</div>
-                    <div class="md:col-span-3 flex flex-wrap gap-4">
-                        <label><input type="radio" name="experience" value="น้อยกว่า 1 ปี" required class="mr-1"> น้อยกว่า 1 ปี</label>
-                        <label><input type="radio" name="experience" value="1-3 ปี" class="mr-1"> 1-3 ปี</label>
-                        <label><input type="radio" name="experience" value="4-6 ปี" class="mr-1"> 4-6 ปี</label>
-                        <label><input type="radio" name="experience" value="มากกว่า 6 ปี" class="mr-1"> มากกว่า 6 ปี</label>
-                    </div>
-
-                    <div class="font-semibold text-gray-700 mt-2 md:mt-0">ลักษณะงานหลัก</div>
-                    <div class="md:col-span-3 flex flex-wrap gap-4">
-                        <label><input type="radio" name="jobRole" value="ผลิต" required class="mr-1"> ผลิต</label>
-                        <label><input type="radio" name="jobRole" value="ห้องปฏิบัติการ/คุณภาพ" class="mr-1"> ห้องปฏิบัติการ/คุณภาพ</label>
-                        <label><input type="radio" name="jobRole" value="วิศวกรรม/ซ่อมบำรุง" class="mr-1"> วิศวกรรม/ซ่อมบำรุง</label>
-                        <label><input type="radio" name="jobRole" value="วิจัยและพัฒนา" class="mr-1"> วิจัยและพัฒนา</label>
-                        <label><input type="radio" name="jobRole" value="อื่นๆ" class="mr-1"> อื่นๆ <input type="text" name="jobRole_other" class="border-b border-gray-400 bg-transparent focus:outline-none px-2"></label>
+                </div>
+                
+                <div class="flex-1 flex flex-col">
+                    <h4 class="text-sm font-medium text-gray-600 mb-2">ประสบการณ์ด้านการหมักเอทานอล</h4>
+                    <div class="relative flex-1 min-h-[150px]">
+                        <canvas id="expChart"></canvas>
                     </div>
                 </div>
             </div>
 
-            <!-- กำลังโหลดคำถามจาก Sheet -->
-            <div id="loading" class="text-center py-10 text-blue-600 font-bold">
-                กำลังโหลดคำถามจากระบบ...
-            </div>
-
-            <!-- ส่วนที่ 2: ผลลัพธ์การเรียนรู้ -->
-            <div id="part2-container" class="mb-10 hidden">
-                <h3 class="text-lg font-bold mb-2">ส่วนที่ 2 ผลลัพธ์การเรียนรู้และความพร้อมนำไปใช้</h3>
-                <p class="text-sm text-gray-600 mb-4">โปรดให้คะแนนตนเองย้อนหลังในช่วงก่อนและหลังการอบรม (1 = ยังทำไม่ได้ ถึง 5 = อธิบายหรือปฏิบัติได้ด้วยตนเอง)</p>
-                <div class="overflow-x-auto">
-                    <table class="w-full border-collapse border border-gray-300 text-sm">
-                        <thead>
-                            <tr class="table-header text-center">
-                                <th class="border p-2 w-1/2">สมรรถนะที่ประเมิน</th>
-                                <th class="border p-2">ก่อนอบรม (1-5)</th>
-                                <th class="border p-2">หลังอบรม (1-5)</th>
-                                <th class="border p-2">ยังต้องการพัฒนา</th>
-                            </tr>
-                        </thead>
-                        <tbody id="part2-tbody">
-                            <!-- คำถามส่วนที่ 2 จะถูกแทรกที่นี่อัตโนมัติ -->
-                        </tbody>
-                    </table>
+            <!-- Middle: Grouped Bar Chart (Col span 5) -->
+            <div class="bg-white p-4 rounded-xl card-shadow border border-gray-200 lg:col-span-5 flex flex-col">
+                <h3 class="text-lg font-semibold text-bbgi-dark mb-4 text-center">ผลลัพธ์การเรียนรู้และการนำไปใช้ - ส่วนที่ 2</h3>
+                <div class="flex justify-center items-center space-x-6 mb-2 text-xs">
+                    <div class="flex items-center"><span class="w-4 h-4 bg-bbgi-lightBlue inline-block mr-2"></span> ก่อนอบรม</div>
+                    <div class="flex items-center"><span class="w-4 h-4 bg-bbgi-dark inline-block mr-2"></span> หลังอบรม</div>
+                </div>
+                <div class="relative flex-1 min-h-[300px]">
+                    <canvas id="resultChart"></canvas>
                 </div>
             </div>
 
-            <!-- ส่วนที่ 3: การประเมินเนื้อหาภาคทฤษฎี -->
-            <div id="part3-container" class="mb-10 hidden">
-                <h3 class="text-lg font-bold mb-2">ส่วนที่ 3 การประเมินเนื้อหาภาคทฤษฎี</h3>
-                <p class="text-sm text-gray-600 mb-4">ระดับคะแนน: 5 = มากที่สุด, 4 = มาก, 3 = ปานกลาง, 2 = น้อย, 1 = น้อยที่สุด, — = ไม่เกี่ยวข้อง</p>
-                <div class="overflow-x-auto mb-6">
-                    <table class="w-full border-collapse border border-gray-300 text-sm text-center">
-                        <thead>
-                            <tr class="table-header">
-                                <th class="border p-2 text-left">ประเด็นประเมิน</th>
-                                <th class="border p-2">5</th><th class="border p-2">4</th><th class="border p-2">3</th><th class="border p-2">2</th><th class="border p-2">1</th><th class="border p-2">—</th>
-                            </tr>
-                        </thead>
-                        <tbody id="part3-tbody">
-                            <!-- คำถามส่วนที่ 3 จะถูกแทรกที่นี่อัตโนมัติ -->
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- ข้อเสนอแนะเพิ่มเติม -->
-                <div class="mb-4">
-                    <label class="block font-bold mb-2">หัวข้อทฤษฎีที่มีประโยชน์ต่อการทำงานมากที่สุด เพราะเหตุใด</label>
-                    <textarea name="usefulTopic" rows="3" class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-                </div>
-                <div class="mb-6">
-                    <label class="block font-bold mb-2">หัวข้อที่ควรเพิ่ม ลด หรือปรับวิธีอธิบายในการจัดครั้งต่อไป</label>
-                    <textarea name="suggestion" rows="3" class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+            <!-- Right: Horizontal Bar Chart (Col span 4) -->
+            <div class="bg-white p-4 rounded-xl card-shadow border border-gray-200 lg:col-span-4 flex flex-col">
+                <h3 class="text-lg font-semibold text-bbgi-dark mb-4 text-center">การประเมินเนื้อหาทฤษฎี - ส่วนที่ 3</h3>
+                <div class="relative flex-1 min-h-[300px]">
+                    <canvas id="theoryChart"></canvas>
                 </div>
             </div>
+            
+        </div>
 
-            <!-- ปุ่ม Submit -->
-            <div class="text-center">
-                <button type="submit" id="submitBtn" class="bg-blue-800 hover:bg-blue-700 text-white font-bold py-3 px-10 rounded-lg shadow-lg hidden transition">
-                    ส่งแบบประเมิน
-                </button>
+        <!-- ================= BOTTOM TABLES ================= -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Table 1 -->
+            <div class="bg-white rounded-xl overflow-hidden card-shadow border border-gray-200">
+                <div class="bg-bbgi-dark text-white p-3 font-medium">หัวข้อที่มีประโยชน์ที่สุด</div>
+                <div class="p-0">
+                    <ul class="text-sm text-gray-700">
+                        <li class="p-3 border-b border-gray-100 hover:bg-gray-50">หัวข้อผลิตเอทานอลจากกากน้ำตาลและมันเส้น</li>
+                        <li class="p-3 border-b border-gray-100 hover:bg-gray-50 bg-gray-50">หัวข้อพอเอทานอลจากกากน้ำตาลและมันเส้น</li>
+                        <li class="p-3 border-b border-gray-100 hover:bg-gray-50">หัวข้อการที่มีประโยชน์ที่สุด</li>
+                        <li class="p-3 hover:bg-gray-50 bg-gray-50">หัวข้อที่มีประโยชน์ที่สุด</li>
+                    </ul>
+                </div>
             </div>
-        </form>
+            
+            <!-- Table 2 -->
+            <div class="bg-white rounded-xl overflow-hidden card-shadow border border-gray-200">
+                <div class="bg-bbgi-dark text-white p-3 font-medium">ข้อเสนอแนะเพิ่มเติมสำหรับครั้งต่อไป</div>
+                <div class="p-0">
+                    <ul class="text-sm text-gray-700">
+                        <li class="p-3 border-b border-gray-100 hover:bg-gray-50">ข้อเสนอแนะเพิ่มเติมสำหรับครั้งต่อไปในการ...</li>
+                        <li class="p-3 border-b border-gray-100 hover:bg-gray-50 bg-gray-50">ข้อเสนอแนะเพิ่มเติมสำหรับกากน้ำตาลและมันเส้น</li>
+                        <li class="p-3 border-b border-gray-100 hover:bg-gray-50">ข้อเสนอแนะเพิ่มเติมสำหรับครั้งต่อไป</li>
+                        <li class="p-3 hover:bg-gray-50 bg-gray-50">ข้อเสนอแนะเพิ่มเติมสำหรับครั้งต่อไป</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
     </div>
 
+    <!-- Chart Configuration Script -->
     <script>
-        // === นำ URL จาก Apps Script มาใส่ตรงนี้ ===
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwW0xcNEvHoQ-fE9f4Sl4eK0110nphDxTm7DGJIRAKySj7i6jIqGsHdc5dxyXhjG42_7Q/exec'; 
-
-        // โหลดคำถามจาก Sheet เมื่อเปิดหน้าเว็บ
-        window.onload = async function() {
-            try {
-                const response = await fetch(SCRIPT_URL + '?action=getQuestions');
-                const data = await response.json();
-                
-                renderPart2(data.part2);
-                renderPart3(data.part3);
-                
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('part2-container').classList.remove('hidden');
-                document.getElementById('part3-container').classList.remove('hidden');
-                document.getElementById('submitBtn').classList.remove('hidden');
-            } catch (error) {
-                document.getElementById('loading').innerText = 'เกิดข้อผิดพลาดในการโหลดข้อมูล กรุณารีเฟรชหน้าเว็บ';
-                console.error(error);
+        // Shared options for donuts
+        const donutOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '65%',
+            plugins: {
+                legend: {
+                    position: 'right',
+                    labels: { boxWidth: 10, font: { family: 'Prompt', size: 11 } }
+                }
             }
-        }
+        };
 
-        // ฟังก์ชันสร้างตารางส่วนที่ 2 อัตโนมัติ
-        function renderPart2(questions) {
-            const tbody = document.getElementById('part2-tbody');
-            questions.forEach((q, index) => {
-                let optionsHtml = '<option value="">เลือก</option>';
-                for(let i=1; i<=5; i++) optionsHtml += `<option value="${i}">${i}</option>`;
-                
-                tbody.innerHTML += `
-                    <tr class="hover:bg-gray-50">
-                        <td class="border p-2">${q}</td>
-                        <td class="border p-2 text-center"><select name="p2_before_${index}" required class="border rounded p-1">${optionsHtml}</select></td>
-                        <td class="border p-2 text-center"><select name="p2_after_${index}" required class="border rounded p-1">${optionsHtml}</select></td>
-                        <td class="border p-2 text-center">
-                            <label><input type="radio" name="p2_dev_${index}" value="ใช่" required> ใช่</label> &nbsp;
-                            <label><input type="radio" name="p2_dev_${index}" value="ไม่ใช่"> ไม่ใช่</label>
-                        </td>
-                    </tr>
-                `;
-            });
-        }
+        // 1. Chart: สังกัด
+        const ctxDept = document.getElementById('deptChart').getContext('2d');
+        new Chart(ctxDept, {
+            type: 'doughnut',
+            data: {
+                labels: ['BBGI NP', 'BBGI BP', 'BBGI PS', 'อื่นๆ'],
+                datasets: [{
+                    data: [39.5, 39.2, 16.8, 4.5],
+                    backgroundColor: ['#0e2b4d', '#25704b', '#6bb336', '#f3b01c'],
+                    borderWidth: 0
+                }]
+            },
+            options: donutOptions
+        });
 
-        // ฟังก์ชันสร้างตารางส่วนที่ 3 อัตโนมัติ
-        function renderPart3(questions) {
-            const tbody = document.getElementById('part3-tbody');
-            const scores = [5, 4, 3, 2, 1, '—'];
-            
-            questions.forEach((q, index) => {
-                let radiosHtml = '';
-                scores.forEach(s => {
-                    radiosHtml += `<td class="border p-2"><input type="radio" name="p3_score_${index}" value="${s}" required></td>`;
-                });
-                
-                tbody.innerHTML += `
-                    <tr class="hover:bg-gray-50">
-                        <td class="border p-2 text-left">${q}</td>
-                        ${radiosHtml}
-                    </tr>
-                `;
-            });
-        }
+        // 2. Chart: ประสบการณ์
+        const ctxExp = document.getElementById('expChart').getContext('2d');
+        new Chart(ctxExp, {
+            type: 'doughnut',
+            data: {
+                labels: ['น้อยกว่า 1 ปี', '1-3 ปี', '4-6 ปี', 'มากกว่า 6 ปี'],
+                datasets: [{
+                    data: [10.3, 36.8, 11.8, 41.1], // adjusted slightly to match visual segments in image
+                    backgroundColor: ['#0e2b4d', '#25704b', '#f3b01c', '#e15241'],
+                    borderWidth: 0
+                }]
+            },
+            options: donutOptions
+        });
 
-        // ฟังก์ชันส่งข้อมูล
-        async function submitForm(event) {
-            event.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            btn.innerText = "กำลังบันทึกข้อมูล...";
-            btn.disabled = true;
-
-            const form = event.target;
-            const formData = new FormData(form);
-            
-            // จัดการข้อมูลที่กรอก 'อื่นๆ'
-            let dept = formData.get('department');
-            if (dept === 'อื่นๆ') dept = "อื่นๆ: " + formData.get('department_other');
-            
-            let job = formData.get('jobRole');
-            if (job === 'อื่นๆ') job = "อื่นๆ: " + formData.get('jobRole_other');
-
-            // รวบรวมคะแนนส่วนที่ 2 และ 3
-            let part2Scores = {};
-            let part3Scores = {};
-            
-            for (let [key, value] of formData.entries()) {
-                if(key.startsWith('p2_')) part2Scores[key] = value;
-                if(key.startsWith('p3_')) part3Scores[key] = value;
+        // 3. Chart: Grouped Bar (ส่วนที่ 2)
+        const ctxResult = document.getElementById('resultChart').getContext('2d');
+        new Chart(ctxResult, {
+            type: 'bar',
+            data: {
+                labels: ['ข้อ 1', 'ข้อ 2', 'ข้อ 3', 'ข้อ 4', 'ข้อ 5', 'ข้อ 6', 'ข้อ 7', 'ข้อ 8'],
+                datasets: [
+                    {
+                        label: 'ก่อนอบรม',
+                        data: [3, 4.2, 4.0, 3.8, 4.1, 4.3, 4.5, 4.8],
+                        backgroundColor: '#8cb9e6',
+                        borderRadius: 2
+                    },
+                    {
+                        label: 'หลังอบรม',
+                        data: [5.5, 6.2, 5.5, 6.1, 6.2, 6.5, 6.8, 7.1],
+                        backgroundColor: '#0e2b4d',
+                        borderRadius: 2
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false } // Custom legend built in HTML
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 8,
+                        ticks: { font: { family: 'Prompt' } },
+                        title: { display: true, text: 'คะแนนพึงพอใจ', font: { family: 'Prompt', size: 10 } }
+                    },
+                    x: {
+                        ticks: { font: { family: 'Prompt', size: 11 } },
+                        title: { display: true, text: 'ประเด็นประเมินทฤษฎี', font: { family: 'Prompt', size: 10 } },
+                        grid: { display: false }
+                    }
+                }
             }
+        });
 
-            const submitData = {
-                department: dept,
-                group: formData.get('group'),
-                experience: formData.get('experience'),
-                jobRole: job,
-                part2Scores: part2Scores,
-                part3Scores: part3Scores,
-                usefulTopic: formData.get('usefulTopic'),
-                suggestion: formData.get('suggestion')
-            };
-
-            try {
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify(submitData)
-                });
-                
-                Swal.fire({
-                    icon: 'success',
-                    title: 'บันทึกสำเร็จ!',
-                    text: 'ขอบคุณที่ให้ความร่วมมือในการประเมิน',
-                    confirmButtonColor: '#1e3a8a'
-                }).then(() => {
-                    window.location.reload();
-                });
-            } catch (error) {
-                Swal.fire('ข้อผิดพลาด', 'ไม่สามารถบันทึกได้ โปรดลองอีกครั้ง', 'error');
-                btn.innerText = "ส่งแบบประเมิน";
-                btn.disabled = false;
+        // 4. Chart: Horizontal Bar (ส่วนที่ 3)
+        const ctxTheory = document.getElementById('theoryChart').getContext('2d');
+        new Chart(ctxTheory, {
+            type: 'bar',
+            data: {
+                labels: ['คะแนน 1', 'คะแนน 2', 'คะแนน 3', 'คะแนน 4', 'คะแนน 5', 'คะแนน 6', 'คะแนน 7', 'คะแนน 8'],
+                datasets: [{
+                    data: [5.8, 5.7, 5.6, 5.0, 4.9, 4.8, 4.5, 4.3],
+                    backgroundColor: '#0e2b4d',
+                    barThickness: 15
+                }]
+            },
+            options: {
+                indexAxis: 'y', // Makes it horizontal
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 6,
+                        ticks: { font: { family: 'Prompt' } },
+                        title: { display: true, text: 'ประเด็นประเมินทฤษฎี', font: { family: 'Prompt', size: 10 } }
+                    },
+                    y: {
+                        ticks: { font: { family: 'Prompt', size: 11 } },
+                        title: { display: true, text: 'ประเด็นประเมินเป็นทฤษฎี', font: { family: 'Prompt', size: 10 } },
+                        grid: { display: false }
+                    }
+                }
             }
-        }
+        });
     </script>
 </body>
 </html>
