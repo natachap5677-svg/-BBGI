@@ -6,6 +6,7 @@
     <title>แบบประเมินโครงการฝึกอบรม BBGI</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body { font-family: 'Sarabun', sans-serif; background-color: #f8fafc; }
@@ -14,7 +15,7 @@
 </head>
 <body class="p-4 md:p-8">
 
-    <div class="max-w-5xl mx-auto bg-white p-6 md:p-10 shadow-lg rounded-xl">
+    <div id="main-content" class="max-w-5xl mx-auto bg-white p-6 md:p-10 shadow-lg rounded-xl hidden">
         <!-- Header -->
         <div class="text-center mb-8 border-b-2 border-blue-800 pb-4">
             <h1 class="text-2xl font-bold mb-2">แบบประเมินโครงการฝึกอบรม</h1>
@@ -65,9 +66,7 @@
             </div>
 
             <!-- กำลังโหลดคำถามจาก Sheet -->
-            <div id="loading" class="text-center py-10 text-blue-600 font-bold">
-                กำลังโหลดคำถามจากระบบ...
-            </div>
+            <div id="loading" class="text-center py-10 text-blue-600 font-bold">กำลังโหลดคำถามจากระบบ...</div>
 
             <!-- ส่วนที่ 2: ผลลัพธ์การเรียนรู้ -->
             <div id="part2-container" class="mb-10 hidden">
@@ -75,17 +74,8 @@
                 <p class="text-sm text-gray-600 mb-4">โปรดให้คะแนนตนเองย้อนหลังในช่วงก่อนและหลังการอบรม (1 = ยังทำไม่ได้ ถึง 5 = อธิบายหรือปฏิบัติได้ด้วยตนเอง)</p>
                 <div class="overflow-x-auto">
                     <table class="w-full border-collapse border border-gray-300 text-sm">
-                        <thead>
-                            <tr class="table-header text-center">
-                                <th class="border p-2 w-1/2">สมรรถนะที่ประเมิน</th>
-                                <th class="border p-2">ก่อนอบรม (1-5)</th>
-                                <th class="border p-2">หลังอบรม (1-5)</th>
-                                <th class="border p-2">ยังต้องการพัฒนา</th>
-                            </tr>
-                        </thead>
-                        <tbody id="part2-tbody">
-                            <!-- คำถามส่วนที่ 2 จะถูกแทรกที่นี่อัตโนมัติ -->
-                        </tbody>
+                        <thead><tr class="table-header text-center"><th class="border p-2 w-1/2">สมรรถนะที่ประเมิน</th><th class="border p-2">ก่อนอบรม (1-5)</th><th class="border p-2">หลังอบรม (1-5)</th><th class="border p-2">ยังต้องการพัฒนา</th></tr></thead>
+                        <tbody id="part2-tbody"></tbody>
                     </table>
                 </div>
             </div>
@@ -96,20 +86,43 @@
                 <p class="text-sm text-gray-600 mb-4">ระดับคะแนน: 5 = มากที่สุด, 4 = มาก, 3 = ปานกลาง, 2 = น้อย, 1 = น้อยที่สุด, — = ไม่เกี่ยวข้อง</p>
                 <div class="overflow-x-auto mb-6">
                     <table class="w-full border-collapse border border-gray-300 text-sm text-center">
-                        <thead>
-                            <tr class="table-header">
-                                <th class="border p-2 text-left">ประเด็นประเมิน</th>
-                                <th class="border p-2">5</th><th class="border p-2">4</th><th class="border p-2">3</th><th class="border p-2">2</th><th class="border p-2">1</th><th class="border p-2">—</th>
-                            </tr>
-                        </thead>
-                        <tbody id="part3-tbody">
-                            <!-- คำถามส่วนที่ 3 จะถูกแทรกที่นี่อัตโนมัติ -->
-                        </tbody>
+                        <thead><tr class="table-header"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2">5</th><th class="border p-2">4</th><th class="border p-2">3</th><th class="border p-2">2</th><th class="border p-2">1</th><th class="border p-2">—</th></tr></thead>
+                        <tbody id="part3-tbody"></tbody>
                     </table>
+                </div>
+            </div>
+
+            <!-- ส่วนที่ 4: การประเมินวิทยากรภาคบรรยาย -->
+            <div id="part4-container" class="mb-10 hidden">
+                <h3 class="text-lg font-bold mb-4">ส่วนที่ 4 การประเมินวิทยากรภาคบรรยาย</h3>
+                <p class="text-sm text-gray-600 mb-4">ระดับคะแนน: 5 = มากที่สุด, 4 = มาก, 3 = ปานกลาง, 2 = น้อย, 1 = น้อยที่สุด</p>
+                
+                <div class="mb-6">
+                    <h4 class="font-bold text-blue-800 mb-2">1. ดร.สุทธิ์กมล สุทธิกุล</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse border border-gray-300 text-sm text-center">
+                            <thead><tr class="table-header"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2">5</th><th class="border p-2">4</th><th class="border p-2">3</th><th class="border p-2">2</th><th class="border p-2">1</th></tr></thead>
+                            <tbody id="speaker1-tbody">
+                                <!-- Generated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <h4 class="font-bold text-green-800 mb-2">2. คุณกิตติ อรสูญ</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse border border-gray-300 text-sm text-center">
+                            <thead><tr class="bg-green-800 text-white"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2">5</th><th class="border p-2">4</th><th class="border p-2">3</th><th class="border p-2">2</th><th class="border p-2">1</th></tr></thead>
+                            <tbody id="speaker2-tbody">
+                                <!-- Generated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <!-- ข้อเสนอแนะเพิ่มเติม -->
-                <div class="mb-4">
+                <div class="mb-4 mt-8">
                     <label class="block font-bold mb-2">หัวข้อทฤษฎีที่มีประโยชน์ต่อการทำงานมากที่สุด เพราะเหตุใด</label>
                     <textarea name="usefulTopic" rows="3" class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
                 </div>
@@ -121,7 +134,7 @@
 
             <!-- ปุ่ม Submit -->
             <div class="text-center">
-                <button type="submit" id="submitBtn" class="bg-blue-800 hover:bg-blue-700 text-white font-bold py-3 px-10 rounded-lg shadow-lg hidden transition">
+                <button type="submit" id="submitBtn" class="bg-blue-800 hover:bg-blue-700 text-white font-bold py-3 px-10 rounded-lg shadow-lg hidden transition w-full sm:w-auto">
                     ส่งแบบประเมิน
                 </button>
             </div>
@@ -129,124 +142,105 @@
     </div>
 
     <script>
-        // === นำ URL จาก Apps Script มาใส่ตรงนี้ ===
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwW0xcNEvHoQ-fE9f4Sl4eK0110nphDxTm7DGJIRAKySj7i6jIqGsHdc5dxyXhjG42_7Q/exec'; 
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycb...ใส่ของคุณที่นี่.../exec'; 
 
-        // โหลดคำถามจาก Sheet เมื่อเปิดหน้าเว็บ
         window.onload = async function() {
+            // เช็คว่าเคยประเมินหรือยัง
+            if (localStorage.getItem('bbgi_eval_theory') === 'true') {
+                document.body.innerHTML = `
+                <div class="min-h-screen flex items-center justify-center p-4">
+                    <div class="bg-white p-8 rounded-2xl shadow-xl border text-center max-w-md w-full">
+                        <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl"><i class="fa-solid fa-check"></i></div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">ขอบคุณครับ!</h2>
+                        <p class="text-gray-600">คุณได้ทำแบบประเมินภาคทฤษฎีนี้ไปเรียบร้อยแล้ว<br>ไม่สามารถทำซ้ำได้</p>
+                    </div>
+                </div>`;
+                return;
+            }
+
+            document.getElementById('main-content').classList.remove('hidden');
+
             try {
                 const response = await fetch(SCRIPT_URL + '?action=getQuestions');
                 const data = await response.json();
                 
                 renderPart2(data.part2);
                 renderPart3(data.part3);
+                renderSpeaker('speaker1-tbody', 's1_q');
+                renderSpeaker('speaker2-tbody', 's2_q');
                 
                 document.getElementById('loading').style.display = 'none';
                 document.getElementById('part2-container').classList.remove('hidden');
                 document.getElementById('part3-container').classList.remove('hidden');
+                document.getElementById('part4-container').classList.remove('hidden');
                 document.getElementById('submitBtn').classList.remove('hidden');
             } catch (error) {
                 document.getElementById('loading').innerText = 'เกิดข้อผิดพลาดในการโหลดข้อมูล กรุณารีเฟรชหน้าเว็บ';
-                console.error(error);
             }
         }
 
-        // ฟังก์ชันสร้างตารางส่วนที่ 2 อัตโนมัติ
         function renderPart2(questions) {
             const tbody = document.getElementById('part2-tbody');
             questions.forEach((q, index) => {
-                let optionsHtml = '<option value="">เลือก</option>';
+                let optionsHtml = '<option value="" disabled selected>เลือก</option>';
                 for(let i=1; i<=5; i++) optionsHtml += `<option value="${i}">${i}</option>`;
-                
-                tbody.innerHTML += `
-                    <tr class="hover:bg-gray-50">
-                        <td class="border p-2">${q}</td>
-                        <td class="border p-2 text-center"><select name="p2_before_${index}" required class="border rounded p-1">${optionsHtml}</select></td>
-                        <td class="border p-2 text-center"><select name="p2_after_${index}" required class="border rounded p-1">${optionsHtml}</select></td>
-                        <td class="border p-2 text-center">
-                            <label><input type="radio" name="p2_dev_${index}" value="ใช่" required> ใช่</label> &nbsp;
-                            <label><input type="radio" name="p2_dev_${index}" value="ไม่ใช่"> ไม่ใช่</label>
-                        </td>
-                    </tr>
-                `;
+                tbody.innerHTML += `<tr class="hover:bg-gray-50 text-xs sm:text-sm"><td class="border p-2 leading-relaxed">${q}</td><td class="border p-1 text-center"><select name="p2_before_${index}" required class="border rounded p-1 w-full max-w-[70px] bg-white">${optionsHtml}</select></td><td class="border p-1 text-center"><select name="p2_after_${index}" required class="border rounded p-1 w-full max-w-[70px] bg-white">${optionsHtml}</select></td><td class="border p-1 align-middle"><div class="flex flex-col gap-1 items-center"><label class="flex items-center gap-1"><input type="radio" name="p2_dev_${index}" value="ใช่" required> ใช่</label><label class="flex items-center gap-1"><input type="radio" name="p2_dev_${index}" value="ไม่ใช่"> ไม่ใช่</label></div></td></tr>`;
             });
         }
 
-        // ฟังก์ชันสร้างตารางส่วนที่ 3 อัตโนมัติ
         function renderPart3(questions) {
             const tbody = document.getElementById('part3-tbody');
             const scores = [5, 4, 3, 2, 1, '—'];
-            
             questions.forEach((q, index) => {
                 let radiosHtml = '';
-                scores.forEach(s => {
-                    radiosHtml += `<td class="border p-2"><input type="radio" name="p3_score_${index}" value="${s}" required></td>`;
-                });
-                
-                tbody.innerHTML += `
-                    <tr class="hover:bg-gray-50">
-                        <td class="border p-2 text-left">${q}</td>
-                        ${radiosHtml}
-                    </tr>
-                `;
+                scores.forEach(s => { radiosHtml += `<td class="border p-1 sm:p-2"><input type="radio" name="p3_score_${index}" value="${s}" required class="w-4 h-4 cursor-pointer"></td>`; });
+                tbody.innerHTML += `<tr class="hover:bg-gray-50 text-xs sm:text-sm"><td class="border p-2 text-left">${q}</td>${radiosHtml}</tr>`;
             });
         }
 
-        // ฟังก์ชันส่งข้อมูล
+        function renderSpeaker(tbodyId, prefix) {
+            const criteria = ['สื่อการสอน', 'เทคนิคการนำเสนอของวิทยากร', 'วิทยากรนำเสนอเนื้อหาครบถ้วน', 'การตอบคำถาม'];
+            const tbody = document.getElementById(tbodyId);
+            criteria.forEach((q, idx) => {
+                let radios = '';
+                for(let s=5; s>=1; s--) { radios += `<td class="border p-1 sm:p-2"><input type="radio" name="${prefix}${idx+1}" value="${s}" required class="w-4 h-4 cursor-pointer"></td>`; }
+                tbody.innerHTML += `<tr class="hover:bg-gray-50 text-xs sm:text-sm"><td class="border p-2 text-left">${q}</td>${radios}</tr>`;
+            });
+        }
+
         async function submitForm(event) {
             event.preventDefault();
             const btn = document.getElementById('submitBtn');
-            btn.innerText = "กำลังบันทึกข้อมูล...";
-            btn.disabled = true;
-
+            btn.innerText = "กำลังบันทึกข้อมูล..."; btn.disabled = true;
             const form = event.target;
             const formData = new FormData(form);
             
-            // จัดการข้อมูลที่กรอก 'อื่นๆ'
-            let dept = formData.get('department');
-            if (dept === 'อื่นๆ') dept = "อื่นๆ: " + formData.get('department_other');
-            
-            let job = formData.get('jobRole');
-            if (job === 'อื่นๆ') job = "อื่นๆ: " + formData.get('jobRole_other');
+            let dept = formData.get('department'); if (dept === 'อื่นๆ') dept = "อื่นๆ: " + formData.get('department_other');
+            let job = formData.get('jobRole'); if (job === 'อื่นๆ') job = "อื่นๆ: " + formData.get('jobRole_other');
 
-            // รวบรวมคะแนนส่วนที่ 2 และ 3
-            let part2Scores = {};
-            let part3Scores = {};
-            
+            let part2Scores = {}, part3Scores = {}, speaker1 = {}, speaker2 = {};
             for (let [key, value] of formData.entries()) {
                 if(key.startsWith('p2_')) part2Scores[key] = value;
                 if(key.startsWith('p3_')) part3Scores[key] = value;
+                if(key.startsWith('s1_')) speaker1[key] = value;
+                if(key.startsWith('s2_')) speaker2[key] = value;
             }
 
             const submitData = {
-                department: dept,
-                group: formData.get('group'),
-                experience: formData.get('experience'),
-                jobRole: job,
-                part2Scores: part2Scores,
-                part3Scores: part3Scores,
-                usefulTopic: formData.get('usefulTopic'),
-                suggestion: formData.get('suggestion')
+                department: dept, group: formData.get('group'), experience: formData.get('experience'), jobRole: job,
+                part2Scores: part2Scores, part3Scores: part3Scores, speaker1: speaker1, speaker2: speaker2,
+                usefulTopic: formData.get('usefulTopic'), suggestion: formData.get('suggestion')
             };
 
             try {
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify(submitData)
-                });
-                
-                Swal.fire({
-                    icon: 'success',
-                    title: 'บันทึกสำเร็จ!',
-                    text: 'ขอบคุณที่ให้ความร่วมมือในการประเมิน',
-                    confirmButtonColor: '#1e3a8a'
-                }).then(() => {
-                    window.location.reload();
-                });
+                await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(submitData) });
+                // ล็อคระบบ
+                localStorage.setItem('bbgi_eval_theory', 'true');
+                Swal.fire({ icon: 'success', title: 'บันทึกสำเร็จ!', text: 'ขอบคุณที่ให้ความร่วมมือในการประเมิน', confirmButtonColor: '#1e3a8a' })
+                    .then(() => window.location.reload());
             } catch (error) {
                 Swal.fire('ข้อผิดพลาด', 'ไม่สามารถบันทึกได้ โปรดลองอีกครั้ง', 'error');
-                btn.innerText = "ส่งแบบประเมิน";
-                btn.disabled = false;
+                btn.innerText = "ส่งแบบประเมิน"; btn.disabled = false;
             }
         }
     </script>
