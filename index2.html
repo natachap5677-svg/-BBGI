@@ -15,7 +15,6 @@
 </head>
 <body class="p-0 sm:p-2 md:p-8">
 
-    <!-- หน้าต่างแจ้งเตือนเมื่อทำแล้ว -->
     <div id="already-submitted" class="hidden max-w-2xl mx-auto bg-white p-10 shadow-lg rounded-xl text-center mt-20">
         <div class="text-green-500 text-6xl mb-4"><i class="fa-solid fa-circle-check"></i></div>
         <h1 class="text-3xl font-bold text-gray-800 mb-2">ท่านได้ทำแบบประเมินภาคปฏิบัติไปแล้ว</h1>
@@ -23,7 +22,6 @@
     </div>
 
     <div id="main-form-container" class="max-w-5xl mx-auto bg-white p-2 sm:p-4 md:p-10 shadow-lg rounded-none sm:rounded-xl min-h-screen sm:min-h-0 hidden">
-        <!-- Header -->
         <div class="text-center mb-8 border-b-2 border-blue-800 pb-4">
             <h1 class="text-xl sm:text-2xl font-bold mb-2">แบบประเมินโครงการฝึกอบรม (ภาคปฏิบัติ)</h1>
             <h2 class="text-lg sm:text-xl font-bold mb-2">การผลิตเอทานอลจากกากน้ำตาลและมันเส้น</h2>
@@ -71,17 +69,15 @@
                 </div>
             </div>
 
-            <div id="loading" class="text-center py-10 text-blue-600 font-bold">
-                กำลังโหลดคำถามจากระบบ...
-            </div>
+            <div id="loading" class="text-center py-10 text-blue-600 font-bold">กำลังโหลดคำถามจากระบบ...</div>
 
             <div id="forms-container" class="hidden">
                 <div class="mb-10">
                     <h3 class="text-lg font-bold mb-2">ส่วนที่ 4 การประเมินภาคปฏิบัติ วันที่ 28-30 ตุลาคม 2569</h3>
-                    <p class="text-xs sm:text-sm text-gray-600 mb-4">ระดับคะแนน: 5 = มากที่สุด, 4 = มาก, 3 = ปานกลาง, 2 = น้อย, 1 = น้อยที่สุด, — = ไม่เกี่ยวข้อง</p>
+                    <p class="text-xs sm:text-sm text-gray-600 mb-4">ระดับคะแนน: 5 = มากที่สุด, 4 = มาก, 3 = ปานกลาง, 2 = น้อย, 1 = น้อยที่สุด</p>
                     <div class="overflow-x-auto">
                         <table class="w-full border-collapse border border-gray-300 text-sm text-center min-w-[500px]">
-                            <thead><tr class="table-header"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2">5</th><th class="border p-2">4</th><th class="border p-2">3</th><th class="border p-2">2</th><th class="border p-2">1</th><th class="border p-2">—</th></tr></thead>
+                            <thead><tr class="table-header"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2">5</th><th class="border p-2">4</th><th class="border p-2">3</th><th class="border p-2">2</th><th class="border p-2">1</th></tr></thead>
                             <tbody id="p4-tbody"></tbody>
                         </table>
                     </div>
@@ -91,7 +87,7 @@
                     <h3 class="text-lg font-bold mb-2">ส่วนที่ 5 การประเมินกระบวนการจัดการเรียนรู้</h3>
                     <div class="overflow-x-auto">
                         <table class="w-full border-collapse border border-gray-300 text-sm text-center min-w-[500px]">
-                            <thead><tr class="table-header"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2">5</th><th class="border p-2">4</th><th class="border p-2">3</th><th class="border p-2">2</th><th class="border p-2">1</th><th class="border p-2">—</th></tr></thead>
+                            <thead><tr class="table-header"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2">5</th><th class="border p-2">4</th><th class="border p-2">3</th><th class="border p-2">2</th><th class="border p-2">1</th></tr></thead>
                             <tbody id="p5-tbody"></tbody>
                         </table>
                     </div>
@@ -101,7 +97,7 @@
                     <h3 class="text-lg font-bold mb-2">ส่วนที่ 6 ความเหมาะสมและคุณค่าโดยรวม</h3>
                     <div class="overflow-x-auto">
                         <table class="w-full border-collapse border border-gray-300 text-sm text-center min-w-[500px]">
-                            <thead><tr class="table-header"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2">5</th><th class="border p-2">4</th><th class="border p-2">3</th><th class="border p-2">2</th><th class="border p-2">1</th><th class="border p-2">—</th></tr></thead>
+                            <thead><tr class="table-header"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2">5</th><th class="border p-2">4</th><th class="border p-2">3</th><th class="border p-2">2</th><th class="border p-2">1</th></tr></thead>
                             <tbody id="p6-tbody"></tbody>
                         </table>
                     </div>
@@ -158,6 +154,7 @@
     </div>
 
     <script>
+        // ใส่ URL ของ Apps Script
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwW0xcNEvHoQ-fE9f4Sl4eK0110nphDxTm7DGJIRAKySj7i6jIqGsHdc5dxyXhjG42_7Q/exec'; 
 
         window.onload = async function() {
@@ -205,7 +202,8 @@
         async function submitForm(event) {
             event.preventDefault();
             const btn = document.getElementById('submitBtn');
-            btn.innerText = "กำลังบันทึกข้อมูล..."; btn.disabled = true;
+            btn.innerText = "กำลังบันทึกข้อมูล...";
+            btn.disabled = true;
 
             const form = event.target;
             const formData = new FormData(form);
