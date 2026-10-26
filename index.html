@@ -11,6 +11,9 @@
     <style>
         body { font-family: 'Sarabun', sans-serif; background-color: #f8fafc; }
         .table-header { background-color: #1e3a8a; color: white; }
+        /* ตั้งค่าความกว้างคอลัมน์คะแนนให้เท่ากันทั้งส่วน 3 และ 4 */
+        .score-col { width: 45px; }
+        @media (min-width: 640px) { .score-col { width: 60px; } }
     </style>
 </head>
 <body class="p-4 md:p-8">
@@ -84,13 +87,13 @@
                 </div>
             </div>
 
-            <!-- ส่วนที่ 3 (เอาปุ่ม - ออกแล้ว) -->
+            <!-- ส่วนที่ 3 -->
             <div id="part3-container" class="mb-10 hidden">
                 <h3 class="text-lg font-bold mb-2">ส่วนที่ 3 การประเมินเนื้อหาภาคทฤษฎี</h3>
                 <p class="text-sm text-gray-600 mb-4">ระดับคะแนน: 5 = มากที่สุด, 4 = มาก, 3 = ปานกลาง, 2 = น้อย, 1 = น้อยที่สุด</p>
                 <div class="overflow-x-auto mb-6">
-                    <table class="w-full border-collapse border border-gray-300 text-sm text-center">
-                        <thead><tr class="table-header"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2">5</th><th class="border p-2">4</th><th class="border p-2">3</th><th class="border p-2">2</th><th class="border p-2">1</th></tr></thead>
+                    <table class="w-full border-collapse border border-gray-300 text-sm text-center min-w-[500px]">
+                        <thead><tr class="table-header"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2 score-col">5</th><th class="border p-2 score-col">4</th><th class="border p-2 score-col">3</th><th class="border p-2 score-col">2</th><th class="border p-2 score-col">1</th></tr></thead>
                         <tbody id="part3-tbody"></tbody>
                     </table>
                 </div>
@@ -104,8 +107,8 @@
                 <div class="mb-6">
                     <h4 class="font-bold text-gray-800 mb-2 bg-blue-50 p-2 border-l-4 border-blue-800">1. ดร.สุทธิ์กมล สุทธิกุล</h4>
                     <div class="overflow-x-auto">
-                        <table class="w-full border-collapse border border-gray-300 text-sm text-center">
-                            <thead><tr class="table-header"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2 w-8">5</th><th class="border p-2 w-8">4</th><th class="border p-2 w-8">3</th><th class="border p-2 w-8">2</th><th class="border p-2 w-8">1</th></tr></thead>
+                        <table class="w-full border-collapse border border-gray-300 text-sm text-center min-w-[500px]">
+                            <thead><tr class="table-header"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2 score-col">5</th><th class="border p-2 score-col">4</th><th class="border p-2 score-col">3</th><th class="border p-2 score-col">2</th><th class="border p-2 score-col">1</th></tr></thead>
                             <tbody>
                                 <tr class="hover:bg-gray-50"><td class="border p-2 text-left">สื่อการสอน</td><td class="border p-2"><input type="radio" name="s1_media" value="5" required></td><td class="border p-2"><input type="radio" name="s1_media" value="4"></td><td class="border p-2"><input type="radio" name="s1_media" value="3"></td><td class="border p-2"><input type="radio" name="s1_media" value="2"></td><td class="border p-2"><input type="radio" name="s1_media" value="1"></td></tr>
                                 <tr class="hover:bg-gray-50"><td class="border p-2 text-left">เทคนิคการนำเสนอของวิทยากร</td><td class="border p-2"><input type="radio" name="s1_technique" value="5" required></td><td class="border p-2"><input type="radio" name="s1_technique" value="4"></td><td class="border p-2"><input type="radio" name="s1_technique" value="3"></td><td class="border p-2"><input type="radio" name="s1_technique" value="2"></td><td class="border p-2"><input type="radio" name="s1_technique" value="1"></td></tr>
@@ -120,8 +123,8 @@
                 <div>
                     <h4 class="font-bold text-gray-800 mb-2 bg-blue-50 p-2 border-l-4 border-blue-800">2. คุณกิตติ อรสูญ</h4>
                     <div class="overflow-x-auto">
-                        <table class="w-full border-collapse border border-gray-300 text-sm text-center">
-                            <thead><tr class="table-header"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2 w-8">5</th><th class="border p-2 w-8">4</th><th class="border p-2 w-8">3</th><th class="border p-2 w-8">2</th><th class="border p-2 w-8">1</th></tr></thead>
+                        <table class="w-full border-collapse border border-gray-300 text-sm text-center min-w-[500px]">
+                            <thead><tr class="table-header"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2 score-col">5</th><th class="border p-2 score-col">4</th><th class="border p-2 score-col">3</th><th class="border p-2 score-col">2</th><th class="border p-2 score-col">1</th></tr></thead>
                             <tbody>
                                 <tr class="hover:bg-gray-50"><td class="border p-2 text-left">สื่อการสอน</td><td class="border p-2"><input type="radio" name="s2_media" value="5" required></td><td class="border p-2"><input type="radio" name="s2_media" value="4"></td><td class="border p-2"><input type="radio" name="s2_media" value="3"></td><td class="border p-2"><input type="radio" name="s2_media" value="2"></td><td class="border p-2"><input type="radio" name="s2_media" value="1"></td></tr>
                                 <tr class="hover:bg-gray-50"><td class="border p-2 text-left">เทคนิคการนำเสนอของวิทยากร</td><td class="border p-2"><input type="radio" name="s2_technique" value="5" required></td><td class="border p-2"><input type="radio" name="s2_technique" value="4"></td><td class="border p-2"><input type="radio" name="s2_technique" value="3"></td><td class="border p-2"><input type="radio" name="s2_technique" value="2"></td><td class="border p-2"><input type="radio" name="s2_technique" value="1"></td></tr>
@@ -136,7 +139,8 @@
                 <div class="mb-6"><label class="block font-bold mb-2">หัวข้อที่ควรเพิ่ม ลด หรือปรับวิธีอธิบายในการจัดครั้งต่อไป</label><textarea name="suggestion" rows="3" class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea></div>
             </div>
 
-            <div class="text-center">
+            <!-- ปุ่ม Submit -->
+            <div class="text-center pb-8">
                 <button type="submit" id="submitBtn" class="bg-blue-800 hover:bg-blue-700 text-white font-bold py-3 px-10 rounded-lg shadow-lg hidden transition">ส่งแบบประเมินทฤษฎี</button>
             </div>
         </form>
@@ -146,7 +150,6 @@
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwW0xcNEvHoQ-fE9f4Sl4eK0110nphDxTm7DGJIRAKySj7i6jIqGsHdc5dxyXhjG42_7Q/exec'; 
 
         window.onload = async function() {
-            // เช็กการทำแบบประเมินซ้ำ
             if(localStorage.getItem('bbgi_theory_submitted')) {
                 document.getElementById('already-submitted').classList.remove('hidden');
                 return;
@@ -195,12 +198,12 @@
 
         function renderPart3(questions) {
             const tbody = document.getElementById('part3-tbody');
-            const scores = [5, 4, 3, 2, 1]; // เอา - ออก
+            const scores = [5, 4, 3, 2, 1]; // ไม่มี - แล้ว
             
             questions.forEach((q, index) => {
                 let radiosHtml = '';
                 scores.forEach(s => {
-                    radiosHtml += `<td class="border p-2"><input type="radio" name="p3_score_${index}" value="${s}" required class="w-4 h-4"></td>`;
+                    radiosHtml += `<td class="border p-2 score-col"><input type="radio" name="p3_score_${index}" value="${s}" required class="w-4 h-4 cursor-pointer"></td>`;
                 });
                 
                 tbody.innerHTML += `
