@@ -11,7 +11,7 @@
     <style>
         body { font-family: 'Sarabun', sans-serif; background-color: #f8fafc; }
         .table-header { background-color: #1e3a8a; color: white; }
-        /* ตั้งค่าความกว้างคอลัมน์คะแนนให้เท่ากันทั้งส่วน 3 และ 4 */
+        /* ล็อกความกว้างช่องคะแนนให้เท่ากัน */
         .score-col { width: 45px; text-align: center; }
         @media (min-width: 640px) { .score-col { width: 60px; } }
     </style>
@@ -34,6 +34,7 @@
 
         <form id="evaluationForm" onsubmit="submitForm(event)">
             
+            <!-- ส่วนที่ 1 -->
             <div class="mb-10">
                 <h3 class="text-lg font-bold mb-4">ส่วนที่ 1 ข้อมูลผู้ตอบแบบประเมิน</h3>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 bg-gray-50 p-4 rounded border">
@@ -109,10 +110,10 @@
                         <table class="w-full border-collapse border border-gray-300 text-sm text-center min-w-[500px]">
                             <thead><tr class="table-header"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2 score-col">5</th><th class="border p-2 score-col">4</th><th class="border p-2 score-col">3</th><th class="border p-2 score-col">2</th><th class="border p-2 score-col">1</th></tr></thead>
                             <tbody>
-                                <tr class="hover:bg-gray-50"><td class="border p-2 text-left">สื่อการสอน</td><td class="border p-2"><input type="radio" name="s1_media" value="5" required></td><td class="border p-2"><input type="radio" name="s1_media" value="4"></td><td class="border p-2"><input type="radio" name="s1_media" value="3"></td><td class="border p-2"><input type="radio" name="s1_media" value="2"></td><td class="border p-2"><input type="radio" name="s1_media" value="1"></td></tr>
-                                <tr class="hover:bg-gray-50"><td class="border p-2 text-left">เทคนิคการนำเสนอของวิทยากร</td><td class="border p-2"><input type="radio" name="s1_technique" value="5" required></td><td class="border p-2"><input type="radio" name="s1_technique" value="4"></td><td class="border p-2"><input type="radio" name="s1_technique" value="3"></td><td class="border p-2"><input type="radio" name="s1_technique" value="2"></td><td class="border p-2"><input type="radio" name="s1_technique" value="1"></td></tr>
-                                <tr class="hover:bg-gray-50"><td class="border p-2 text-left">วิทยากรนำเสนอเนื้อหาครบถ้วน</td><td class="border p-2"><input type="radio" name="s1_content" value="5" required></td><td class="border p-2"><input type="radio" name="s1_content" value="4"></td><td class="border p-2"><input type="radio" name="s1_content" value="3"></td><td class="border p-2"><input type="radio" name="s1_content" value="2"></td><td class="border p-2"><input type="radio" name="s1_content" value="1"></td></tr>
-                                <tr class="hover:bg-gray-50"><td class="border p-2 text-left">การตอบคำถาม</td><td class="border p-2"><input type="radio" name="s1_qna" value="5" required></td><td class="border p-2"><input type="radio" name="s1_qna" value="4"></td><td class="border p-2"><input type="radio" name="s1_qna" value="3"></td><td class="border p-2"><input type="radio" name="s1_qna" value="2"></td><td class="border p-2"><input type="radio" name="s1_qna" value="1"></td></tr>
+                                <tr class="hover:bg-gray-50"><td class="border p-2 text-left">สื่อการสอน</td><td class="border p-2 score-col"><input type="radio" name="s1_media" value="5" required class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s1_media" value="4" class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s1_media" value="3" class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s1_media" value="2" class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s1_media" value="1" class="w-5 h-5 cursor-pointer align-middle"></td></tr>
+                                <tr class="hover:bg-gray-50"><td class="border p-2 text-left">เทคนิคการนำเสนอของวิทยากร</td><td class="border p-2 score-col"><input type="radio" name="s1_technique" value="5" required class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s1_technique" value="4" class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s1_technique" value="3" class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s1_technique" value="2" class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s1_technique" value="1" class="w-5 h-5 cursor-pointer align-middle"></td></tr>
+                                <tr class="hover:bg-gray-50"><td class="border p-2 text-left">วิทยากรนำเสนอเนื้อหาครบถ้วน</td><td class="border p-2 score-col"><input type="radio" name="s1_content" value="5" required class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s1_content" value="4" class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s1_content" value="3" class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s1_content" value="2" class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s1_content" value="1" class="w-5 h-5 cursor-pointer align-middle"></td></tr>
+                                <tr class="hover:bg-gray-50"><td class="border p-2 text-left">การตอบคำถาม</td><td class="border p-2 score-col"><input type="radio" name="s1_qna" value="5" required class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s1_qna" value="4" class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s1_qna" value="3" class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s1_qna" value="2" class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s1_qna" value="1" class="w-5 h-5 cursor-pointer align-middle"></td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -125,10 +126,10 @@
                         <table class="w-full border-collapse border border-gray-300 text-sm text-center min-w-[500px]">
                             <thead><tr class="table-header"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2 score-col">5</th><th class="border p-2 score-col">4</th><th class="border p-2 score-col">3</th><th class="border p-2 score-col">2</th><th class="border p-2 score-col">1</th></tr></thead>
                             <tbody>
-                                <tr class="hover:bg-gray-50"><td class="border p-2 text-left">สื่อการสอน</td><td class="border p-2"><input type="radio" name="s2_media" value="5" required></td><td class="border p-2"><input type="radio" name="s2_media" value="4"></td><td class="border p-2"><input type="radio" name="s2_media" value="3"></td><td class="border p-2"><input type="radio" name="s2_media" value="2"></td><td class="border p-2"><input type="radio" name="s2_media" value="1"></td></tr>
-                                <tr class="hover:bg-gray-50"><td class="border p-2 text-left">เทคนิคการนำเสนอของวิทยากร</td><td class="border p-2"><input type="radio" name="s2_technique" value="5" required></td><td class="border p-2"><input type="radio" name="s2_technique" value="4"></td><td class="border p-2"><input type="radio" name="s2_technique" value="3"></td><td class="border p-2"><input type="radio" name="s2_technique" value="2"></td><td class="border p-2"><input type="radio" name="s2_technique" value="1"></td></tr>
-                                <tr class="hover:bg-gray-50"><td class="border p-2 text-left">วิทยากรนำเสนอเนื้อหาครบถ้วน</td><td class="border p-2"><input type="radio" name="s2_content" value="5" required></td><td class="border p-2"><input type="radio" name="s2_content" value="4"></td><td class="border p-2"><input type="radio" name="s2_content" value="3"></td><td class="border p-2"><input type="radio" name="s2_content" value="2"></td><td class="border p-2"><input type="radio" name="s2_content" value="1"></td></tr>
-                                <tr class="hover:bg-gray-50"><td class="border p-2 text-left">การตอบคำถาม</td><td class="border p-2"><input type="radio" name="s2_qna" value="5" required></td><td class="border p-2"><input type="radio" name="s2_qna" value="4"></td><td class="border p-2"><input type="radio" name="s2_qna" value="3"></td><td class="border p-2"><input type="radio" name="s2_qna" value="2"></td><td class="border p-2"><input type="radio" name="s2_qna" value="1"></td></tr>
+                                <tr class="hover:bg-gray-50"><td class="border p-2 text-left">สื่อการสอน</td><td class="border p-2 score-col"><input type="radio" name="s2_media" value="5" required class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s2_media" value="4" class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s2_media" value="3" class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s2_media" value="2" class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s2_media" value="1" class="w-5 h-5 cursor-pointer align-middle"></td></tr>
+                                <tr class="hover:bg-gray-50"><td class="border p-2 text-left">เทคนิคการนำเสนอของวิทยากร</td><td class="border p-2 score-col"><input type="radio" name="s2_technique" value="5" required class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s2_technique" value="4" class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s2_technique" value="3" class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s2_technique" value="2" class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s2_technique" value="1" class="w-5 h-5 cursor-pointer align-middle"></td></tr>
+                                <tr class="hover:bg-gray-50"><td class="border p-2 text-left">วิทยากรนำเสนอเนื้อหาครบถ้วน</td><td class="border p-2 score-col"><input type="radio" name="s2_content" value="5" required class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s2_content" value="4" class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s2_content" value="3" class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s2_content" value="2" class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s2_content" value="1" class="w-5 h-5 cursor-pointer align-middle"></td></tr>
+                                <tr class="hover:bg-gray-50"><td class="border p-2 text-left">การตอบคำถาม</td><td class="border p-2 score-col"><input type="radio" name="s2_qna" value="5" required class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s2_qna" value="4" class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s2_qna" value="3" class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s2_qna" value="2" class="w-5 h-5 cursor-pointer align-middle"></td><td class="border p-2 score-col"><input type="radio" name="s2_qna" value="1" class="w-5 h-5 cursor-pointer align-middle"></td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -145,7 +146,6 @@
     </div>
 
     <script>
-        // ใส่ URL ของ Apps Script
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwW0xcNEvHoQ-fE9f4Sl4eK0110nphDxTm7DGJIRAKySj7i6jIqGsHdc5dxyXhjG42_7Q/exec'; 
 
         window.onload = async function() {
@@ -186,8 +186,8 @@
                         <td class="border p-2 text-center"><select name="p2_after_${index}" required class="border rounded p-1 w-full max-w-[65px] bg-white text-center">${optionsHtml}</select></td>
                         <td class="border p-2 align-middle">
                             <div class="flex flex-col gap-2 items-center justify-center">
-                                <label class="flex items-center gap-1 whitespace-nowrap cursor-pointer"><input type="radio" name="p2_dev_${index}" value="ใช่" required class="w-4 h-4 text-blue-600"> ใช่</label>
-                                <label class="flex items-center gap-1 whitespace-nowrap cursor-pointer"><input type="radio" name="p2_dev_${index}" value="ไม่ใช่" class="w-4 h-4 text-blue-600"> ไม่ใช่</label>
+                                <label class="flex items-center gap-1 whitespace-nowrap cursor-pointer"><input type="radio" name="p2_dev_${index}" value="ใช่" required class="w-5 h-5 text-blue-600 align-middle"> ใช่</label>
+                                <label class="flex items-center gap-1 whitespace-nowrap cursor-pointer"><input type="radio" name="p2_dev_${index}" value="ไม่ใช่" class="w-5 h-5 text-blue-600 align-middle"> ไม่ใช่</label>
                             </div>
                         </td>
                     </tr>
@@ -197,12 +197,12 @@
 
         function renderPart3(questions) {
             const tbody = document.getElementById('part3-tbody');
-            const scores = [5, 4, 3, 2, 1]; // ไม่มี - แล้ว
+            const scores = [5, 4, 3, 2, 1];
             
             questions.forEach((q, index) => {
                 let radiosHtml = '';
                 scores.forEach(s => {
-                    radiosHtml += `<td class="border p-2 score-col"><input type="radio" name="p3_score_${index}" value="${s}" required class="w-4 h-4 cursor-pointer"></td>`;
+                    radiosHtml += `<td class="border p-2 score-col"><input type="radio" name="p3_score_${index}" value="${s}" required class="w-5 h-5 cursor-pointer align-middle"></td>`;
                 });
                 
                 tbody.innerHTML += `
