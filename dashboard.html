@@ -13,8 +13,6 @@
         .aspect-ratio-container { width: 100vw; height: 56.25vw; max-height: 100vh; max-width: 177.78vh; background-color: #f1f5f9; box-shadow: 0 10px 25px rgba(0,0,0,0.1); display: flex; flex-direction: column; overflow: hidden; position: relative; }
         ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 4px; }
         .min-h-0 { min-height: 0; }
-        
-        /* สไตล์ของ ป๊อปอัป */
         .modal { display: none; }
         .modal.active { display: flex; }
     </style>
@@ -37,7 +35,6 @@
             </div>
             
             <div class="flex gap-3 h-full items-center py-2">
-                <!-- ปุ่มสลับหน้า -->
                 <div class="flex items-center gap-3 mr-2">
                     <a href="practical_dashboard.html" class="bg-[#2e753a] hover:bg-green-600 text-white text-[10px] sm:text-xs font-bold px-3 py-1.5 rounded-lg shadow border border-white/20 transition flex items-center gap-1.5">
                         <i class="fa-solid fa-exchange-alt"></i> แดชบอร์ดภาคปฏิบัติ
@@ -45,7 +42,6 @@
                     <div id="sync-status" class="hidden text-xs text-green-400"><i class="fa-solid fa-circle-check fa-fade"></i> ซิงค์ล่าสุด</div>
                 </div>
 
-                <!-- Dropdowns -->
                 <div class="flex flex-col">
                     <label class="text-[9px] text-gray-300 mb-0.5">สังกัด</label>
                     <select id="filter-dept" onchange="applyFilters()" class="text-xs text-gray-800 rounded px-2 py-1 outline-none w-24 shadow-inner">
@@ -57,7 +53,6 @@
                     </select>
                 </div>
                 
-                <!-- ดรอปดาวน์กลุ่มปฏิบัติการ ที่เคยกู้คืนกลับมาให้แล้ว -->
                 <div class="flex flex-col">
                     <label class="text-[9px] text-gray-300 mb-0.5">กลุ่มปฏิบัติการ</label>
                     <select id="filter-group" onchange="applyFilters()" class="text-xs text-gray-800 rounded px-2 py-1 outline-none w-24 shadow-inner">
@@ -82,13 +77,11 @@
                 <div class="flex-1 flex items-center justify-between px-4 pb-1"><div class="text-3xl font-black text-green-700 leading-none"><span id="kpi-avg-score">0.00</span><span class="text-xs font-medium text-gray-400">/5</span></div><i class="fa-solid fa-star text-2xl text-yellow-400"></i></div>
             </div>
             
-            <!-- การ์ดวิทยากร 1 -->
             <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden cursor-pointer hover:shadow-md transition group relative" onclick="openSpeakerModal(1)">
                 <div class="absolute inset-0 bg-blue-50 opacity-0 group-hover:opacity-100 transition duration-300"></div>
                 <div class="bg-[#254382] text-white text-center text-[10px] font-bold py-1 relative z-10">วิทยากร: ดร.สุทธิ์กมล <i class="fa-solid fa-search-plus ml-1 text-blue-200 animate-pulse"></i></div>
                 <div class="flex-1 flex items-center justify-between px-4 pb-1 relative z-10"><div class="text-3xl font-black text-blue-900 leading-none"><span id="kpi-s1">0.00</span><span class="text-xs font-medium text-gray-400">/5</span></div><i class="fa-solid fa-chalkboard-user text-2xl text-blue-200 group-hover:scale-110 transition duration-300"></i></div>
             </div>
-            <!-- การ์ดวิทยากร 2 -->
             <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden cursor-pointer hover:shadow-md transition group relative" onclick="openSpeakerModal(2)">
                 <div class="absolute inset-0 bg-green-50 opacity-0 group-hover:opacity-100 transition duration-300"></div>
                 <div class="bg-[#2e753a] text-white text-center text-[10px] font-bold py-1 relative z-10">วิทยากร: คุณกิตติ <i class="fa-solid fa-search-plus ml-1 text-green-200 animate-pulse"></i></div>
@@ -110,7 +103,7 @@
                 </div>
             </div>
 
-            <!-- Middle (Bar P2 + Topics) -->
+            <!-- Middle (Grouped Bar + Topics) -->
             <div class="w-[45%] flex flex-col gap-3 min-h-0 h-full">
                 <div class="h-[65%] bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0">
                     <h3 class="text-xs font-bold text-gray-800 text-center mb-1 shrink-0">ผลลัพธ์การเรียนรู้และการนำไปใช้ - ส่วนที่ 2</h3>
@@ -118,7 +111,6 @@
                         <div class="flex items-center gap-1"><span class="w-2.5 h-2.5 bg-[#8bb4f2] block rounded-sm"></span> ก่อนอบรม</div>
                         <div class="flex items-center gap-1"><span class="w-2.5 h-2.5 bg-[#254382] block rounded-sm"></span> หลังอบรม</div>
                     </div>
-                    <!-- ตรงนี้คือกราฟส่วนที่ 2 ที่บอกว่าหายไป (โค้ดยังอยู่ และจะทำงานปกติ) -->
                     <div class="relative flex-1 min-h-0 w-full"><canvas id="part2Chart"></canvas></div>
                 </div>
                 <div class="h-[35%] bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden min-h-0">
@@ -156,11 +148,9 @@
                 <button onclick="closeSpeakerModal()" class="text-white hover:text-gray-200 bg-white/20 w-8 h-8 rounded-full flex items-center justify-center"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <div class="p-6 flex flex-col md:flex-row gap-6 items-center bg-gray-50">
-                <!-- กราฟ Radar -->
                 <div class="w-full md:w-1/2 relative min-h-[220px]">
                     <canvas id="speakerRadarChart"></canvas>
                 </div>
-                <!-- รายละเอียดคะแนน -->
                 <div class="w-full md:w-1/2 flex flex-col gap-3">
                     <div class="bg-white p-3 rounded-lg border border-gray-100 shadow-sm flex flex-col gap-1">
                         <p class="text-[11px] text-gray-500 font-bold">สื่อการสอน</p>
@@ -184,6 +174,7 @@
     </div>
 
     <script>
+        // ใส่ URL ของ Apps Script
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwW0xcNEvHoQ-fE9f4Sl4eK0110nphDxTm7DGJIRAKySj7i6jIqGsHdc5dxyXhjG42_7Q/exec';
         
         let globalData = [];
@@ -212,7 +203,7 @@
 
         function applyFilters() {
             const deptFilter = document.getElementById('filter-dept').value;
-            const groupFilter = document.getElementById('filter-group').value; // เอากลุ่มกลับมา
+            const groupFilter = document.getElementById('filter-group').value; 
             
             const filteredData = globalData.filter(row => {
                 let passDept = (deptFilter === 'ทั้งหมด' || (row[1] || '').toString().includes(deptFilter));
@@ -264,7 +255,7 @@
                     if(score && !isNaN(score) && score !== '—') { p3Score[q] += Number(score); p3IndivCount[q]++; totalPart3Score += Number(score); part3Count++; }
                 }
 
-                // คอลัมน์วิทยากร (เริ่มที่ 39-46)
+                // คอลัมน์ที่ 39-46 สำหรับวิทยากร
                 for(let i=0; i<4; i++) {
                     let v = row[39+i];
                     if(v && !isNaN(v)) { s1Sum[i] += Number(v); s1Count[i]++; }
@@ -300,7 +291,6 @@
             charts.part3.update();
         }
 
-        // ============ ฟังก์ชันกราฟ Radar ของวิทยากร ============
         let radarChart = null;
 
         function openSpeakerModal(id) {
@@ -368,6 +358,7 @@
             const donutOpts = { responsive: true, maintainAspectRatio: false, cutout: '55%', plugins: { legend: { position: 'right', labels: { boxWidth: 8, font: { size: 9 } } } } };
             charts.dept = new Chart(document.getElementById('deptChart'), { type: 'doughnut', data: { labels: ['BBGI NP', 'BBGI BP', 'BBGI PS', 'อื่นๆ'], datasets: [{ data: [0,0,0,0], backgroundColor: ['#254382', '#2e753a', '#eab308', '#cbd5e1'] }] }, options: donutOpts });
             charts.exp = new Chart(document.getElementById('expChart'), { type: 'doughnut', data: { labels: ['< 1 ปี', '1-3 ปี', '4-6 ปี', '> 6 ปี'], datasets: [{ data: [0,0,0,0], backgroundColor: ['#254382', '#2e753a', '#eab308', '#a855f7'] }] }, options: donutOpts });
+            
             charts.part2 = new Chart(document.getElementById('part2Chart'), { type: 'bar', data: { labels: ['ข้อ 1','ข้อ 2','ข้อ 3','ข้อ 4','ข้อ 5','ข้อ 6','ข้อ 7','ข้อ 8'], datasets: [{ label: 'ก่อน', data: [], backgroundColor: '#8bb4f2', borderRadius: 2 }, { label: 'หลัง', data: [], backgroundColor: '#254382', borderRadius: 2 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { max: 5, ticks: { font: { size: 9 } } }, x: { ticks: { font: { size: 9 } } } }, plugins: { legend: { display: false } } } });
             charts.part3 = new Chart(document.getElementById('part3Chart'), { type: 'bar', data: { labels: ['ข้อ 1','ข้อ 2','ข้อ 3','ข้อ 4','ข้อ 5','ข้อ 6','ข้อ 7','ข้อ 8'], datasets: [{ data: [], backgroundColor: '#254382', borderRadius: 2 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, scales: { x: { max: 5, ticks: { font: { size: 9 } } }, y: { ticks: { font: { size: 9 } } } }, plugins: { legend: { display: false } } } });
         }
