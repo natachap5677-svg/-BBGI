@@ -38,9 +38,16 @@
                 </div>
             </div>
             
-            <!-- ตัวกรอง (Dropdowns) -->
             <div class="flex gap-3 h-full items-center py-2">
-                <div id="sync-status" class="hidden text-xs text-green-400 mr-2"><i class="fa-solid fa-circle-check fa-fade"></i> ซิงค์ล่าสุด</div>
+                <!-- ปุ่มสลับหน้า และ สถานะซิงค์ -->
+                <div class="flex items-center gap-3 mr-2">
+                    <a href="practical_dashboard.html" class="bg-bbgigreen hover:bg-green-600 text-white text-[10px] sm:text-xs font-bold px-3 py-1.5 rounded-lg shadow border border-white/20 transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-exchange-alt"></i> แดชบอร์ดภาคปฏิบัติ
+                    </a>
+                    <div id="sync-status" class="hidden text-xs text-green-400"><i class="fa-solid fa-circle-check fa-fade"></i> ซิงค์ล่าสุด</div>
+                </div>
+
+                <!-- ตัวกรอง (Dropdowns) -->
                 <div class="flex flex-col">
                     <label class="text-[9px] text-gray-300 mb-0.5">สังกัด</label>
                     <select id="filter-dept" onchange="applyFilters()" class="text-xs text-gray-800 rounded px-2 py-1 outline-none w-24 shadow-inner">
@@ -134,7 +141,7 @@
 
     <script>
         // === นำ URL ของ Apps Script มาใส่ตรงนี้ ===
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwW0xcNEvHoQ-fE9f4Sl4eK0110nphDxTm7DGJIRAKySj7i6jIqGsHdc5dxyXhjG42_7Q/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycb...ใส่ของคุณที่นี่.../exec';
         
         let globalData = []; // เก็บข้อมูลดิบทั้งหมด
         let charts = {}; // เก็บ object กราฟ
