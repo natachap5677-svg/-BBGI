@@ -6,8 +6,8 @@
     <title>แบบประเมินภาคปฏิบัติโครงการฝึกอบรม BBGI</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body { font-family: 'Sarabun', sans-serif; background-color: #f8fafc; }
         .table-header { background-color: #1e3a8a; color: white; }
@@ -15,7 +15,14 @@
 </head>
 <body class="p-0 sm:p-2 md:p-8">
 
-    <div id="main-content" class="max-w-5xl mx-auto bg-white p-2 sm:p-4 md:p-10 shadow-lg rounded-none sm:rounded-xl min-h-screen sm:min-h-0 hidden">
+    <!-- หน้าต่างแจ้งเตือนเมื่อทำแล้ว -->
+    <div id="already-submitted" class="hidden max-w-2xl mx-auto bg-white p-10 shadow-lg rounded-xl text-center mt-20">
+        <div class="text-green-500 text-6xl mb-4"><i class="fa-solid fa-circle-check"></i></div>
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">ท่านได้ทำแบบประเมินภาคปฏิบัติไปแล้ว</h1>
+        <p class="text-gray-600">ขอบคุณสำหรับความคิดเห็นและความร่วมมือของท่าน</p>
+    </div>
+
+    <div id="main-form-container" class="max-w-5xl mx-auto bg-white p-2 sm:p-4 md:p-10 shadow-lg rounded-none sm:rounded-xl min-h-screen sm:min-h-0 hidden">
         <!-- Header -->
         <div class="text-center mb-8 border-b-2 border-blue-800 pb-4">
             <h1 class="text-xl sm:text-2xl font-bold mb-2">แบบประเมินโครงการฝึกอบรม (ภาคปฏิบัติ)</h1>
@@ -25,100 +32,221 @@
         </div>
 
         <form id="evaluationForm" onsubmit="submitForm(event)">
-            <!-- ส่วนที่ 1: ข้อมูลผู้ตอบแบบประเมิน -->
+            
             <div class="mb-10">
                 <h3 class="text-lg font-bold mb-4">ส่วนที่ 1 ข้อมูลผู้ตอบแบบประเมิน</h3>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 bg-gray-50 p-4 rounded border text-sm sm:text-base">
                     <div class="font-semibold text-gray-700">สังกัด</div>
-                    <div class="md:col-span-3 flex flex-wrap gap-4"><label><input type="radio" name="department" value="BBGI NP" required class="mr-1"> BBGI NP</label><label><input type="radio" name="department" value="BBGI BP" class="mr-1"> BBGI BP</label><label><input type="radio" name="department" value="BBGI PS" class="mr-1"> BBGI PS</label><label><input type="radio" name="department" value="อื่นๆ" class="mr-1"> อื่นๆ <input type="text" name="department_other" class="border-b border-gray-400 bg-transparent focus:outline-none px-2"></label></div>
+                    <div class="md:col-span-3 flex flex-wrap gap-4">
+                        <label><input type="radio" name="department" value="BBGI NP" required class="mr-1"> BBGI NP</label>
+                        <label><input type="radio" name="department" value="BBGI BP" class="mr-1"> BBGI BP</label>
+                        <label><input type="radio" name="department" value="BBGI PS" class="mr-1"> BBGI PS</label>
+                        <label><input type="radio" name="department" value="อื่นๆ" class="mr-1"> อื่นๆ <input type="text" name="department_other" class="border-b border-gray-400 bg-transparent focus:outline-none px-2"></label>
+                    </div>
+
                     <div class="font-semibold text-gray-700 mt-2 md:mt-0">กลุ่มปฏิบัติการ</div>
-                    <div class="md:col-span-3 flex flex-wrap gap-4"><label><input type="radio" name="group" value="กลุ่ม 1" required class="mr-1"> กลุ่ม 1</label><label><input type="radio" name="group" value="กลุ่ม 2" class="mr-1"> กลุ่ม 2</label><label><input type="radio" name="group" value="กลุ่ม 3" class="mr-1"> กลุ่ม 3</label><label><input type="radio" name="group" value="กลุ่ม 4" class="mr-1"> กลุ่ม 4</label></div>
+                    <div class="md:col-span-3 flex flex-wrap gap-4">
+                        <label><input type="radio" name="group" value="กลุ่ม 1" required class="mr-1"> กลุ่ม 1</label>
+                        <label><input type="radio" name="group" value="กลุ่ม 2" class="mr-1"> กลุ่ม 2</label>
+                        <label><input type="radio" name="group" value="กลุ่ม 3" class="mr-1"> กลุ่ม 3</label>
+                        <label><input type="radio" name="group" value="กลุ่ม 4" class="mr-1"> กลุ่ม 4</label>
+                    </div>
+
                     <div class="font-semibold text-gray-700 mt-2 md:mt-0">ประสบการณ์ด้านการหมัก</div>
-                    <div class="md:col-span-3 flex flex-wrap gap-4"><label><input type="radio" name="experience" value="น้อยกว่า 1 ปี" required class="mr-1"> น้อยกว่า 1 ปี</label><label><input type="radio" name="experience" value="1-3 ปี" class="mr-1"> 1-3 ปี</label><label><input type="radio" name="experience" value="4-6 ปี" class="mr-1"> 4-6 ปี</label><label><input type="radio" name="experience" value="มากกว่า 6 ปี" class="mr-1"> มากกว่า 6 ปี</label></div>
+                    <div class="md:col-span-3 flex flex-wrap gap-4">
+                        <label><input type="radio" name="experience" value="น้อยกว่า 1 ปี" required class="mr-1"> น้อยกว่า 1 ปี</label>
+                        <label><input type="radio" name="experience" value="1-3 ปี" class="mr-1"> 1-3 ปี</label>
+                        <label><input type="radio" name="experience" value="4-6 ปี" class="mr-1"> 4-6 ปี</label>
+                        <label><input type="radio" name="experience" value="มากกว่า 6 ปี" class="mr-1"> มากกว่า 6 ปี</label>
+                    </div>
+
                     <div class="font-semibold text-gray-700 mt-2 md:mt-0">ลักษณะงานหลัก</div>
-                    <div class="md:col-span-3 flex flex-wrap gap-4"><label><input type="radio" name="jobRole" value="ผลิต" required class="mr-1"> ผลิต</label><label><input type="radio" name="jobRole" value="ห้องปฏิบัติการ/คุณภาพ" class="mr-1"> ห้องปฏิบัติการ/คุณภาพ</label><label><input type="radio" name="jobRole" value="วิศวกรรม/ซ่อมบำรุง" class="mr-1"> วิศวกรรม/ซ่อมบำรุง</label><label><input type="radio" name="jobRole" value="วิจัยและพัฒนา" class="mr-1"> วิจัยและพัฒนา</label><label><input type="radio" name="jobRole" value="อื่นๆ" class="mr-1"> อื่นๆ <input type="text" name="jobRole_other" class="border-b border-gray-400 bg-transparent focus:outline-none px-2"></label></div>
+                    <div class="md:col-span-3 flex flex-wrap gap-4">
+                        <label><input type="radio" name="jobRole" value="ผลิต" required class="mr-1"> ผลิต</label>
+                        <label><input type="radio" name="jobRole" value="ห้องปฏิบัติการ/คุณภาพ" class="mr-1"> ห้องปฏิบัติการ/คุณภาพ</label>
+                        <label><input type="radio" name="jobRole" value="วิศวกรรม/ซ่อมบำรุง" class="mr-1"> วิศวกรรม/ซ่อมบำรุง</label>
+                        <label><input type="radio" name="jobRole" value="วิจัยและพัฒนา" class="mr-1"> วิจัยและพัฒนา</label>
+                        <label><input type="radio" name="jobRole" value="อื่นๆ" class="mr-1"> อื่นๆ <input type="text" name="jobRole_other" class="border-b border-gray-400 bg-transparent focus:outline-none px-2"></label>
+                    </div>
                 </div>
             </div>
 
-            <div id="loading" class="text-center py-10 text-blue-600 font-bold">กำลังโหลดคำถามจากระบบ...</div>
+            <div id="loading" class="text-center py-10 text-blue-600 font-bold">
+                กำลังโหลดคำถามจากระบบ...
+            </div>
 
             <div id="forms-container" class="hidden">
-                <!-- ส่วน 4, 5, 6, 7, 8 (เนื้อหาเหมือนเดิมทุกอย่างตามที่คุณสร้างไว้เป๊ะๆ ผมรวบรัดบรรทัดเพื่อให้โค้ดไม่รกนะครับ) -->
-                <!-- ส่วนที่ 4 -->
-                <div class="mb-10"><h3 class="text-lg font-bold mb-2">ส่วนที่ 4 การประเมินภาคปฏิบัติ วันที่ 28-30 ตุลาคม 2569</h3><div class="overflow-x-auto"><table class="w-full border-collapse border border-gray-300 text-sm text-center min-w-[500px]"><thead><tr class="table-header"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2">5</th><th class="border p-2">4</th><th class="border p-2">3</th><th class="border p-2">2</th><th class="border p-2">1</th><th class="border p-2">—</th></tr></thead><tbody id="p4-tbody"></tbody></table></div></div>
-                <!-- ส่วนที่ 5 -->
-                <div class="mb-10"><h3 class="text-lg font-bold mb-2">ส่วนที่ 5 การประเมินกระบวนการจัดการเรียนรู้</h3><div class="overflow-x-auto"><table class="w-full border-collapse border border-gray-300 text-sm text-center min-w-[500px]"><thead><tr class="table-header"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2">5</th><th class="border p-2">4</th><th class="border p-2">3</th><th class="border p-2">2</th><th class="border p-2">1</th><th class="border p-2">—</th></tr></thead><tbody id="p5-tbody"></tbody></table></div></div>
-                <!-- ส่วนที่ 6 -->
-                <div class="mb-10"><h3 class="text-lg font-bold mb-2">ส่วนที่ 6 ความเหมาะสมและคุณค่าโดยรวม</h3><div class="overflow-x-auto"><table class="w-full border-collapse border border-gray-300 text-sm text-center min-w-[500px]"><thead><tr class="table-header"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2">5</th><th class="border p-2">4</th><th class="border p-2">3</th><th class="border p-2">2</th><th class="border p-2">1</th><th class="border p-2">—</th></tr></thead><tbody id="p6-tbody"></tbody></table></div></div>
-                <!-- ส่วนที่ 7 -->
-                <div class="mb-10"><h3 class="text-lg font-bold mb-4">ส่วนที่ 7 แผนการนำไปใช้หลังการอบรม</h3><div class="mb-4"><label class="block text-sm">งานหรือกระบวนการที่จะนำไปใช้</label><input type="text" name="s7_work" class="w-full border-b border-gray-400 focus:outline-none py-1"></div><div class="mb-6"><label class="block text-sm">ผลลัพธ์หรือค่าชี้วัดที่คาดว่าจะดีขึ้น</label><input type="text" name="s7_result" class="w-full border-b border-gray-400 focus:outline-none py-1"></div><div><label class="block font-semibold mb-2">สิ่งสนับสนุนที่ต้องการ</label><div class="flex flex-wrap gap-4 text-sm"><label><input type="checkbox" name="s7_support" value="ข้อมูล/มาตรฐาน"> ข้อมูล/มาตรฐาน</label><label><input type="checkbox" name="s7_support" value="เครื่องมือวิเคราะห์"> เครื่องมือวิเคราะห์</label><label><input type="checkbox" name="s7_support" value="การให้คำปรึกษา"> การให้คำปรึกษา</label><label><input type="checkbox" name="s7_support" value="การทดลองเพิ่มเติม"> การทดลองเพิ่มเติม</label><label class="flex items-center gap-1"><input type="checkbox" name="s7_support_other_check" value="อื่นๆ"> อื่นๆ <input type="text" name="s7_support_other_text" class="border-b border-gray-400 w-32 sm:w-48"></label></div></div></div>
-                <!-- ส่วนที่ 8 -->
-                <div class="mb-10"><h3 class="text-lg font-bold mb-4">ส่วนที่ 8 ข้อเสนอแนะเพื่อการปรับปรุงครั้งต่อไป</h3><div class="border rounded overflow-hidden mb-6"><table class="w-full text-sm"><tr class="table-header"><th class="p-2 border-b w-16 text-center">ลำดับ</th><th class="p-2 border-b border-l text-left">เรื่องที่ควรปรับปรุง</th></tr><tr><td class="p-3 border-b text-center font-bold">1</td><td class="p-0 border-b border-l"><input type="text" name="s8_improve1" class="w-full h-full p-3 focus:outline-none"></td></tr><tr><td class="p-3 border-b text-center font-bold">2</td><td class="p-0 border-b border-l"><input type="text" name="s8_improve2" class="w-full h-full p-3 focus:outline-none"></td></tr><tr><td class="p-3 text-center font-bold">3</td><td class="p-0 border-l"><input type="text" name="s8_improve3" class="w-full h-full p-3 focus:outline-none"></td></tr></table></div><div class="mb-6"><label class="block font-semibold mb-2">ข้อเสนอแนะอื่นๆ</label><textarea name="s8_suggestion" rows="3" class="w-full border rounded p-2 focus:outline-none"></textarea></div></div>
-                <!-- Submit -->
-                <div class="text-center pb-8"><button type="submit" id="submitBtn" class="bg-blue-800 hover:bg-blue-700 text-white font-bold py-3 px-10 rounded-lg shadow-lg w-full sm:w-auto">ส่งแบบประเมินภาคปฏิบัติ</button></div>
+                <div class="mb-10">
+                    <h3 class="text-lg font-bold mb-2">ส่วนที่ 4 การประเมินภาคปฏิบัติ วันที่ 28-30 ตุลาคม 2569</h3>
+                    <p class="text-xs sm:text-sm text-gray-600 mb-4">ระดับคะแนน: 5 = มากที่สุด, 4 = มาก, 3 = ปานกลาง, 2 = น้อย, 1 = น้อยที่สุด, — = ไม่เกี่ยวข้อง</p>
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse border border-gray-300 text-sm text-center min-w-[500px]">
+                            <thead><tr class="table-header"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2">5</th><th class="border p-2">4</th><th class="border p-2">3</th><th class="border p-2">2</th><th class="border p-2">1</th><th class="border p-2">—</th></tr></thead>
+                            <tbody id="p4-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="mb-10">
+                    <h3 class="text-lg font-bold mb-2">ส่วนที่ 5 การประเมินกระบวนการจัดการเรียนรู้</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse border border-gray-300 text-sm text-center min-w-[500px]">
+                            <thead><tr class="table-header"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2">5</th><th class="border p-2">4</th><th class="border p-2">3</th><th class="border p-2">2</th><th class="border p-2">1</th><th class="border p-2">—</th></tr></thead>
+                            <tbody id="p5-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="mb-10">
+                    <h3 class="text-lg font-bold mb-2">ส่วนที่ 6 ความเหมาะสมและคุณค่าโดยรวม</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse border border-gray-300 text-sm text-center min-w-[500px]">
+                            <thead><tr class="table-header"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2">5</th><th class="border p-2">4</th><th class="border p-2">3</th><th class="border p-2">2</th><th class="border p-2">1</th><th class="border p-2">—</th></tr></thead>
+                            <tbody id="p6-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="mb-10">
+                    <h3 class="text-lg font-bold mb-4">ส่วนที่ 7 แผนการนำไปใช้หลังการอบรม</h3>
+                    <p class="font-semibold text-sm sm:text-base mb-2">ภายใน 30 วัน ท่านตั้งใจนำความรู้หรือเครื่องมือใดไปทดลองใช้</p>
+                    <div class="mb-4">
+                        <label class="block text-sm text-gray-700 mb-1">งานหรือกระบวนการที่จะนำไปใช้</label>
+                        <input type="text" name="s7_work" class="w-full border-b border-gray-400 bg-transparent focus:outline-none py-1">
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-sm text-gray-700 mb-1">ผลลัพธ์หรือค่าชี้วัดที่คาดว่าจะดีขึ้น</label>
+                        <input type="text" name="s7_result" class="w-full border-b border-gray-400 bg-transparent focus:outline-none py-1">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-sm sm:text-base mb-2">สิ่งสนับสนุนที่ต้องการ</label>
+                        <div class="flex flex-wrap gap-4 text-sm">
+                            <label><input type="checkbox" name="s7_support" value="ข้อมูล/มาตรฐาน" class="mr-1"> ข้อมูล/มาตรฐาน</label>
+                            <label><input type="checkbox" name="s7_support" value="เครื่องมือวิเคราะห์" class="mr-1"> เครื่องมือวิเคราะห์</label>
+                            <label><input type="checkbox" name="s7_support" value="การให้คำปรึกษา" class="mr-1"> การให้คำปรึกษา</label>
+                            <label><input type="checkbox" name="s7_support" value="การทดลองเพิ่มเติม" class="mr-1"> การทดลองเพิ่มเติม</label>
+                            <label class="flex items-center gap-1"><input type="checkbox" name="s7_support_other_check" value="อื่นๆ"> อื่นๆ <input type="text" name="s7_support_other_text" class="border-b border-gray-400 bg-transparent focus:outline-none px-2 w-32 sm:w-48"></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-10">
+                    <h3 class="text-lg font-bold mb-4">ส่วนที่ 8 ข้อเสนอแนะเพื่อการปรับปรุงครั้งต่อไป</h3>
+                    <p class="font-semibold text-sm sm:text-base mb-2">หากปรับปรุงได้เพียง 3 เรื่อง โปรดจัดลำดับเรื่องที่สำคัญที่สุด</p>
+                    <div class="border rounded overflow-hidden mb-6">
+                        <table class="w-full text-sm">
+                            <tr class="table-header"><th class="p-2 border-b w-16 text-center">ลำดับ</th><th class="p-2 border-b border-l text-left">เรื่องที่ควรปรับปรุง</th></tr>
+                            <tr><td class="p-3 border-b text-center font-bold">1</td><td class="p-0 border-b border-l"><input type="text" name="s8_improve1" class="w-full h-full p-3 focus:outline-none"></td></tr>
+                            <tr><td class="p-3 border-b text-center font-bold">2</td><td class="p-0 border-b border-l"><input type="text" name="s8_improve2" class="w-full h-full p-3 focus:outline-none"></td></tr>
+                            <tr><td class="p-3 text-center font-bold">3</td><td class="p-0 border-l"><input type="text" name="s8_improve3" class="w-full h-full p-3 focus:outline-none"></td></tr>
+                        </table>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block font-semibold mb-2">ข้อเสนอแนะอื่นๆ</label>
+                        <textarea name="s8_suggestion" rows="3" class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                    </div>
+                    <p class="text-center text-sm text-gray-500 italic">ขอบคุณสำหรับความคิดเห็น ข้อมูลของท่านจะนำไปใช้ปรับปรุงหลักสูตรครั้งต่อไป</p>
+                </div>
+
+                <div class="text-center pb-8">
+                    <button type="submit" id="submitBtn" class="bg-blue-800 hover:bg-blue-700 text-white font-bold py-3 px-10 rounded-lg shadow-lg transition w-full sm:w-auto">
+                        ส่งแบบประเมินภาคปฏิบัติ
+                    </button>
+                </div>
             </div>
         </form>
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycb...ใส่ของคุณที่นี่.../exec'; 
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwW0xcNEvHoQ-fE9f4Sl4eK0110nphDxTm7DGJIRAKySj7i6jIqGsHdc5dxyXhjG42_7Q/exec'; 
 
         window.onload = async function() {
-            if (localStorage.getItem('bbgi_eval_practical') === 'true') {
-                document.body.innerHTML = `
-                <div class="min-h-screen flex items-center justify-center p-4">
-                    <div class="bg-white p-8 rounded-2xl shadow-xl border text-center max-w-md w-full">
-                        <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl"><i class="fa-solid fa-check"></i></div>
-                        <h2 class="text-2xl font-bold text-gray-800 mb-2">ขอบคุณครับ!</h2>
-                        <p class="text-gray-600">คุณได้ทำแบบประเมินภาคปฏิบัตินี้ไปเรียบร้อยแล้ว<br>ไม่สามารถทำซ้ำได้</p>
-                    </div>
-                </div>`;
+            if(localStorage.getItem('bbgi_practical_submitted')) {
+                document.getElementById('already-submitted').classList.remove('hidden');
                 return;
             }
-            document.getElementById('main-content').classList.remove('hidden');
+            
+            document.getElementById('main-form-container').classList.remove('hidden');
+
             try {
                 const response = await fetch(SCRIPT_URL + '?action=getQuestions');
                 const data = await response.json();
-                renderTable('p4-tbody', data.part4, 'p4_score_'); renderTable('p5-tbody', data.part5, 'p5_score_'); renderTable('p6-tbody', data.part6, 'p6_score_');
-                document.getElementById('loading').style.display = 'none'; document.getElementById('forms-container').classList.remove('hidden');
-            } catch (error) { document.getElementById('loading').innerText = 'เกิดข้อผิดพลาด'; }
+                
+                renderTable('p4-tbody', data.part4, 'p4_score_');
+                renderTable('p5-tbody', data.part5, 'p5_score_');
+                renderTable('p6-tbody', data.part6, 'p6_score_');
+                
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('forms-container').classList.remove('hidden');
+            } catch (error) {
+                document.getElementById('loading').innerText = 'เกิดข้อผิดพลาดในการโหลดข้อมูล กรุณารีเฟรชหน้าเว็บ';
+            }
         }
 
         function renderTable(tbodyId, questions, prefix) {
             const tbody = document.getElementById(tbodyId);
             const scores = [5, 4, 3, 2, 1, '—'];
+            
             questions.forEach((q, index) => {
-                let r = ''; scores.forEach(s => { r += `<td class="border p-1 sm:p-2"><input type="radio" name="${prefix}${index}" value="${s}" required class="w-4 h-4 cursor-pointer"></td>`; });
-                tbody.innerHTML += `<tr class="hover:bg-gray-50 text-xs sm:text-sm"><td class="border p-2 text-left">${q}</td>${r}</tr>`;
+                let radiosHtml = '';
+                scores.forEach(s => {
+                    radiosHtml += `<td class="border p-1 sm:p-2"><input type="radio" name="${prefix}${index}" value="${s}" required class="w-4 h-4 cursor-pointer"></td>`;
+                });
+                tbody.innerHTML += `
+                    <tr class="hover:bg-gray-50 text-xs sm:text-sm">
+                        <td class="border p-2 text-left leading-relaxed">${q}</td>
+                        ${radiosHtml}
+                    </tr>
+                `;
             });
         }
 
         async function submitForm(event) {
             event.preventDefault();
             const btn = document.getElementById('submitBtn');
-            btn.innerText = "กำลังบันทึกข้อมูล..."; btn.disabled = true;
-            const form = event.target; const formData = new FormData(form);
+            btn.innerText = "กำลังบันทึกข้อมูล...";
+            btn.disabled = true;
+
+            const form = event.target;
+            const formData = new FormData(form);
             
-            let dept = formData.get('department'); if (dept === 'อื่นๆ') dept = "อื่นๆ: " + formData.get('department_other');
-            let job = formData.get('jobRole'); if (job === 'อื่นๆ') job = "อื่นๆ: " + formData.get('jobRole_other');
-            let supports = formData.getAll('s7_support'); if(formData.get('s7_support_other_check')) supports.push("อื่นๆ: " + formData.get('s7_support_other_text'));
+            let dept = formData.get('department');
+            if (dept === 'อื่นๆ') dept = "อื่นๆ: " + formData.get('department_other');
             
+            let job = formData.get('jobRole');
+            if (job === 'อื่นๆ') job = "อื่นๆ: " + formData.get('jobRole_other');
+
+            let supports = formData.getAll('s7_support');
+            if(formData.get('s7_support_other_check')) {
+                supports.push("อื่นๆ: " + formData.get('s7_support_other_text'));
+            }
+            let supportStr = supports.join(", ");
+
             let p4Scores = {}, p5Scores = {}, p6Scores = {};
-            for (let [k, v] of formData.entries()) { if(k.startsWith('p4_')) p4Scores[k]=v; if(k.startsWith('p5_')) p5Scores[k]=v; if(k.startsWith('p6_')) p6Scores[k]=v; }
+            for (let [key, value] of formData.entries()) {
+                if(key.startsWith('p4_')) p4Scores[key] = value;
+                if(key.startsWith('p5_')) p5Scores[key] = value;
+                if(key.startsWith('p6_')) p6Scores[key] = value;
+            }
 
             const submitData = {
-                formType: 'practical', department: dept, group: formData.get('group'), experience: formData.get('experience'), jobRole: job,
+                formType: 'practical',
+                department: dept, group: formData.get('group'), experience: formData.get('experience'), jobRole: job,
                 p4Scores: p4Scores, p5Scores: p5Scores, p6Scores: p6Scores,
-                s7_work: formData.get('s7_work'), s7_result: formData.get('s7_result'), s7_support: supports.join(", "),
+                s7_work: formData.get('s7_work'), s7_result: formData.get('s7_result'), s7_support: supportStr,
                 s8_improve1: formData.get('s8_improve1'), s8_improve2: formData.get('s8_improve2'), s8_improve3: formData.get('s8_improve3'), s8_suggestion: formData.get('s8_suggestion')
             };
 
             try {
                 await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(submitData) });
-                localStorage.setItem('bbgi_eval_practical', 'true');
-                Swal.fire({ icon: 'success', title: 'บันทึกสำเร็จ!', text: 'ขอบคุณที่ให้ความร่วมมือในการประเมินภาคปฏิบัติ', confirmButtonColor: '#1e3a8a' }).then(() => window.location.reload());
+                Swal.fire({ icon: 'success', title: 'บันทึกสำเร็จ!', text: 'ขอบคุณที่ให้ความร่วมมือ', confirmButtonColor: '#1e3a8a' })
+                .then(() => {
+                    localStorage.setItem('bbgi_practical_submitted', 'true');
+                    window.location.reload();
+                });
             } catch (error) {
-                Swal.fire('ข้อผิดพลาด', 'ไม่สามารถบันทึกได้', 'error'); btn.innerText = "ส่งแบบประเมินภาคปฏิบัติ"; btn.disabled = false;
+                Swal.fire('ข้อผิดพลาด', 'ไม่สามารถบันทึกได้ โปรดลองอีกครั้ง', 'error');
+                btn.innerText = "ส่งแบบประเมินภาคปฏิบัติ"; btn.disabled = false;
             }
         }
     </script>
