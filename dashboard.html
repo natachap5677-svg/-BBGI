@@ -8,15 +8,13 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <script>
-        tailwind.config = { theme: { extend: { fontFamily: { prompt: ['Prompt', 'sans-serif'], }, colors: { bbgidark: '#111827', bbgiblue: '#254382', bbgigreen: '#2e753a', } } } }
-    </script>
     <style>
         body { font-family: 'Prompt', sans-serif; background-color: #e2e8f0; display: flex; justify-content: center; align-items: center; height: 100vh; width: 100vw; margin: 0; overflow: hidden; }
         .aspect-ratio-container { width: 100vw; height: 56.25vw; max-height: 100vh; max-width: 177.78vh; background-color: #f1f5f9; box-shadow: 0 10px 25px rgba(0,0,0,0.1); display: flex; flex-direction: column; overflow: hidden; position: relative; }
         ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 4px; }
         .min-h-0 { min-height: 0; }
+        .modal { display: none; }
+        .modal.active { display: flex; }
     </style>
 </head>
 <body>
@@ -24,7 +22,7 @@
     <div class="aspect-ratio-container">
         
         <!-- HEADER -->
-        <header class="bg-bbgidark text-white px-4 flex justify-between items-center h-[12%] shrink-0">
+        <header class="bg-[#111827] text-white px-4 flex justify-between items-center h-[12%] shrink-0">
             <div class="flex items-center gap-4 h-full py-2">
                 <div class="flex items-center gap-2 h-full bg-white/5 p-1.5 rounded-lg border border-white/10">
                     <img src="logoRMUTT.png" onerror="this.src='https://via.placeholder.com/50x50?text=RMUTT'" alt="RMUTT" class="h-full max-h-12 w-auto object-contain">
@@ -38,96 +36,147 @@
             
             <div class="flex gap-3 h-full items-center py-2">
                 <div class="flex items-center gap-3 mr-2">
-                    <a href="practical_dashboard.html" class="bg-bbgigreen hover:bg-green-600 text-white text-[10px] sm:text-xs font-bold px-3 py-1.5 rounded-lg shadow border border-white/20 transition flex items-center gap-1.5"><i class="fa-solid fa-exchange-alt"></i> แดชบอร์ดภาคปฏิบัติ</a>
+                    <a href="practical_dashboard.html" class="bg-[#2e753a] hover:bg-green-600 text-white text-[10px] sm:text-xs font-bold px-3 py-1.5 rounded-lg shadow border border-white/20 transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-exchange-alt"></i> แดชบอร์ดภาคปฏิบัติ
+                    </a>
                     <div id="sync-status" class="hidden text-xs text-green-400"><i class="fa-solid fa-circle-check fa-fade"></i> ซิงค์ล่าสุด</div>
                 </div>
-                <div class="flex flex-col"><label class="text-[9px] text-gray-300 mb-0.5">สังกัด</label><select id="filter-dept" onchange="applyFilters()" class="text-xs text-gray-800 rounded px-2 py-1 outline-none w-24 shadow-inner"><option value="ทั้งหมด">ทั้งหมด</option><option value="BBGI NP">BBGI NP</option><option value="BBGI BP">BBGI BP</option><option value="BBGI PS">BBGI PS</option><option value="อื่นๆ">อื่นๆ</option></select></div>
-                <div class="flex flex-col"><label class="text-[9px] text-gray-300 mb-0.5">กลุ่มปฏิบัติการ</label><select id="filter-group" onchange="applyFilters()" class="text-xs text-gray-800 rounded px-2 py-1 outline-none w-24 shadow-inner"><option value="ทั้งหมด">ทั้งหมด</option><option value="กลุ่ม 1">กลุ่ม 1</option><option value="กลุ่ม 2">กลุ่ม 2</option><option value="กลุ่ม 3">กลุ่ม 3</option><option value="กลุ่ม 4">กลุ่ม 4</option></select></div>
+
+                <div class="flex flex-col">
+                    <label class="text-[9px] text-gray-300 mb-0.5">สังกัด</label>
+                    <select id="filter-dept" onchange="applyFilters()" class="text-xs text-gray-800 rounded px-2 py-1 outline-none w-24 shadow-inner">
+                        <option value="ทั้งหมด">ทั้งหมด</option>
+                        <option value="BBGI NP">BBGI NP</option>
+                        <option value="BBGI BP">BBGI BP</option>
+                        <option value="BBGI PS">BBGI PS</option>
+                        <option value="อื่นๆ">อื่นๆ</option>
+                    </select>
+                </div>
             </div>
         </header>
 
         <!-- KPI CARDS -->
         <section class="flex gap-3 px-3 pt-3 h-[14%] shrink-0">
-            <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden"><div class="bg-bbgiblue text-white text-center text-[10px] font-bold py-1">จำนวนผู้ตอบแบบประเมิน</div><div class="flex-1 flex items-center justify-between px-4 pb-1"><div class="text-3xl font-black text-blue-900 leading-none"><span id="kpi-total">0</span> <span class="text-xs font-medium text-gray-500">คน</span></div><i class="fa-solid fa-users text-2xl text-gray-300"></i></div></div>
-            <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden"><div class="bg-bbgigreen text-white text-center text-[10px] font-bold py-1">สังกัดที่ตอบมากที่สุด</div><div class="flex-1 flex items-center justify-between px-4 pb-1"><div id="kpi-top-dept" class="text-xl font-black text-green-700 leading-none">-</div><i class="fa-solid fa-chart-line text-2xl text-gray-300"></i></div></div>
-            <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden"><div class="bg-bbgiblue text-white text-center text-[10px] font-bold py-1">คะแนนความพึงพอใจเฉลี่ย (ส่วน 3)</div><div class="flex-1 flex items-center justify-between px-4 pb-1"><div class="text-3xl font-black text-blue-900 leading-none"><span id="kpi-avg-score">0.00</span><span class="text-xs font-medium text-gray-400">/5</span></div><i class="fa-solid fa-star text-2xl text-yellow-400"></i></div></div>
-            <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden"><div class="bg-bbgigreen text-white text-center text-[10px] font-bold py-1">ความต้องการพัฒนาต่อ</div><div class="flex-1 flex items-center justify-between px-4 pb-1"><div class="text-3xl font-black text-green-700 leading-none"><span id="kpi-dev-percent">0</span>%</div><i class="fa-solid fa-clipboard-check text-2xl text-gray-300"></i></div></div>
+            <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden">
+                <div class="bg-[#254382] text-white text-center text-[10px] font-bold py-1">จำนวนผู้ตอบแบบประเมิน</div>
+                <div class="flex-1 flex items-center justify-between px-4 pb-1"><div class="text-3xl font-black text-blue-900 leading-none"><span id="kpi-total">0</span> <span class="text-xs font-medium text-gray-500">คน</span></div><i class="fa-solid fa-users text-2xl text-gray-300"></i></div>
+            </div>
+            <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden">
+                <div class="bg-[#2e753a] text-white text-center text-[10px] font-bold py-1">คะแนนทฤษฎี (ส่วน 3)</div>
+                <div class="flex-1 flex items-center justify-between px-4 pb-1"><div class="text-3xl font-black text-green-700 leading-none"><span id="kpi-avg-score">0.00</span><span class="text-xs font-medium text-gray-400">/5</span></div><i class="fa-solid fa-star text-2xl text-yellow-400"></i></div>
+            </div>
+            
+            <!-- การ์ดวิทยากร 1 -->
+            <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden cursor-pointer hover:shadow-md transition group relative" onclick="openSpeakerModal(1)">
+                <div class="absolute inset-0 bg-blue-50 opacity-0 group-hover:opacity-100 transition duration-300"></div>
+                <div class="bg-[#254382] text-white text-center text-[10px] font-bold py-1 relative z-10">วิทยากร: ดร.สุทธิ์กมล <i class="fa-solid fa-search-plus ml-1 text-blue-200 animate-pulse"></i></div>
+                <div class="flex-1 flex items-center justify-between px-4 pb-1 relative z-10"><div class="text-3xl font-black text-blue-900 leading-none"><span id="kpi-s1">0.00</span><span class="text-xs font-medium text-gray-400">/5</span></div><i class="fa-solid fa-chalkboard-user text-2xl text-blue-200 group-hover:scale-110 transition duration-300"></i></div>
+            </div>
+            <!-- การ์ดวิทยากร 2 -->
+            <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden cursor-pointer hover:shadow-md transition group relative" onclick="openSpeakerModal(2)">
+                <div class="absolute inset-0 bg-green-50 opacity-0 group-hover:opacity-100 transition duration-300"></div>
+                <div class="bg-[#2e753a] text-white text-center text-[10px] font-bold py-1 relative z-10">วิทยากร: คุณกิตติ <i class="fa-solid fa-search-plus ml-1 text-green-200 animate-pulse"></i></div>
+                <div class="flex-1 flex items-center justify-between px-4 pb-1 relative z-10"><div class="text-3xl font-black text-green-700 leading-none"><span id="kpi-s2">0.00</span><span class="text-xs font-medium text-gray-400">/5</span></div><i class="fa-solid fa-chalkboard-user text-2xl text-green-200 group-hover:scale-110 transition duration-300"></i></div>
+            </div>
         </section>
 
-        <!-- MAIN CONTENT -->
+        <!-- MAIN CONTENT (Charts) -->
         <main class="flex-1 flex px-3 pb-3 pt-3 gap-3 min-h-0">
             <!-- Left (Donuts) -->
             <div class="w-1/4 flex flex-col gap-3 min-h-0 h-full">
-                <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0"><h3 class="text-[11px] font-bold text-gray-800 text-center mb-1 shrink-0">ข้อมูลผู้ตอบ: สังกัด</h3><div class="relative flex-1 min-h-0 w-full"><canvas id="deptChart"></canvas></div></div>
-                <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0"><h3 class="text-[11px] font-bold text-gray-800 text-center mb-1 shrink-0">ประสบการณ์การหมัก</h3><div class="relative flex-1 min-h-0 w-full"><canvas id="expChart"></canvas></div></div>
+                <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0">
+                    <h3 class="text-[11px] font-bold text-gray-800 text-center mb-1 shrink-0">ข้อมูลผู้ตอบ: สังกัด</h3>
+                    <div class="relative flex-1 min-h-0 w-full"><canvas id="deptChart"></canvas></div>
+                </div>
+                <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0">
+                    <h3 class="text-[11px] font-bold text-gray-800 text-center mb-1 shrink-0">ประสบการณ์การหมัก</h3>
+                    <div class="relative flex-1 min-h-0 w-full"><canvas id="expChart"></canvas></div>
+                </div>
             </div>
 
-            <!-- Middle -->
+            <!-- Middle (Grouped Bar + Topics) -->
             <div class="w-[45%] flex flex-col gap-3 min-h-0 h-full">
                 <div class="h-[65%] bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0">
                     <h3 class="text-xs font-bold text-gray-800 text-center mb-1 shrink-0">ผลลัพธ์การเรียนรู้และการนำไปใช้ - ส่วนที่ 2</h3>
-                    <div class="flex justify-center items-center gap-3 mb-1 shrink-0 text-[9px] text-gray-600 font-medium"><div class="flex items-center gap-1"><span class="w-2.5 h-2.5 bg-[#8bb4f2] block rounded-sm"></span> ก่อนอบรม</div><div class="flex items-center gap-1"><span class="w-2.5 h-2.5 bg-[#254382] block rounded-sm"></span> หลังอบรม</div></div>
+                    <div class="flex justify-center items-center gap-3 mb-1 shrink-0 text-[9px] text-gray-600 font-medium">
+                        <div class="flex items-center gap-1"><span class="w-2.5 h-2.5 bg-[#8bb4f2] block rounded-sm"></span> ก่อนอบรม</div>
+                        <div class="flex items-center gap-1"><span class="w-2.5 h-2.5 bg-[#254382] block rounded-sm"></span> หลังอบรม</div>
+                    </div>
                     <div class="relative flex-1 min-h-0 w-full"><canvas id="part2Chart"></canvas></div>
                 </div>
                 <div class="h-[35%] bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden min-h-0">
-                    <div class="bg-bbgiblue text-white px-3 py-1.5 text-[10px] font-bold shrink-0">หัวข้อที่มีประโยชน์ที่สุด (ล่าสุด)</div>
-                    <div class="p-2.5 overflow-y-auto text-[10px] leading-relaxed text-gray-700 flex-1 bg-slate-50 min-h-0"><ul id="list-useful" class="space-y-1.5 list-disc pl-4">กำลังโหลด...</ul></div>
+                    <div class="bg-[#254382] text-white px-3 py-1.5 text-[10px] font-bold shrink-0">หัวข้อที่มีประโยชน์ที่สุด (ล่าสุด)</div>
+                    <div class="p-2.5 overflow-y-auto text-[10px] leading-relaxed text-gray-700 flex-1 bg-slate-50 min-h-0">
+                        <ul id="list-useful" class="space-y-1.5 list-disc pl-4">กำลังโหลด...</ul>
+                    </div>
                 </div>
             </div>
 
-            <!-- Right -->
+            <!-- Right (Horiz Bar + Suggestions) -->
             <div class="w-[30%] flex flex-col gap-3 min-h-0 h-full">
-                <div class="h-[40%] bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0">
+                <div class="h-[65%] bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0">
                     <h3 class="text-xs font-bold text-gray-800 text-center mb-1 shrink-0">การประเมินเนื้อหาทฤษฎี - ส่วนที่ 3</h3>
                     <div class="relative flex-1 min-h-0 w-full"><canvas id="part3Chart"></canvas></div>
                 </div>
-                
-                <!-- NEW: Speaker Summary Cards -->
-                <div class="h-[25%] bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0">
-                    <h3 class="text-[10px] font-bold text-gray-800 text-center mb-1 shrink-0">ผลประเมินวิทยากร (ส่วนที่ 4)</h3>
-                    <div class="flex flex-1 gap-2">
-                        <div onclick="openSpeakerModal(1)" class="flex-1 bg-blue-50 rounded border border-blue-100 flex flex-col items-center justify-center cursor-pointer hover:bg-blue-100 transition shadow-sm">
-                            <p class="text-[10px] font-bold text-blue-900 text-center">ดร.สุทธิ์กมล</p>
-                            <p class="text-xl font-black text-blue-700 leading-none my-1" id="s1-avg">0.0</p>
-                            <p class="text-[8px] text-gray-500"><i class="fa-solid fa-chart-bar"></i> คลิกดูรายละเอียด</p>
-                        </div>
-                        <div onclick="openSpeakerModal(2)" class="flex-1 bg-green-50 rounded border border-green-100 flex flex-col items-center justify-center cursor-pointer hover:bg-green-100 transition shadow-sm">
-                            <p class="text-[10px] font-bold text-green-900 text-center">คุณกิตติ</p>
-                            <p class="text-xl font-black text-green-700 leading-none my-1" id="s2-avg">0.0</p>
-                            <p class="text-[8px] text-gray-500"><i class="fa-solid fa-chart-bar"></i> คลิกดูรายละเอียด</p>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="h-[35%] bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden min-h-0">
-                    <div class="bg-bbgidark text-white px-3 py-1.5 text-[10px] font-bold shrink-0">ข้อเสนอแนะเพิ่มเติม (ล่าสุด)</div>
-                    <div class="p-2.5 overflow-y-auto text-[10px] leading-relaxed text-gray-700 flex-1 bg-slate-50 min-h-0"><ul id="list-suggestions" class="space-y-1.5 list-disc pl-4">กำลังโหลด...</ul></div>
+                    <div class="bg-[#111827] text-white px-3 py-1.5 text-[10px] font-bold shrink-0">ข้อเสนอแนะเพิ่มเติม (ล่าสุด)</div>
+                    <div class="p-2.5 overflow-y-auto text-[10px] leading-relaxed text-gray-700 flex-1 bg-slate-50 min-h-0">
+                        <ul id="list-suggestions" class="space-y-1.5 list-disc pl-4">กำลังโหลด...</ul>
+                    </div>
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- Modal for Speaker Chart -->
-    <div id="modal-speaker" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-gray-900/50 backdrop-blur-sm transition-opacity opacity-0" onclick="closeSpeakerModal(event)">
-        <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden flex flex-col transform scale-95 transition-transform" onclick="event.stopPropagation()">
-            <div class="bg-bbgidark p-3 flex justify-between items-center text-white">
-                <h3 class="font-bold text-sm" id="speaker-modal-title">ผลประเมินวิทยากร</h3>
-                <button onclick="closeSpeakerModal()" class="text-white hover:text-red-400"><i class="fa-solid fa-xmark text-lg"></i></button>
+    <!-- Popup Modal: วิทยากร -->
+    <div id="modal-speaker" class="modal fixed inset-0 bg-gray-900/60 z-50 items-center justify-center p-4 backdrop-blur-sm transition-opacity opacity-0 hidden">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden flex flex-col transform scale-95 transition-transform duration-300" id="modal-content">
+            <div id="modal-header" class="bg-blue-800 p-4 flex justify-between items-center text-white">
+                <div>
+                    <h3 class="font-bold text-lg leading-tight">ผลการประเมินวิทยากร</h3>
+                    <p class="text-sm opacity-80" id="modal-speaker-name">-</p>
+                </div>
+                <button onclick="closeSpeakerModal()" class="text-white hover:text-gray-200 bg-white/20 w-8 h-8 rounded-full flex items-center justify-center"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
-            <div class="p-4 h-64 w-full relative">
-                <canvas id="speakerChart"></canvas>
+            <div class="p-6 flex flex-col md:flex-row gap-6 items-center bg-gray-50">
+                <!-- กราฟ Radar -->
+                <div class="w-full md:w-1/2 relative min-h-[220px]">
+                    <canvas id="speakerRadarChart"></canvas>
+                </div>
+                <!-- รายละเอียดคะแนน -->
+                <div class="w-full md:w-1/2 flex flex-col gap-3">
+                    <div class="bg-white p-3 rounded-lg border border-gray-100 shadow-sm flex flex-col gap-1">
+                        <p class="text-[11px] text-gray-500 font-bold">สื่อการสอน</p>
+                        <div class="flex items-center gap-2"><div class="w-full bg-gray-200 rounded-full h-2"><div id="s-bar-1" class="h-2 rounded-full transition-all duration-1000" style="width: 0%"></div></div><span id="s-score-1" class="text-sm font-bold w-6">0</span></div>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-gray-100 shadow-sm flex flex-col gap-1">
+                        <p class="text-[11px] text-gray-500 font-bold">เทคนิคการนำเสนอ</p>
+                        <div class="flex items-center gap-2"><div class="w-full bg-gray-200 rounded-full h-2"><div id="s-bar-2" class="h-2 rounded-full transition-all duration-1000" style="width: 0%"></div></div><span id="s-score-2" class="text-sm font-bold w-6">0</span></div>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-gray-100 shadow-sm flex flex-col gap-1">
+                        <p class="text-[11px] text-gray-500 font-bold">ความครบถ้วนของเนื้อหา</p>
+                        <div class="flex items-center gap-2"><div class="w-full bg-gray-200 rounded-full h-2"><div id="s-bar-3" class="h-2 rounded-full transition-all duration-1000" style="width: 0%"></div></div><span id="s-score-3" class="text-sm font-bold w-6">0</span></div>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-gray-100 shadow-sm flex flex-col gap-1">
+                        <p class="text-[11px] text-gray-500 font-bold">การตอบคำถาม</p>
+                        <div class="flex items-center gap-2"><div class="w-full bg-gray-200 rounded-full h-2"><div id="s-bar-4" class="h-2 rounded-full transition-all duration-1000" style="width: 0%"></div></div><span id="s-score-4" class="text-sm font-bold w-6">0</span></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycb...ใส่ของคุณที่นี่.../exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwW0xcNEvHoQ-fE9f4Sl4eK0110nphDxTm7DGJIRAKySj7i6jIqGsHdc5dxyXhjG42_7Q/exec';
         
-        let globalData = []; let charts = {};
-        window.speakerData = { s1: [0,0,0,0], s2: [0,0,0,0] };
-        let speakerChartInstance = null;
+        let globalData = [];
+        let charts = {};
+        
+        let s1_scores = [0,0,0,0]; // ดร.สุทธิ์กมล
+        let s2_scores = [0,0,0,0]; // คุณกิตติ
 
-        Chart.defaults.font.family = "'Prompt', sans-serif"; Chart.defaults.color = '#475569';
+        Chart.defaults.font.family = "'Prompt', sans-serif";
+        Chart.defaults.color = '#475569';
 
         window.onload = async function() {
             initCharts();
@@ -139,66 +188,86 @@
                     document.getElementById('sync-status').classList.remove('hidden');
                     applyFilters();
                 }
-            } catch (err) { alert("เกิดข้อผิดพลาดในการโหลดข้อมูล"); }
+            } catch (err) {
+                console.error(err);
+            }
         }
 
         function applyFilters() {
-            const dept = document.getElementById('filter-dept').value;
-            const group = document.getElementById('filter-group').value;
+            const deptFilter = document.getElementById('filter-dept').value;
             const filteredData = globalData.filter(row => {
-                let pD = (dept === 'ทั้งหมด' || (row[1] || '').toString().includes(dept));
-                let pG = (group === 'ทั้งหมด' || (row[2] || '').toString() === group);
-                return pD && pG;
+                let passDept = (deptFilter === 'ทั้งหมด' || (row[1] || '').toString().includes(deptFilter));
+                return passDept;
             });
             updateDashboard(filteredData);
         }
 
         function updateDashboard(data) {
-            document.getElementById('kpi-total').innerText = data.length;
-            if(data.length === 0) { clearCharts(); return; }
+            const total = data.length;
+            document.getElementById('kpi-total').innerText = total;
+
+            if(total === 0) return;
 
             let deptCounts = { 'BBGI NP':0, 'BBGI BP':0, 'BBGI PS':0, 'อื่นๆ':0 };
             let expCounts = { 'น้อยกว่า 1 ปี':0, '1-3 ปี':0, '4-6 ปี':0, 'มากกว่า 6 ปี':0 };
             
             let totalPart3Score = 0, part3Count = 0;
-            let totalDevChecked = 0, totalDevAnswers = 0;
             let p2Before = Array(8).fill(0), p2After = Array(8).fill(0), p2Count = Array(8).fill(0);
             let p3Score = Array(8).fill(0), p3IndivCount = Array(8).fill(0);
             
-            let s1Sums = [0,0,0,0], s2Sums = [0,0,0,0];
-            let s1Cnt = 0, s2Cnt = 0;
-            
             let usefulList = [], suggestionList = [];
+            let s1Sum = [0,0,0,0], s1Count = [0,0,0,0];
+            let s2Sum = [0,0,0,0], s2Count = [0,0,0,0];
 
             data.forEach(row => {
-                let dept = (row[1] || '').toString(); if(dept.includes('NP')) deptCounts['BBGI NP']++; else if(dept.includes('BP')) deptCounts['BBGI BP']++; else if(dept.includes('PS')) deptCounts['BBGI PS']++; else deptCounts['อื่นๆ']++;
-                let exp = (row[3] || '').toString(); if(expCounts[exp] !== undefined) expCounts[exp]++;
-                if(row[5] && row[5].trim() !== '') usefulList.push(row[5]); if(row[6] && row[6].trim() !== '') suggestionList.push(row[6]);
+                let dept = (row[1] || '').toString();
+                if(dept.includes('NP')) deptCounts['BBGI NP']++;
+                else if(dept.includes('BP')) deptCounts['BBGI BP']++;
+                else if(dept.includes('PS')) deptCounts['BBGI PS']++;
+                else deptCounts['อื่นๆ']++;
+                
+                let exp = (row[3] || '').toString();
+                if(expCounts[exp] !== undefined) expCounts[exp]++;
+                
+                if(row[5] && row[5].trim() !== '') usefulList.push(row[5]);
+                if(row[6] && row[6].trim() !== '') suggestionList.push(row[6]);
 
                 let p2Idx = 7;
                 for(let q = 0; q < 8; q++) {
                     if(row[p2Idx] && row[p2Idx+1]) { p2Before[q] += Number(row[p2Idx]); p2After[q] += Number(row[p2Idx+1]); p2Count[q]++; }
-                    if(row[p2Idx+2]) { totalDevAnswers++; if(row[p2Idx+2] === 'ใช่') totalDevChecked++; } p2Idx += 3;
+                    p2Idx += 3;
                 }
 
                 let p3Idx = 31;
                 for(let q = 0; q < 8; q++) {
-                    let score = row[p3Idx+q]; if(score && !isNaN(score)) { p3Score[q] += Number(score); p3IndivCount[q]++; totalPart3Score += Number(score); part3Count++; }
+                    let score = row[p3Idx+q];
+                    if(score && !isNaN(score) && score !== '—') { p3Score[q] += Number(score); p3IndivCount[q]++; totalPart3Score += Number(score); part3Count++; }
                 }
 
-                // ดึงข้อมูลวิทยากร (S1 = col 39-42, S2 = col 43-46)
-                let hasS1 = false, hasS2 = false;
-                for(let i=0; i<4; i++) { let v1 = Number(row[39+i]); if(v1) { s1Sums[i]+=v1; hasS1=true; } } if(hasS1) s1Cnt++;
-                for(let i=0; i<4; i++) { let v2 = Number(row[43+i]); if(v2) { s2Sums[i]+=v2; hasS2=true; } } if(hasS2) s2Cnt++;
+                // คอลัมน์ที่ 39-46 สำหรับวิทยากร
+                for(let i=0; i<4; i++) {
+                    let v = row[39+i];
+                    if(v && !isNaN(v)) { s1Sum[i] += Number(v); s1Count[i]++; }
+                }
+                for(let i=0; i<4; i++) {
+                    let v = row[43+i];
+                    if(v && !isNaN(v)) { s2Sum[i] += Number(v); s2Count[i]++; }
+                }
             });
 
-            let topDept = Object.keys(deptCounts).reduce((a, b) => deptCounts[a] > deptCounts[b] ? a : b);
-            document.getElementById('kpi-top-dept').innerText = deptCounts[topDept] > 0 ? topDept : '-';
             document.getElementById('kpi-avg-score').innerText = part3Count > 0 ? (totalPart3Score / part3Count).toFixed(2) : "0.00";
-            document.getElementById('kpi-dev-percent').innerText = totalDevAnswers > 0 ? Math.round((totalDevChecked / totalDevAnswers) * 100) : 0;
+            
+            s1_scores = s1Sum.map((v,i) => s1Count[i] ? (v/s1Count[i]) : 0);
+            s2_scores = s2Sum.map((v,i) => s2Count[i] ? (v/s2Count[i]) : 0);
+            
+            let s1Avg = s1_scores.reduce((a,b)=>a+b,0) / (s1_scores.filter(v=>v>0).length || 1);
+            let s2Avg = s2_scores.reduce((a,b)=>a+b,0) / (s2_scores.filter(v=>v>0).length || 1);
+            
+            document.getElementById('kpi-s1').innerText = s1Avg > 0 ? s1Avg.toFixed(2) : "0.00";
+            document.getElementById('kpi-s2').innerText = s2Avg > 0 ? s2Avg.toFixed(2) : "0.00";
 
-            document.getElementById('list-useful').innerHTML = usefulList.slice(-5).reverse().map(t => `<li>${t}</li>`).join('') || '<li class="text-gray-400 list-none">ไม่มีข้อมูล</li>';
-            document.getElementById('list-suggestions').innerHTML = suggestionList.slice(-5).reverse().map(t => `<li>${t}</li>`).join('') || '<li class="text-gray-400 list-none">ไม่มีข้อมูล</li>';
+            document.getElementById('list-useful').innerHTML = usefulList.slice(-5).reverse().map(t => `<li class="mb-1">${t}</li>`).join('') || '<li class="text-gray-400 list-none">ไม่มีข้อมูล</li>';
+            document.getElementById('list-suggestions').innerHTML = suggestionList.slice(-5).reverse().map(t => `<li class="mb-1">${t}</li>`).join('') || '<li class="text-gray-400 list-none">ไม่มีข้อมูล</li>';
 
             charts.dept.data.datasets[0].data = Object.values(deptCounts); charts.dept.update();
             charts.exp.data.datasets[0].data = Object.values(expCounts); charts.exp.update();
@@ -207,17 +276,70 @@
             charts.part2.update();
             charts.part3.data.datasets[0].data = p3Score.map((sum, i) => p3IndivCount[i] ? (sum/p3IndivCount[i]).toFixed(1) : 0);
             charts.part3.update();
+        }
 
-            // อัปเดตข้อมูลวิทยากร
-            let s1Avgs = s1Sums.map(v => s1Cnt ? (v/s1Cnt).toFixed(2) : 0);
-            let s2Avgs = s2Sums.map(v => s2Cnt ? (v/s2Cnt).toFixed(2) : 0);
-            window.speakerData.s1 = s1Avgs; window.speakerData.s2 = s2Avgs;
+        // ============ ฟังก์ชันกราฟ Radar ของวิทยากร ============
+        let radarChart = null;
+
+        function openSpeakerModal(id) {
+            const modal = document.getElementById('modal-speaker');
+            const content = document.getElementById('modal-content');
+            const header = document.getElementById('modal-header');
             
-            let s1Overall = s1Avgs.reduce((a,b)=>a+Number(b),0)/4;
-            let s2Overall = s2Avgs.reduce((a,b)=>a+Number(b),0)/4;
+            let scores = id === 1 ? s1_scores : s2_scores;
+            let bgColor = id === 1 ? 'bg-blue-600' : 'bg-green-600';
+            let headClass = id === 1 ? 'bg-blue-800' : 'bg-green-700';
             
-            document.getElementById('s1-avg').innerText = s1Overall > 0 ? s1Overall.toFixed(1) : "0.0";
-            document.getElementById('s2-avg').innerText = s2Overall > 0 ? s2Overall.toFixed(1) : "0.0";
+            document.getElementById('modal-speaker-name').innerText = id === 1 ? 'ดร.สุทธิ์กมล สุทธิกุล' : 'คุณกิตติ อรสูญ';
+            header.className = headClass + ' p-4 flex justify-between items-center text-white';
+
+            scores.forEach((s, idx) => {
+                document.getElementById(`s-score-${idx+1}`).innerText = s.toFixed(1);
+                let bar = document.getElementById(`s-bar-${idx+1}`);
+                bar.className = bgColor + ' h-2 rounded-full transition-all duration-1000';
+                bar.style.width = `${(s/5)*100}%`;
+            });
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+                renderRadar(scores, id);
+            }, 10);
+        }
+
+        function closeSpeakerModal() {
+            const modal = document.getElementById('modal-speaker');
+            const content = document.getElementById('modal-content');
+            modal.classList.add('opacity-0');
+            content.classList.add('scale-95');
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+        }
+
+        function renderRadar(scores, id) {
+            const ctx = document.getElementById('speakerRadarChart').getContext('2d');
+            const color = id === 1 ? 'rgba(37, 67, 130, ' : 'rgba(46, 117, 58, ';
+            
+            if(radarChart) radarChart.destroy();
+            
+            radarChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['สื่อการสอน', 'เทคนิค', 'ความครบถ้วน', 'ตอบคำถาม'],
+                    datasets: [{
+                        data: scores,
+                        backgroundColor: color + '0.2)',
+                        borderColor: color + '1)',
+                        pointBackgroundColor: color + '1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    scales: { r: { min: 0, max: 5, ticks: { display: false } } },
+                    plugins: { legend: { display: false } }
+                }
+            });
         }
 
         function initCharts() {
@@ -226,38 +348,6 @@
             charts.exp = new Chart(document.getElementById('expChart'), { type: 'doughnut', data: { labels: ['< 1 ปี', '1-3 ปี', '4-6 ปี', '> 6 ปี'], datasets: [{ data: [0,0,0,0], backgroundColor: ['#254382', '#2e753a', '#eab308', '#a855f7'] }] }, options: donutOpts });
             charts.part2 = new Chart(document.getElementById('part2Chart'), { type: 'bar', data: { labels: ['ข้อ 1','ข้อ 2','ข้อ 3','ข้อ 4','ข้อ 5','ข้อ 6','ข้อ 7','ข้อ 8'], datasets: [{ label: 'ก่อน', data: [], backgroundColor: '#8bb4f2', borderRadius: 2 }, { label: 'หลัง', data: [], backgroundColor: '#254382', borderRadius: 2 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { max: 5, ticks: { font: { size: 9 } } }, x: { ticks: { font: { size: 9 } } } }, plugins: { legend: { display: false } } } });
             charts.part3 = new Chart(document.getElementById('part3Chart'), { type: 'bar', data: { labels: ['ข้อ 1','ข้อ 2','ข้อ 3','ข้อ 4','ข้อ 5','ข้อ 6','ข้อ 7','ข้อ 8'], datasets: [{ data: [], backgroundColor: '#254382', borderRadius: 2 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, scales: { x: { max: 5, ticks: { font: { size: 9 } } }, y: { ticks: { font: { size: 9 } } } }, plugins: { legend: { display: false } } } });
-        }
-
-        // --- ระบบ ป๊อปอัพกราฟวิทยากร ---
-        function openSpeakerModal(speakerId) {
-            const modal = document.getElementById('modal-speaker');
-            const title = document.getElementById('speaker-modal-title');
-            modal.classList.remove('hidden');
-            setTimeout(() => { modal.classList.remove('opacity-0'); modal.querySelector('.bg-white').classList.remove('scale-95'); }, 10);
-            
-            let dataArr = speakerId === 1 ? window.speakerData.s1 : window.speakerData.s2;
-            let bgColor = speakerId === 1 ? 'rgba(37, 99, 235, 0.7)' : 'rgba(22, 163, 74, 0.7)';
-            title.innerText = speakerId === 1 ? 'ผลประเมิน: ดร.สุทธิ์กมล สุทธิกุล' : 'ผลประเมิน: คุณกิตติ อรสูญ';
-
-            if(speakerChartInstance) speakerChartInstance.destroy();
-            speakerChartInstance = new Chart(document.getElementById('speakerChart'), {
-                type: 'bar',
-                data: {
-                    labels: ['สื่อการสอน', 'เทคนิคการนำเสนอ', 'เนื้อหาครบถ้วน', 'การตอบคำถาม'],
-                    datasets: [{ label: 'คะแนนเฉลี่ย', data: dataArr, backgroundColor: bgColor, borderRadius: 4, barPercentage: 0.5 }]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    scales: { y: { beginAtZero: true, max: 5 } },
-                    plugins: { legend: { display: false } }
-                }
-            });
-        }
-        function closeSpeakerModal(e) {
-            if(e && e.target !== document.getElementById('modal-speaker')) return;
-            const modal = document.getElementById('modal-speaker');
-            modal.classList.add('opacity-0'); modal.querySelector('.bg-white').classList.add('scale-95');
-            setTimeout(() => { modal.classList.add('hidden'); }, 300);
         }
     </script>
 </body>
