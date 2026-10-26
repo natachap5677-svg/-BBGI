@@ -13,6 +13,8 @@
         .aspect-ratio-container { width: 100vw; height: 56.25vw; max-height: 100vh; max-width: 177.78vh; background-color: #f1f5f9; box-shadow: 0 10px 25px rgba(0,0,0,0.1); display: flex; flex-direction: column; overflow: hidden; position: relative; }
         ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 4px; }
         .min-h-0 { min-height: 0; }
+        
+        /* สไตล์ของ ป๊อปอัป */
         .modal { display: none; }
         .modal.active { display: flex; }
     </style>
@@ -35,6 +37,7 @@
             </div>
             
             <div class="flex gap-3 h-full items-center py-2">
+                <!-- ปุ่มสลับหน้า -->
                 <div class="flex items-center gap-3 mr-2">
                     <a href="practical_dashboard.html" class="bg-[#2e753a] hover:bg-green-600 text-white text-[10px] sm:text-xs font-bold px-3 py-1.5 rounded-lg shadow border border-white/20 transition flex items-center gap-1.5">
                         <i class="fa-solid fa-exchange-alt"></i> แดชบอร์ดภาคปฏิบัติ
@@ -42,6 +45,7 @@
                     <div id="sync-status" class="hidden text-xs text-green-400"><i class="fa-solid fa-circle-check fa-fade"></i> ซิงค์ล่าสุด</div>
                 </div>
 
+                <!-- Dropdowns -->
                 <div class="flex flex-col">
                     <label class="text-[9px] text-gray-300 mb-0.5">สังกัด</label>
                     <select id="filter-dept" onchange="applyFilters()" class="text-xs text-gray-800 rounded px-2 py-1 outline-none w-24 shadow-inner">
@@ -50,6 +54,18 @@
                         <option value="BBGI BP">BBGI BP</option>
                         <option value="BBGI PS">BBGI PS</option>
                         <option value="อื่นๆ">อื่นๆ</option>
+                    </select>
+                </div>
+                
+                <!-- ดรอปดาวน์กลุ่มปฏิบัติการ ที่เคยกู้คืนกลับมาให้แล้ว -->
+                <div class="flex flex-col">
+                    <label class="text-[9px] text-gray-300 mb-0.5">กลุ่มปฏิบัติการ</label>
+                    <select id="filter-group" onchange="applyFilters()" class="text-xs text-gray-800 rounded px-2 py-1 outline-none w-24 shadow-inner">
+                        <option value="ทั้งหมด">ทั้งหมด</option>
+                        <option value="กลุ่ม 1">กลุ่ม 1</option>
+                        <option value="กลุ่ม 2">กลุ่ม 2</option>
+                        <option value="กลุ่ม 3">กลุ่ม 3</option>
+                        <option value="กลุ่ม 4">กลุ่ม 4</option>
                     </select>
                 </div>
             </div>
@@ -94,7 +110,7 @@
                 </div>
             </div>
 
-            <!-- Middle (Grouped Bar + Topics) -->
+            <!-- Middle (Bar P2 + Topics) -->
             <div class="w-[45%] flex flex-col gap-3 min-h-0 h-full">
                 <div class="h-[65%] bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0">
                     <h3 class="text-xs font-bold text-gray-800 text-center mb-1 shrink-0">ผลลัพธ์การเรียนรู้และการนำไปใช้ - ส่วนที่ 2</h3>
@@ -102,6 +118,7 @@
                         <div class="flex items-center gap-1"><span class="w-2.5 h-2.5 bg-[#8bb4f2] block rounded-sm"></span> ก่อนอบรม</div>
                         <div class="flex items-center gap-1"><span class="w-2.5 h-2.5 bg-[#254382] block rounded-sm"></span> หลังอบรม</div>
                     </div>
+                    <!-- ตรงนี้คือกราฟส่วนที่ 2 ที่บอกว่าหายไป (โค้ดยังอยู่ และจะทำงานปกติ) -->
                     <div class="relative flex-1 min-h-0 w-full"><canvas id="part2Chart"></canvas></div>
                 </div>
                 <div class="h-[35%] bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden min-h-0">
@@ -195,9 +212,12 @@
 
         function applyFilters() {
             const deptFilter = document.getElementById('filter-dept').value;
+            const groupFilter = document.getElementById('filter-group').value; // เอากลุ่มกลับมา
+            
             const filteredData = globalData.filter(row => {
                 let passDept = (deptFilter === 'ทั้งหมด' || (row[1] || '').toString().includes(deptFilter));
-                return passDept;
+                let passGroup = (groupFilter === 'ทั้งหมด' || (row[2] || '').toString() === groupFilter);
+                return passDept && passGroup;
             });
             updateDashboard(filteredData);
         }
@@ -244,7 +264,7 @@
                     if(score && !isNaN(score) && score !== '—') { p3Score[q] += Number(score); p3IndivCount[q]++; totalPart3Score += Number(score); part3Count++; }
                 }
 
-                // คอลัมน์ที่ 39-46 สำหรับวิทยากร
+                // คอลัมน์วิทยากร (เริ่มที่ 39-46)
                 for(let i=0; i<4; i++) {
                     let v = row[39+i];
                     if(v && !isNaN(v)) { s1Sum[i] += Number(v); s1Count[i]++; }
@@ -271,9 +291,11 @@
 
             charts.dept.data.datasets[0].data = Object.values(deptCounts); charts.dept.update();
             charts.exp.data.datasets[0].data = Object.values(expCounts); charts.exp.update();
+            
             charts.part2.data.datasets[0].data = p2Before.map((sum, i) => p2Count[i] ? (sum/p2Count[i]).toFixed(1) : 0);
             charts.part2.data.datasets[1].data = p2After.map((sum, i) => p2Count[i] ? (sum/p2Count[i]).toFixed(1) : 0);
             charts.part2.update();
+            
             charts.part3.data.datasets[0].data = p3Score.map((sum, i) => p3IndivCount[i] ? (sum/p3IndivCount[i]).toFixed(1) : 0);
             charts.part3.update();
         }
