@@ -103,7 +103,7 @@
                 </div>
             </div>
 
-            <!-- Middle (Grouped Bar + Topics) -->
+            <!-- Middle (Bar P2 + Topics) -->
             <div class="w-[45%] flex flex-col gap-3 min-h-0 h-full">
                 <div class="h-[65%] bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0">
                     <h3 class="text-xs font-bold text-gray-800 text-center mb-1 shrink-0">ผลลัพธ์การเรียนรู้และการนำไปใช้ - ส่วนที่ 2</h3>
@@ -243,12 +243,14 @@
                 if(row[5] && row[5].trim() !== '') usefulList.push(row[5]);
                 if(row[6] && row[6].trim() !== '') suggestionList.push(row[6]);
 
+                // คอลัมน์ส่วนที่ 2 (เริ่มที่ 7)
                 let p2Idx = 7;
                 for(let q = 0; q < 8; q++) {
                     if(row[p2Idx] && row[p2Idx+1]) { p2Before[q] += Number(row[p2Idx]); p2After[q] += Number(row[p2Idx+1]); p2Count[q]++; }
                     p2Idx += 3;
                 }
 
+                // คอลัมน์ส่วนที่ 3 (เริ่มที่ 31)
                 let p3Idx = 31;
                 for(let q = 0; q < 8; q++) {
                     let score = row[p3Idx+q];
