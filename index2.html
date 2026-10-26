@@ -11,6 +11,9 @@
     <style>
         body { font-family: 'Sarabun', sans-serif; background-color: #f8fafc; }
         .table-header { background-color: #1e3a8a; color: white; }
+        /* ล็อกความกว้างช่องคะแนนให้เท่ากัน */
+        .score-col { width: 45px; text-align: center; }
+        @media (min-width: 640px) { .score-col { width: 60px; } }
     </style>
 </head>
 <body class="p-0 sm:p-2 md:p-8">
@@ -77,7 +80,7 @@
                     <p class="text-xs sm:text-sm text-gray-600 mb-4">ระดับคะแนน: 5 = มากที่สุด, 4 = มาก, 3 = ปานกลาง, 2 = น้อย, 1 = น้อยที่สุด</p>
                     <div class="overflow-x-auto">
                         <table class="w-full border-collapse border border-gray-300 text-sm text-center min-w-[500px]">
-                            <thead><tr class="table-header"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2">5</th><th class="border p-2">4</th><th class="border p-2">3</th><th class="border p-2">2</th><th class="border p-2">1</th></tr></thead>
+                            <thead><tr class="table-header"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2 score-col">5</th><th class="border p-2 score-col">4</th><th class="border p-2 score-col">3</th><th class="border p-2 score-col">2</th><th class="border p-2 score-col">1</th></tr></thead>
                             <tbody id="p4-tbody"></tbody>
                         </table>
                     </div>
@@ -87,7 +90,7 @@
                     <h3 class="text-lg font-bold mb-2">ส่วนที่ 5 การประเมินกระบวนการจัดการเรียนรู้</h3>
                     <div class="overflow-x-auto">
                         <table class="w-full border-collapse border border-gray-300 text-sm text-center min-w-[500px]">
-                            <thead><tr class="table-header"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2">5</th><th class="border p-2">4</th><th class="border p-2">3</th><th class="border p-2">2</th><th class="border p-2">1</th></tr></thead>
+                            <thead><tr class="table-header"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2 score-col">5</th><th class="border p-2 score-col">4</th><th class="border p-2 score-col">3</th><th class="border p-2 score-col">2</th><th class="border p-2 score-col">1</th></tr></thead>
                             <tbody id="p5-tbody"></tbody>
                         </table>
                     </div>
@@ -97,7 +100,7 @@
                     <h3 class="text-lg font-bold mb-2">ส่วนที่ 6 ความเหมาะสมและคุณค่าโดยรวม</h3>
                     <div class="overflow-x-auto">
                         <table class="w-full border-collapse border border-gray-300 text-sm text-center min-w-[500px]">
-                            <thead><tr class="table-header"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2">5</th><th class="border p-2">4</th><th class="border p-2">3</th><th class="border p-2">2</th><th class="border p-2">1</th></tr></thead>
+                            <thead><tr class="table-header"><th class="border p-2 text-left">ประเด็นประเมิน</th><th class="border p-2 score-col">5</th><th class="border p-2 score-col">4</th><th class="border p-2 score-col">3</th><th class="border p-2 score-col">2</th><th class="border p-2 score-col">1</th></tr></thead>
                             <tbody id="p6-tbody"></tbody>
                         </table>
                     </div>
@@ -117,11 +120,11 @@
                     <div>
                         <label class="block font-semibold text-sm sm:text-base mb-2">สิ่งสนับสนุนที่ต้องการ</label>
                         <div class="flex flex-wrap gap-4 text-sm">
-                            <label><input type="checkbox" name="s7_support" value="ข้อมูล/มาตรฐาน" class="mr-1"> ข้อมูล/มาตรฐาน</label>
-                            <label><input type="checkbox" name="s7_support" value="เครื่องมือวิเคราะห์" class="mr-1"> เครื่องมือวิเคราะห์</label>
-                            <label><input type="checkbox" name="s7_support" value="การให้คำปรึกษา" class="mr-1"> การให้คำปรึกษา</label>
-                            <label><input type="checkbox" name="s7_support" value="การทดลองเพิ่มเติม" class="mr-1"> การทดลองเพิ่มเติม</label>
-                            <label class="flex items-center gap-1"><input type="checkbox" name="s7_support_other_check" value="อื่นๆ"> อื่นๆ <input type="text" name="s7_support_other_text" class="border-b border-gray-400 bg-transparent focus:outline-none px-2 w-32 sm:w-48"></label>
+                            <label class="flex items-center gap-2"><input type="checkbox" name="s7_support" value="ข้อมูล/มาตรฐาน" class="w-5 h-5 cursor-pointer"> ข้อมูล/มาตรฐาน</label>
+                            <label class="flex items-center gap-2"><input type="checkbox" name="s7_support" value="เครื่องมือวิเคราะห์" class="w-5 h-5 cursor-pointer"> เครื่องมือวิเคราะห์</label>
+                            <label class="flex items-center gap-2"><input type="checkbox" name="s7_support" value="การให้คำปรึกษา" class="w-5 h-5 cursor-pointer"> การให้คำปรึกษา</label>
+                            <label class="flex items-center gap-2"><input type="checkbox" name="s7_support" value="การทดลองเพิ่มเติม" class="w-5 h-5 cursor-pointer"> การทดลองเพิ่มเติม</label>
+                            <label class="flex items-center gap-2"><input type="checkbox" name="s7_support_other_check" value="อื่นๆ" class="w-5 h-5 cursor-pointer"> อื่นๆ <input type="text" name="s7_support_other_text" class="border-b border-gray-400 bg-transparent focus:outline-none px-2 w-32 sm:w-48"></label>
                         </div>
                     </div>
                 </div>
@@ -180,7 +183,6 @@
             }
         }
 
-        // ฟังก์ชันสร้างตารางคะแนน 5 4 3 2 1 (เอา - ออกแล้ว)
         function renderTable(tbodyId, questions, prefix) {
             const tbody = document.getElementById(tbodyId);
             const scores = [5, 4, 3, 2, 1]; // เอา - ออก
@@ -188,7 +190,7 @@
             questions.forEach((q, index) => {
                 let radiosHtml = '';
                 scores.forEach(s => {
-                    radiosHtml += `<td class="border p-1 sm:p-2"><input type="radio" name="${prefix}${index}" value="${s}" required class="w-4 h-4 cursor-pointer"></td>`;
+                    radiosHtml += `<td class="border p-1 sm:p-2 score-col"><input type="radio" name="${prefix}${index}" value="${s}" required class="w-5 h-5 cursor-pointer align-middle"></td>`;
                 });
                 tbody.innerHTML += `
                     <tr class="hover:bg-gray-50 text-xs sm:text-sm">
