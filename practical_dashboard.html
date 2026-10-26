@@ -40,7 +40,7 @@
             </div>
             
             <div class="flex gap-3 h-full items-center py-2">
-                <!-- ปุ่มสลับหน้า และ สถานะซิงค์ -->
+                <!-- ปุ่มสลับหน้า กลับไปทฤษฎี -->
                 <div class="flex items-center gap-3 mr-2">
                     <a href="index.html" class="bg-bbgiblue hover:bg-blue-600 text-white text-[10px] sm:text-xs font-bold px-3 py-1.5 rounded-lg shadow border border-white/20 transition flex items-center gap-1.5">
                         <i class="fa-solid fa-exchange-alt"></i> แดชบอร์ดทฤษฎี
@@ -79,23 +79,23 @@
                 <div class="flex-1 flex items-center justify-between px-4 pb-1"><div class="text-3xl font-black text-blue-900 leading-none"><span id="kpi-total">0</span> <span class="text-xs font-medium text-gray-500">คน</span></div><i class="fa-solid fa-users text-2xl text-gray-300"></i></div>
             </div>
             <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden">
-                <div class="bg-bbgigreen text-white text-center text-[10px] font-bold py-1">สังกัดที่ตอบมากที่สุด</div>
-                <div class="flex-1 flex items-center justify-between px-4 pb-1"><div id="kpi-top-dept" class="text-xl font-black text-green-700 leading-none">-</div><i class="fa-solid fa-chart-line text-2xl text-gray-300"></i></div>
-            </div>
-            <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden">
-                <div class="bg-bbgiblue text-white text-center text-[10px] font-bold py-1">ความเหมาะสมโดยรวม (ส่วน 6)</div>
-                <div class="flex-1 flex items-center justify-between px-4 pb-1"><div class="text-3xl font-black text-blue-900 leading-none"><span id="kpi-avg-p6">0.00</span><span class="text-xs font-medium text-gray-400">/5</span></div><i class="fa-solid fa-star text-2xl text-yellow-400"></i></div>
-            </div>
-            <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden">
                 <div class="bg-bbgigreen text-white text-center text-[10px] font-bold py-1">คะแนนภาคปฏิบัติ (ส่วน 4)</div>
                 <div class="flex-1 flex items-center justify-between px-4 pb-1"><div class="text-3xl font-black text-green-700 leading-none"><span id="kpi-avg-p4">0.00</span><span class="text-xs font-medium text-gray-400">/5</span></div><i class="fa-solid fa-flask text-2xl text-gray-300"></i></div>
+            </div>
+            <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden">
+                <div class="bg-bbgiblue text-white text-center text-[10px] font-bold py-1">กระบวนการเรียนรู้ (ส่วน 5)</div>
+                <div class="flex-1 flex items-center justify-between px-4 pb-1"><div class="text-3xl font-black text-blue-900 leading-none"><span id="kpi-avg-p5">0.00</span><span class="text-xs font-medium text-gray-400">/5</span></div><i class="fa-solid fa-chalkboard-user text-2xl text-gray-300"></i></div>
+            </div>
+            <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden">
+                <div class="bg-bbgigreen text-white text-center text-[10px] font-bold py-1">ความเหมาะสมโดยรวม (ส่วน 6)</div>
+                <div class="flex-1 flex items-center justify-between px-4 pb-1"><div class="text-3xl font-black text-green-700 leading-none"><span id="kpi-avg-p6">0.00</span><span class="text-xs font-medium text-gray-400">/5</span></div><i class="fa-solid fa-star text-2xl text-yellow-400"></i></div>
             </div>
         </section>
 
         <!-- MAIN CONTENT (Charts) -->
         <main class="flex-1 flex px-3 pb-3 pt-3 gap-3 min-h-0">
             <!-- Left (Donuts) -->
-            <div class="w-1/4 flex flex-col gap-3 min-h-0 h-full">
+            <div class="w-[20%] flex flex-col gap-3 min-h-0 h-full">
                 <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0">
                     <h3 class="text-[11px] font-bold text-gray-800 text-center mb-1 shrink-0">ข้อมูลผู้ตอบ: สังกัด</h3>
                     <div class="relative flex-1 min-h-0 w-full"><canvas id="deptChart"></canvas></div>
@@ -106,30 +106,36 @@
                 </div>
             </div>
 
-            <!-- Middle (Bar + S7 List) -->
-            <div class="w-[45%] flex flex-col gap-3 min-h-0 h-full">
-                <div class="h-[65%] bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0">
+            <!-- Middle (Bar P4 & P5) -->
+            <div class="w-[50%] flex flex-col gap-3 min-h-0 h-full">
+                <div class="h-[50%] bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0">
                     <h3 class="text-xs font-bold text-gray-800 text-center mb-2 shrink-0">การประเมินภาคปฏิบัติ - ส่วนที่ 4</h3>
                     <div class="relative flex-1 min-h-0 w-full"><canvas id="part4Chart"></canvas></div>
                 </div>
-                <div class="h-[35%] bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden min-h-0">
-                    <div class="bg-bbgiblue text-white px-3 py-1.5 text-[10px] font-bold shrink-0">แผนการนำไปใช้ (งานที่จะนำไปใช้)</div>
-                    <div class="p-2.5 overflow-y-auto text-[10px] leading-relaxed text-gray-700 flex-1 bg-slate-50 min-h-0">
-                        <ul id="list-s7" class="space-y-1.5 list-disc pl-4">กำลังโหลด...</ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right (Horiz Bar + S8 List) -->
-            <div class="w-[30%] flex flex-col gap-3 min-h-0 h-full">
-                <div class="h-[65%] bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0">
+                <div class="h-[50%] bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0">
                     <h3 class="text-xs font-bold text-gray-800 text-center mb-2 shrink-0">กระบวนการเรียนรู้ - ส่วนที่ 5</h3>
                     <div class="relative flex-1 min-h-0 w-full"><canvas id="part5Chart"></canvas></div>
                 </div>
-                <div class="h-[35%] bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden min-h-0">
-                    <div class="bg-bbgidark text-white px-3 py-1.5 text-[10px] font-bold shrink-0">เรื่องที่ควรปรับปรุงมากที่สุด</div>
-                    <div class="p-2.5 overflow-y-auto text-[10px] leading-relaxed text-gray-700 flex-1 bg-slate-50 min-h-0">
-                        <ul id="list-s8" class="space-y-1.5 list-disc pl-4">กำลังโหลด...</ul>
+            </div>
+
+            <!-- Right (Horiz Bar P6 + S7/S8 List) -->
+            <div class="w-[30%] flex flex-col gap-3 min-h-0 h-full">
+                <div class="h-[40%] bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0">
+                    <h3 class="text-xs font-bold text-gray-800 text-center mb-2 shrink-0">ความเหมาะสมโดยรวม - ส่วนที่ 6</h3>
+                    <div class="relative flex-1 min-h-0 w-full"><canvas id="part6Chart"></canvas></div>
+                </div>
+                <div class="h-[60%] flex flex-col gap-3 min-h-0 h-full">
+                    <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden min-h-0">
+                        <div class="bg-bbgiblue text-white px-3 py-1.5 text-[10px] font-bold shrink-0">S7_งานที่จะนำไปใช้ / ผลลัพธ์ / สิ่งสนับสนุน</div>
+                        <div class="p-2.5 overflow-y-auto text-[10px] leading-relaxed text-gray-700 flex-1 bg-slate-50 min-h-0">
+                            <ul id="list-s7" class="space-y-1.5 list-disc pl-4">กำลังโหลด...</ul>
+                        </div>
+                    </div>
+                    <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden min-h-0">
+                        <div class="bg-bbgidark text-white px-3 py-1.5 text-[10px] font-bold shrink-0">S8_เรื่องที่ควรปรับปรุง 1,2,3 / ข้อเสนอแนะอื่นๆ</div>
+                        <div class="p-2.5 overflow-y-auto text-[10px] leading-relaxed text-gray-700 flex-1 bg-slate-50 min-h-0">
+                            <ul id="list-s8" class="space-y-1.5 list-disc pl-4">กำลังโหลด...</ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -138,7 +144,7 @@
 
     <script>
         // === นำ URL ของ Apps Script มาใส่ตรงนี้ ===
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwW0xcNEvHoQ-fE9f4Sl4eK0110nphDxTm7DGJIRAKySj7i6jIqGsHdc5dxyXhjG42_7Q/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycb...ใส่ของคุณที่นี่.../exec';
         
         let globalData = [];
         let charts = {};
@@ -180,9 +186,9 @@
             document.getElementById('kpi-total').innerText = total;
 
             if(total === 0) {
-                document.getElementById('kpi-top-dept').innerText = '-';
-                document.getElementById('kpi-avg-p6').innerText = '0.00';
                 document.getElementById('kpi-avg-p4').innerText = '0.00';
+                document.getElementById('kpi-avg-p5').innerText = '0.00';
+                document.getElementById('kpi-avg-p6').innerText = '0.00';
                 clearCharts();
                 return;
             }
@@ -192,9 +198,11 @@
             
             let p4Score = Array(9).fill(0), p4Count = Array(9).fill(0);
             let p5Score = Array(8).fill(0), p5Count = Array(8).fill(0);
+            let p6Score = Array(5).fill(0), p6Count = Array(5).fill(0);
             
-            let totalP6 = 0, countP6 = 0;
             let totalP4 = 0, countP4Total = 0;
+            let totalP5 = 0, countP5Total = 0;
+            let totalP6 = 0, countP6Total = 0;
             
             let s7List = [], s8List = [];
 
@@ -208,12 +216,17 @@
                 let exp = (row[3] || '').toString();
                 if(expCounts[exp] !== undefined) expCounts[exp]++;
                 
-                // ดึงรายการงานที่จะนำไปใช้ (คอลัมน์ S7_งาน) = index 5
-                if(row[5] && row[5].trim() !== '') s7List.push(row[5]);
+                // ดึงข้อมูลส่วน S7: index 5 (งาน), index 6 (ผลลัพธ์), index 7 (สิ่งสนับสนุน)
+                if(row[5] || row[6] || row[7]) {
+                    let str = `<b>งาน:</b> ${row[5] || '-'} <br><b>ผลลัพธ์:</b> ${row[6] || '-'} <br><b>สิ่งสนับสนุน:</b> ${row[7] || '-'}`;
+                    s7List.push(str);
+                }
                 
-                // ดึงข้อเสนอแนะเรื่องที่ 1 (index 8) หรือข้อเสนอแนะอื่นๆ (index 11)
-                if(row[8] && row[8].trim() !== '') s8List.push(row[8]);
-                else if(row[11] && row[11].trim() !== '') s8List.push(row[11]);
+                // ดึงข้อมูลส่วน S8: index 8(ร.1), index 9(ร.2), index 10(ร.3), index 11(อื่นๆ)
+                if(row[8] || row[9] || row[10] || row[11]) {
+                    let str = `<b>เรื่องที่ 1:</b> ${row[8] || '-'} <br><b>เรื่องที่ 2:</b> ${row[9] || '-'} <br><b>เรื่องที่ 3:</b> ${row[10] || '-'} <br><b>อื่นๆ:</b> ${row[11] || '-'}`;
+                    s8List.push(str);
+                }
 
                 // คำนวณส่วนที่ 4 (index 12 ถึง 20)
                 let p4Idx = 12;
@@ -229,39 +242,44 @@
                 let p5Idx = 21;
                 for(let q=0; q<8; q++) {
                     let s = row[p5Idx+q];
-                    if(s && !isNaN(s)) { p5Score[q] += Number(s); p5Count[q]++; }
+                    if(s && !isNaN(s)) { 
+                        p5Score[q] += Number(s); p5Count[q]++; 
+                        totalP5 += Number(s); countP5Total++;
+                    }
                 }
 
-                // คำนวณส่วนที่ 6 (index 29 ถึง 33) สำหรับหาค่าเฉลี่ย
+                // คำนวณส่วนที่ 6 (index 29 ถึง 33)
                 let p6Idx = 29;
                 for(let q=0; q<5; q++) {
                     let s = row[p6Idx+q];
-                    if(s && !isNaN(s)) { totalP6 += Number(s); countP6++; }
+                    if(s && !isNaN(s)) { 
+                        p6Score[q] += Number(s); p6Count[q]++;
+                        totalP6 += Number(s); countP6Total++; 
+                    }
                 }
             });
 
             // อัปเดต KPI
-            let topDept = Object.keys(deptCounts).reduce((a, b) => deptCounts[a] > deptCounts[b] ? a : b);
-            document.getElementById('kpi-top-dept').innerText = deptCounts[topDept] > 0 ? topDept : '-';
-            
-            document.getElementById('kpi-avg-p6').innerText = countP6 > 0 ? (totalP6 / countP6).toFixed(2) : "0.00";
             document.getElementById('kpi-avg-p4').innerText = countP4Total > 0 ? (totalP4 / countP4Total).toFixed(2) : "0.00";
+            document.getElementById('kpi-avg-p5').innerText = countP5Total > 0 ? (totalP5 / countP5Total).toFixed(2) : "0.00";
+            document.getElementById('kpi-avg-p6').innerText = countP6Total > 0 ? (totalP6 / countP6Total).toFixed(2) : "0.00";
 
             // อัปเดตตารางรายการ (ล่าสุด 5 รายการ)
-            document.getElementById('list-s7').innerHTML = s7List.slice(-5).reverse().map(t => `<li>${t}</li>`).join('') || '<li class="text-gray-400 list-none">ไม่มีข้อมูล</li>';
-            document.getElementById('list-s8').innerHTML = s8List.slice(-5).reverse().map(t => `<li>${t}</li>`).join('') || '<li class="text-gray-400 list-none">ไม่มีข้อมูล</li>';
+            document.getElementById('list-s7').innerHTML = s7List.slice(-5).reverse().map(t => `<li class="mb-2 border-b pb-1 border-gray-100 last:border-0">${t}</li>`).join('') || '<li class="text-gray-400 list-none">ไม่มีข้อมูล</li>';
+            document.getElementById('list-s8').innerHTML = s8List.slice(-5).reverse().map(t => `<li class="mb-2 border-b pb-1 border-gray-100 last:border-0">${t}</li>`).join('') || '<li class="text-gray-400 list-none">ไม่มีข้อมูล</li>';
 
-            // อัปเดตกราฟ สังกัด และ ประสบการณ์
+            // อัปเดตกราฟ
             charts.dept.data.datasets[0].data = Object.values(deptCounts); charts.dept.update();
             charts.exp.data.datasets[0].data = Object.values(expCounts); charts.exp.update();
 
-            // อัปเดตกราฟ ส่วนที่ 4
             charts.part4.data.datasets[0].data = p4Score.map((sum, i) => p4Count[i] ? (sum/p4Count[i]).toFixed(1) : 0);
             charts.part4.update();
 
-            // อัปเดตกราฟ ส่วนที่ 5
             charts.part5.data.datasets[0].data = p5Score.map((sum, i) => p5Count[i] ? (sum/p5Count[i]).toFixed(1) : 0);
             charts.part5.update();
+            
+            charts.part6.data.datasets[0].data = p6Score.map((sum, i) => p6Count[i] ? (sum/p6Count[i]).toFixed(1) : 0);
+            charts.part6.update();
         }
 
         function initCharts() {
@@ -280,7 +298,12 @@
             });
             
             charts.part5 = new Chart(document.getElementById('part5Chart'), {
-                type: 'bar', data: { labels: ['ข้อ 1','ข้อ 2','ข้อ 3','ข้อ 4','ข้อ 5','ข้อ 6','ข้อ 7','ข้อ 8'], datasets: [{ data: [], backgroundColor: '#254382', borderRadius: 2, barPercentage: 0.7 }] },
+                type: 'bar', data: { labels: ['ข้อ 1','ข้อ 2','ข้อ 3','ข้อ 4','ข้อ 5','ข้อ 6','ข้อ 7','ข้อ 8'], datasets: [{ label: 'คะแนนเฉลี่ย', data: [], backgroundColor: '#254382', borderRadius: 2, barPercentage: 0.7 }] },
+                options: { responsive: true, maintainAspectRatio: false, layout: { padding: { top: 10, right: 10, bottom: 0, left: 0 } }, scales: { y: { max: 5, ticks: { font: { size: 9 } } }, x: { ticks: { font: { size: 9 } } } }, plugins: { legend: { display: false } } }
+            });
+            
+            charts.part6 = new Chart(document.getElementById('part6Chart'), {
+                type: 'bar', data: { labels: ['ข้อ 1','ข้อ 2','ข้อ 3','ข้อ 4','ข้อ 5'], datasets: [{ data: [], backgroundColor: '#2e753a', borderRadius: 2, barPercentage: 0.8 }] },
                 options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, layout: { padding: { top: 5, right: 10, bottom: 0, left: 0 } }, scales: { x: { max: 5, ticks: { font: { size: 9 } } }, y: { ticks: { font: { size: 9 } } } }, plugins: { legend: { display: false } } }
             });
         }
