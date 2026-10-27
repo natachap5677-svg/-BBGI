@@ -10,11 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <script>
-        tailwind.config = {
-            theme: { extend: { fontFamily: { prompt: ['Prompt', 'sans-serif'], }, colors: { bbgidark: '#111827', bbgiblue: '#254382', bbgigreen: '#2e753a', } } }
-        }
-    </script>
     <style>
         body { font-family: 'Prompt', sans-serif; background-color: #e2e8f0; display: flex; justify-content: center; align-items: center; height: 100vh; width: 100vw; margin: 0; overflow: hidden; }
         .aspect-ratio-container { width: 100vw; height: 56.25vw; max-height: 100vh; max-width: 177.78vh; background-color: #f1f5f9; box-shadow: 0 10px 25px rgba(0,0,0,0.1); display: flex; flex-direction: column; overflow: hidden; position: relative; }
@@ -27,7 +22,7 @@
     <div class="aspect-ratio-container">
         
         <!-- HEADER -->
-        <header class="bg-bbgidark text-white px-4 flex justify-between items-center h-[12%] shrink-0">
+        <header class="bg-[#111827] text-white px-4 flex justify-between items-center h-[12%] shrink-0">
             <div class="flex items-center gap-4 h-full py-2">
                 <div class="flex items-center gap-2 h-full bg-white/5 p-1.5 rounded-lg border border-white/10">
                     <img src="logoRMUTT.png" onerror="this.src='https://via.placeholder.com/50x50?text=RMUTT'" alt="RMUTT" class="h-full max-h-12 w-auto object-contain">
@@ -42,7 +37,7 @@
             <div class="flex gap-3 h-full items-center py-2">
                 <!-- ปุ่มสลับหน้า กลับไปทฤษฎี -->
                 <div class="flex items-center gap-3 mr-2">
-                    <a href="dashboard.html" class="bg-bbgiblue hover:bg-blue-600 text-white text-[10px] sm:text-xs font-bold px-3 py-1.5 rounded-lg shadow border border-white/20 transition flex items-center gap-1.5">
+                    <a href="dashboard.html" class="bg-[#254382] hover:bg-blue-600 text-white text-[10px] sm:text-xs font-bold px-3 py-1.5 rounded-lg shadow border border-white/20 transition flex items-center gap-1.5">
                         <i class="fa-solid fa-exchange-alt"></i> แดชบอร์ดทฤษฎี
                     </a>
                     <div id="sync-status" class="hidden text-xs text-green-400"><i class="fa-solid fa-circle-check fa-fade"></i> ซิงค์ล่าสุด</div>
@@ -75,19 +70,19 @@
         <!-- KPI CARDS -->
         <section class="flex gap-3 px-3 pt-3 h-[14%] shrink-0">
             <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden">
-                <div class="bg-bbgiblue text-white text-center text-[10px] font-bold py-1">จำนวนผู้ตอบแบบประเมิน</div>
+                <div class="bg-[#254382] text-white text-center text-[10px] font-bold py-1">จำนวนผู้ตอบแบบประเมิน</div>
                 <div class="flex-1 flex items-center justify-between px-4 pb-1"><div class="text-3xl font-black text-blue-900 leading-none"><span id="kpi-total">0</span> <span class="text-xs font-medium text-gray-500">คน</span></div><i class="fa-solid fa-users text-2xl text-gray-300"></i></div>
             </div>
             <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden">
-                <div class="bg-bbgigreen text-white text-center text-[10px] font-bold py-1">คะแนนภาคปฏิบัติ (ส่วน 4)</div>
+                <div class="bg-[#2e753a] text-white text-center text-[10px] font-bold py-1">คะแนนภาคปฏิบัติ (ส่วน 4)</div>
                 <div class="flex-1 flex items-center justify-between px-4 pb-1"><div class="text-3xl font-black text-green-700 leading-none"><span id="kpi-avg-p4">0.00</span><span class="text-xs font-medium text-gray-400">/5</span></div><i class="fa-solid fa-flask text-2xl text-gray-300"></i></div>
             </div>
             <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden">
-                <div class="bg-bbgiblue text-white text-center text-[10px] font-bold py-1">กระบวนการเรียนรู้ (ส่วน 5)</div>
+                <div class="bg-[#254382] text-white text-center text-[10px] font-bold py-1">กระบวนการเรียนรู้ (ส่วน 5)</div>
                 <div class="flex-1 flex items-center justify-between px-4 pb-1"><div class="text-3xl font-black text-blue-900 leading-none"><span id="kpi-avg-p5">0.00</span><span class="text-xs font-medium text-gray-400">/5</span></div><i class="fa-solid fa-chalkboard-user text-2xl text-gray-300"></i></div>
             </div>
             <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden">
-                <div class="bg-bbgigreen text-white text-center text-[10px] font-bold py-1">ความเหมาะสมโดยรวม (ส่วน 6)</div>
+                <div class="bg-[#2e753a] text-white text-center text-[10px] font-bold py-1">ความเหมาะสมโดยรวม (ส่วน 6)</div>
                 <div class="flex-1 flex items-center justify-between px-4 pb-1"><div class="text-3xl font-black text-green-700 leading-none"><span id="kpi-avg-p6">0.00</span><span class="text-xs font-medium text-gray-400">/5</span></div><i class="fa-solid fa-star text-2xl text-yellow-400"></i></div>
             </div>
         </section>
@@ -125,13 +120,13 @@
             <!-- Right (S7/S8 List) -->
             <div class="w-[30%] flex flex-col gap-3 min-h-0 h-full">
                 <div class="h-[50%] bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden min-h-0">
-                    <div class="bg-bbgiblue text-white px-3 py-1.5 text-[10px] font-bold shrink-0">S7_งานที่จะนำไปใช้ / ผลลัพธ์ / สิ่งสนับสนุน</div>
+                    <div class="bg-[#254382] text-white px-3 py-1.5 text-[10px] font-bold shrink-0">S7_งานที่จะนำไปใช้ / ผลลัพธ์ / สิ่งสนับสนุน</div>
                     <div class="p-2.5 overflow-y-auto text-[10px] leading-relaxed text-gray-700 flex-1 bg-slate-50 min-h-0">
                         <ul id="list-s7" class="space-y-1.5 list-disc pl-4">กำลังโหลด...</ul>
                     </div>
                 </div>
                 <div class="h-[50%] bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden min-h-0">
-                    <div class="bg-bbgidark text-white px-3 py-1.5 text-[10px] font-bold shrink-0">S8_เรื่องที่ควรปรับปรุง 1,2,3 / ข้อเสนอแนะอื่นๆ</div>
+                    <div class="bg-[#111827] text-white px-3 py-1.5 text-[10px] font-bold shrink-0">S8_เรื่องที่ควรปรับปรุง 1,2,3 / ข้อเสนอแนะอื่นๆ</div>
                     <div class="p-2.5 overflow-y-auto text-[10px] leading-relaxed text-gray-700 flex-1 bg-slate-50 min-h-0">
                         <ul id="list-s8" class="space-y-1.5 list-disc pl-4">กำลังโหลด...</ul>
                     </div>
@@ -162,17 +157,16 @@
                 }
             } catch (err) {
                 console.error(err);
-                alert("ไม่สามารถดึงข้อมูลจากระบบได้ โปรดตรวจสอบ URL ของ Apps Script และต้องมั่นใจว่ากด Deploy เป็น New Version แล้ว");
             }
         }
 
         function applyFilters() {
             const deptFilter = document.getElementById('filter-dept').value;
-            const groupFilter = document.getElementById('filter-group').value;
+            const groupFilter = document.getElementById('filter-group').value; 
             
             const filteredData = globalData.filter(row => {
-                let passDept = (deptFilter === 'ทั้งหมด' || (row[1] || '').toString().includes(deptFilter));
-                let passGroup = (groupFilter === 'ทั้งหมด' || (row[2] || '').toString() === groupFilter);
+                let passDept = (deptFilter === 'ทั้งหมด' || (row[1] || '').toString().trim().includes(deptFilter));
+                let passGroup = (groupFilter === 'ทั้งหมด' || (row[2] || '').toString().trim() === groupFilter.trim());
                 return passDept && passGroup;
             });
 
@@ -187,6 +181,8 @@
                 document.getElementById('kpi-avg-p4').innerText = '0.00';
                 document.getElementById('kpi-avg-p5').innerText = '0.00';
                 document.getElementById('kpi-avg-p6').innerText = '0.00';
+                document.getElementById('list-s7').innerHTML = '<li class="text-gray-400 list-none">ไม่มีข้อมูล</li>';
+                document.getElementById('list-s8').innerHTML = '<li class="text-gray-400 list-none">ไม่มีข้อมูล</li>';
                 clearCharts();
                 return;
             }
@@ -205,13 +201,13 @@
             let s7List = [], s8List = [];
 
             data.forEach(row => {
-                let dept = (row[1] || '').toString();
+                let dept = (row[1] || '').toString().trim();
                 if(dept.includes('NP')) deptCounts['BBGI NP']++;
                 else if(dept.includes('BP')) deptCounts['BBGI BP']++;
                 else if(dept.includes('PS')) deptCounts['BBGI PS']++;
                 else deptCounts['อื่นๆ']++;
                 
-                let exp = (row[3] || '').toString();
+                let exp = (row[3] || '').toString().trim();
                 if(expCounts[exp] !== undefined) expCounts[exp]++;
                 
                 // ดึงข้อมูลส่วน S7: index 5 (งาน), index 6 (ผลลัพธ์), index 7 (สิ่งสนับสนุน)
@@ -230,30 +226,21 @@
                 let p4Idx = 12;
                 for(let q=0; q<9; q++) {
                     let s = row[p4Idx+q];
-                    if(s && !isNaN(s)) { 
-                        p4Score[q] += Number(s); p4Count[q]++; 
-                        totalP4 += Number(s); countP4Total++;
-                    }
+                    if(s && !isNaN(s)) { p4Score[q] += Number(s); p4Count[q]++; totalP4 += Number(s); countP4Total++; }
                 }
 
                 // คำนวณส่วนที่ 5 (index 21 ถึง 28)
                 let p5Idx = 21;
                 for(let q=0; q<8; q++) {
                     let s = row[p5Idx+q];
-                    if(s && !isNaN(s)) { 
-                        p5Score[q] += Number(s); p5Count[q]++; 
-                        totalP5 += Number(s); countP5Total++;
-                    }
+                    if(s && !isNaN(s)) { p5Score[q] += Number(s); p5Count[q]++; totalP5 += Number(s); countP5Total++; }
                 }
 
                 // คำนวณส่วนที่ 6 (index 29 ถึง 33)
                 let p6Idx = 29;
                 for(let q=0; q<5; q++) {
                     let s = row[p6Idx+q];
-                    if(s && !isNaN(s)) { 
-                        p6Score[q] += Number(s); p6Count[q]++;
-                        totalP6 += Number(s); countP6Total++; 
-                    }
+                    if(s && !isNaN(s)) { p6Score[q] += Number(s); p6Count[q]++; totalP6 += Number(s); countP6Total++; }
                 }
             });
 
@@ -262,9 +249,9 @@
             document.getElementById('kpi-avg-p5').innerText = countP5Total > 0 ? (totalP5 / countP5Total).toFixed(2) : "0.00";
             document.getElementById('kpi-avg-p6').innerText = countP6Total > 0 ? (totalP6 / countP6Total).toFixed(2) : "0.00";
 
-            // อัปเดตตารางรายการ (ล่าสุด 5 รายการ)
-            document.getElementById('list-s7').innerHTML = s7List.slice(-5).reverse().map(t => `<li class="mb-2 border-b pb-1 border-gray-100 last:border-0">${t}</li>`).join('') || '<li class="text-gray-400 list-none">ไม่มีข้อมูล</li>';
-            document.getElementById('list-s8').innerHTML = s8List.slice(-5).reverse().map(t => `<li class="mb-2 border-b pb-1 border-gray-100 last:border-0">${t}</li>`).join('') || '<li class="text-gray-400 list-none">ไม่มีข้อมูล</li>';
+            // ดึงข้อความทั้งหมดมาแสดงผล (เอา .slice(-5) ออก)
+            document.getElementById('list-s7').innerHTML = s7List.reverse().map(t => `<li class="mb-2 border-b pb-1 border-gray-100 last:border-0">${t}</li>`).join('') || '<li class="text-gray-400 list-none">ไม่มีข้อมูล</li>';
+            document.getElementById('list-s8').innerHTML = s8List.reverse().map(t => `<li class="mb-2 border-b pb-1 border-gray-100 last:border-0">${t}</li>`).join('') || '<li class="text-gray-400 list-none">ไม่มีข้อมูล</li>';
 
             // อัปเดตกราฟ
             charts.dept.data.datasets[0].data = Object.values(deptCounts); charts.dept.update();
@@ -282,33 +269,20 @@
 
         function initCharts() {
             const donutOpts = { responsive: true, maintainAspectRatio: false, cutout: '55%', plugins: { legend: { position: 'right', labels: { boxWidth: 8, font: { size: 9 } } } } };
-            
-            charts.dept = new Chart(document.getElementById('deptChart'), {
-                type: 'doughnut', data: { labels: ['BBGI NP', 'BBGI BP', 'BBGI PS', 'อื่นๆ'], datasets: [{ data: [0,0,0,0], backgroundColor: ['#254382', '#2e753a', '#eab308', '#cbd5e1'] }] }, options: donutOpts
-            });
-            charts.exp = new Chart(document.getElementById('expChart'), {
-                type: 'doughnut', data: { labels: ['< 1 ปี', '1-3 ปี', '4-6 ปี', '> 6 ปี'], datasets: [{ data: [0,0,0,0], backgroundColor: ['#254382', '#2e753a', '#eab308', '#a855f7'] }] }, options: donutOpts
-            });
-            
-            charts.part4 = new Chart(document.getElementById('part4Chart'), {
-                type: 'bar', data: { labels: ['ข้อ 1','ข้อ 2','ข้อ 3','ข้อ 4','ข้อ 5','ข้อ 6','ข้อ 7','ข้อ 8','ข้อ 9'], datasets: [{ label: 'คะแนนเฉลี่ย', data: [], backgroundColor: '#8bb4f2', borderRadius: 2, barPercentage: 0.7 }] },
-                options: { responsive: true, maintainAspectRatio: false, layout: { padding: { top: 10, right: 10, bottom: 0, left: 0 } }, scales: { y: { max: 5, ticks: { font: { size: 9 } } }, x: { ticks: { font: { size: 9 } } } }, plugins: { legend: { display: false } } }
-            });
-            
-            charts.part5 = new Chart(document.getElementById('part5Chart'), {
-                type: 'bar', data: { labels: ['ข้อ 1','ข้อ 2','ข้อ 3','ข้อ 4','ข้อ 5','ข้อ 6','ข้อ 7','ข้อ 8'], datasets: [{ label: 'คะแนนเฉลี่ย', data: [], backgroundColor: '#254382', borderRadius: 2, barPercentage: 0.7 }] },
-                options: { responsive: true, maintainAspectRatio: false, layout: { padding: { top: 10, right: 10, bottom: 0, left: 0 } }, scales: { y: { max: 5, ticks: { font: { size: 9 } } }, x: { ticks: { font: { size: 9 } } } }, plugins: { legend: { display: false } } }
-            });
-            
-            charts.part6 = new Chart(document.getElementById('part6Chart'), {
-                type: 'bar', data: { labels: ['ข้อ 1','ข้อ 2','ข้อ 3','ข้อ 4','ข้อ 5'], datasets: [{ data: [], backgroundColor: '#2e753a', borderRadius: 2, barPercentage: 0.7 }] },
-                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, layout: { padding: { top: 5, right: 10, bottom: 0, left: 0 } }, scales: { x: { max: 5, ticks: { font: { size: 9 } } }, y: { ticks: { font: { size: 9 } } } }, plugins: { legend: { display: false } } }
-            });
+            charts.dept = new Chart(document.getElementById('deptChart'), { type: 'doughnut', data: { labels: ['BBGI NP', 'BBGI BP', 'BBGI PS', 'อื่นๆ'], datasets: [{ data: [0,0,0,0], backgroundColor: ['#254382', '#2e753a', '#eab308', '#cbd5e1'] }] }, options: donutOpts });
+            charts.exp = new Chart(document.getElementById('expChart'), { type: 'doughnut', data: { labels: ['< 1 ปี', '1-3 ปี', '4-6 ปี', '> 6 ปี'], datasets: [{ data: [0,0,0,0], backgroundColor: ['#254382', '#2e753a', '#eab308', '#a855f7'] }] }, options: donutOpts });
+            charts.part4 = new Chart(document.getElementById('part4Chart'), { type: 'bar', data: { labels: ['ข้อ 1','ข้อ 2','ข้อ 3','ข้อ 4','ข้อ 5','ข้อ 6','ข้อ 7','ข้อ 8','ข้อ 9'], datasets: [{ label: 'คะแนนเฉลี่ย', data: [], backgroundColor: '#8bb4f2', borderRadius: 2, barPercentage: 0.7 }] }, options: { responsive: true, maintainAspectRatio: false, layout: { padding: { top: 10, right: 10, bottom: 0, left: 0 } }, scales: { y: { max: 5, ticks: { font: { size: 9 } } }, x: { ticks: { font: { size: 9 } } } }, plugins: { legend: { display: false } } } });
+            charts.part5 = new Chart(document.getElementById('part5Chart'), { type: 'bar', data: { labels: ['ข้อ 1','ข้อ 2','ข้อ 3','ข้อ 4','ข้อ 5','ข้อ 6','ข้อ 7','ข้อ 8'], datasets: [{ label: 'คะแนนเฉลี่ย', data: [], backgroundColor: '#254382', borderRadius: 2, barPercentage: 0.7 }] }, options: { responsive: true, maintainAspectRatio: false, layout: { padding: { top: 10, right: 10, bottom: 0, left: 0 } }, scales: { y: { max: 5, ticks: { font: { size: 9 } } }, x: { ticks: { font: { size: 9 } } } }, plugins: { legend: { display: false } } } });
+            charts.part6 = new Chart(document.getElementById('part6Chart'), { type: 'bar', data: { labels: ['ข้อ 1','ข้อ 2','ข้อ 3','ข้อ 4','ข้อ 5'], datasets: [{ data: [], backgroundColor: '#2e753a', borderRadius: 2, barPercentage: 0.7 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, layout: { padding: { top: 5, right: 10, bottom: 0, left: 0 } }, scales: { x: { max: 5, ticks: { font: { size: 9 } } }, y: { ticks: { font: { size: 9 } } } }, plugins: { legend: { display: false } } } });
         }
 
+        // ฟังก์ชันล้างกราฟเมื่อกรองแล้วเป็น 0
         function clearCharts() {
-            Object.values(charts).forEach(chart => { chart.data.datasets[0].data = chart.data.datasets[0].data.map(() => 0); chart.update(); });
-            document.getElementById('list-s7').innerHTML = ''; document.getElementById('list-s8').innerHTML = '';
+            charts.dept.data.datasets[0].data = [0,0,0,0]; charts.dept.update();
+            charts.exp.data.datasets[0].data = [0,0,0,0]; charts.exp.update();
+            charts.part4.data.datasets[0].data = Array(9).fill(0); charts.part4.update();
+            charts.part5.data.datasets[0].data = Array(8).fill(0); charts.part5.update();
+            charts.part6.data.datasets[0].data = Array(5).fill(0); charts.part6.update();
         }
     </script>
 </body>
