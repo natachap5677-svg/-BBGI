@@ -3,27 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard สรุปผลแบบประเมิน BBGI</title>
+    <title>Dashboard ภาคปฏิบัติ - แบบประเมินโครงการฝึกอบรม</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         body { font-family: 'Prompt', sans-serif; background-color: #e2e8f0; display: flex; justify-content: center; align-items: center; height: 100vh; width: 100vw; margin: 0; overflow: hidden; }
         .aspect-ratio-container { width: 100vw; height: 56.25vw; max-height: 100vh; max-width: 177.78vh; background-color: #f1f5f9; box-shadow: 0 10px 25px rgba(0,0,0,0.1); display: flex; flex-direction: column; overflow: hidden; position: relative; }
         ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 4px; }
         .min-h-0 { min-height: 0; }
-        
-        /* สไตล์สำหรับป๊อปอัป (Modal) */
-        .modal-overlay { opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
-        .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { transform: scale(0.95); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .modal-overlay.active .modal-content { transform: scale(1); }
     </style>
 </head>
 <body>
 
-    <div class="aspect-ratio-container relative">
+    <div class="aspect-ratio-container">
         
         <!-- HEADER -->
         <header class="bg-[#111827] text-white px-4 flex justify-between items-center h-[12%] shrink-0">
@@ -33,19 +29,21 @@
                     <img src="BBGI.png" onerror="this.src='https://via.placeholder.com/100x40?text=BBGI'" alt="BBGI" class="h-full max-h-10 w-auto object-contain">
                 </div>
                 <div class="flex flex-col justify-center">
-                    <h1 class="text-base sm:text-lg lg:text-xl font-bold leading-tight drop-shadow-sm">แดชบอร์ดสรุปผลแบบประเมินโครงการฝึกอบรม</h1>
+                    <h1 class="text-base sm:text-lg lg:text-xl font-bold leading-tight drop-shadow-sm text-yellow-300">แดชบอร์ดสรุปผลภาคปฏิบัติ</h1>
                     <h2 class="text-xs sm:text-sm text-gray-300 font-medium drop-shadow-sm">การผลิตเอทานอลจากกากน้ำตาลและมันเส้น</h2>
                 </div>
             </div>
             
             <div class="flex gap-3 h-full items-center py-2">
+                <!-- ปุ่มสลับหน้า กลับไปทฤษฎี -->
                 <div class="flex items-center gap-3 mr-2">
-                    <a href="practical_dashboard.html" class="bg-[#2e753a] hover:bg-green-600 text-white text-[10px] sm:text-xs font-bold px-3 py-1.5 rounded-lg shadow border border-white/20 transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-exchange-alt"></i> แดชบอร์ดภาคปฏิบัติ
+                    <a href="dashboard.html" class="bg-[#254382] hover:bg-blue-600 text-white text-[10px] sm:text-xs font-bold px-3 py-1.5 rounded-lg shadow border border-white/20 transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-exchange-alt"></i> แดชบอร์ดทฤษฎี
                     </a>
                     <div id="sync-status" class="hidden text-xs text-green-400"><i class="fa-solid fa-circle-check fa-fade"></i> ซิงค์ล่าสุด</div>
                 </div>
 
+                <!-- Dropdowns -->
                 <div class="flex flex-col">
                     <label class="text-[9px] text-gray-300 mb-0.5">สังกัด</label>
                     <select id="filter-dept" onchange="applyFilters()" class="text-xs text-gray-800 rounded px-2 py-1 outline-none w-24 shadow-inner">
@@ -56,7 +54,6 @@
                         <option value="อื่นๆ">อื่นๆ</option>
                     </select>
                 </div>
-                
                 <div class="flex flex-col">
                     <label class="text-[9px] text-gray-300 mb-0.5">กลุ่มปฏิบัติการ</label>
                     <select id="filter-group" onchange="applyFilters()" class="text-xs text-gray-800 rounded px-2 py-1 outline-none w-24 shadow-inner">
@@ -72,31 +69,28 @@
 
         <!-- KPI CARDS -->
         <section class="flex gap-3 px-3 pt-3 h-[14%] shrink-0">
-            <!-- การ์ดจำนวนผู้ตอบ -->
             <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden">
                 <div class="bg-[#254382] text-white text-center text-[10px] font-bold py-1">จำนวนผู้ตอบแบบประเมิน</div>
                 <div class="flex-1 flex items-center justify-between px-4 pb-1"><div class="text-3xl font-black text-blue-900 leading-none"><span id="kpi-total">0</span> <span class="text-xs font-medium text-gray-500">คน</span></div><i class="fa-solid fa-users text-2xl text-gray-300"></i></div>
             </div>
-            
-            <!-- การ์ดวิทยากร 1 (กดแล้วโชว์ Modal) -->
-            <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden cursor-pointer hover:shadow-md transition group relative" onclick="openSpeakerModal(1)">
-                <div class="absolute inset-0 bg-blue-50 opacity-0 group-hover:opacity-100 transition duration-300 pointer-events-none"></div>
-                <div class="bg-[#254382] text-white text-center text-[10px] font-bold py-1 relative z-10">วิทยากร: ดร.สุทธิ์กมล <i class="fa-solid fa-search-plus ml-1 text-blue-200 animate-pulse"></i></div>
-                <div class="flex-1 flex items-center justify-between px-4 pb-1 relative z-10"><div class="text-3xl font-black text-blue-900 leading-none"><span id="kpi-s1">0.00</span><span class="text-xs font-medium text-gray-400">/5</span></div><i class="fa-solid fa-chalkboard-user text-2xl text-blue-200 group-hover:scale-110 transition duration-300"></i></div>
+            <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden">
+                <div class="bg-[#2e753a] text-white text-center text-[10px] font-bold py-1">คะแนนภาคปฏิบัติ (ส่วน 4)</div>
+                <div class="flex-1 flex items-center justify-between px-4 pb-1"><div class="text-3xl font-black text-green-700 leading-none"><span id="kpi-avg-p4">0.00</span><span class="text-xs font-medium text-gray-400">/5</span></div><i class="fa-solid fa-flask text-2xl text-gray-300"></i></div>
             </div>
-            
-            <!-- การ์ดวิทยากร 2 (กดแล้วโชว์ Modal) -->
-            <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden cursor-pointer hover:shadow-md transition group relative" onclick="openSpeakerModal(2)">
-                <div class="absolute inset-0 bg-green-50 opacity-0 group-hover:opacity-100 transition duration-300 pointer-events-none"></div>
-                <div class="bg-[#2e753a] text-white text-center text-[10px] font-bold py-1 relative z-10">วิทยากร: คุณกิตติ <i class="fa-solid fa-search-plus ml-1 text-green-200 animate-pulse"></i></div>
-                <div class="flex-1 flex items-center justify-between px-4 pb-1 relative z-10"><div class="text-3xl font-black text-green-700 leading-none"><span id="kpi-s2">0.00</span><span class="text-xs font-medium text-gray-400">/5</span></div><i class="fa-solid fa-chalkboard-user text-2xl text-green-200 group-hover:scale-110 transition duration-300"></i></div>
+            <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden">
+                <div class="bg-[#254382] text-white text-center text-[10px] font-bold py-1">กระบวนการเรียนรู้ (ส่วน 5)</div>
+                <div class="flex-1 flex items-center justify-between px-4 pb-1"><div class="text-3xl font-black text-blue-900 leading-none"><span id="kpi-avg-p5">0.00</span><span class="text-xs font-medium text-gray-400">/5</span></div><i class="fa-solid fa-chalkboard-user text-2xl text-gray-300"></i></div>
+            </div>
+            <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden">
+                <div class="bg-[#2e753a] text-white text-center text-[10px] font-bold py-1">ความเหมาะสมโดยรวม (ส่วน 6)</div>
+                <div class="flex-1 flex items-center justify-between px-4 pb-1"><div class="text-3xl font-black text-green-700 leading-none"><span id="kpi-avg-p6">0.00</span><span class="text-xs font-medium text-gray-400">/5</span></div><i class="fa-solid fa-star text-2xl text-yellow-400"></i></div>
             </div>
         </section>
 
         <!-- MAIN CONTENT (Charts) -->
         <main class="flex-1 flex px-3 pb-3 pt-3 gap-3 min-h-0">
             <!-- Left (Donuts) -->
-            <div class="w-1/4 flex flex-col gap-3 min-h-0 h-full">
+            <div class="w-[20%] flex flex-col gap-3 min-h-0 h-full">
                 <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0">
                     <h3 class="text-[11px] font-bold text-gray-800 text-center mb-1 shrink-0">ข้อมูลผู้ตอบ: สังกัด</h3>
                     <div class="relative flex-1 min-h-0 w-full"><canvas id="deptChart"></canvas></div>
@@ -107,106 +101,46 @@
                 </div>
             </div>
 
-            <!-- Middle (Bar P2 + Topics) -->
-            <div class="w-[45%] flex flex-col gap-3 min-h-0 h-full">
-                <div class="h-[65%] bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0">
-                    <h3 class="text-xs font-bold text-gray-800 text-center mb-1 shrink-0">ผลลัพธ์การเรียนรู้และการนำไปใช้ - ส่วนที่ 2</h3>
-                    <div class="flex justify-center items-center gap-3 mb-1 shrink-0 text-[9px] text-gray-600 font-medium">
-                        <div class="flex items-center gap-1"><span class="w-2.5 h-2.5 bg-[#8bb4f2] block rounded-sm"></span> ก่อนอบรม</div>
-                        <div class="flex items-center gap-1"><span class="w-2.5 h-2.5 bg-[#254382] block rounded-sm"></span> หลังอบรม</div>
-                    </div>
-                    <div class="relative flex-1 min-h-0 w-full"><canvas id="part2Chart"></canvas></div>
+            <!-- Middle (Bar P4, P5, P6) -->
+            <div class="w-[50%] flex flex-col gap-3 min-h-0 h-full">
+                <div class="h-[33%] bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0">
+                    <h3 class="text-xs font-bold text-gray-800 text-center mb-1 shrink-0">การประเมินภาคปฏิบัติ - ส่วนที่ 4</h3>
+                    <div class="relative flex-1 min-h-0 w-full"><canvas id="part4Chart"></canvas></div>
                 </div>
-                <div class="h-[35%] bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden min-h-0">
-                    <div class="bg-[#254382] text-white px-3 py-1.5 text-[10px] font-bold shrink-0">หัวข้อที่มีประโยชน์ที่สุด (ล่าสุด)</div>
-                    <div class="p-2.5 overflow-y-auto text-[10px] leading-relaxed text-gray-700 flex-1 bg-slate-50 min-h-0">
-                        <ul id="list-useful" class="space-y-1.5 list-disc pl-4">กำลังโหลด...</ul>
-                    </div>
+                <div class="h-[33%] bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0">
+                    <h3 class="text-xs font-bold text-gray-800 text-center mb-1 shrink-0">กระบวนการเรียนรู้ - ส่วนที่ 5</h3>
+                    <div class="relative flex-1 min-h-0 w-full"><canvas id="part5Chart"></canvas></div>
+                </div>
+                <div class="h-[34%] bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0">
+                    <h3 class="text-xs font-bold text-gray-800 text-center mb-1 shrink-0">ความเหมาะสมโดยรวม - ส่วนที่ 6</h3>
+                    <div class="relative flex-1 min-h-0 w-full"><canvas id="part6Chart"></canvas></div>
                 </div>
             </div>
 
-            <!-- Right (Horiz Bar + Suggestions) -->
+            <!-- Right (S7/S8 List) -->
             <div class="w-[30%] flex flex-col gap-3 min-h-0 h-full">
-                <div class="h-[65%] bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0">
-                    <h3 class="text-xs font-bold text-gray-800 text-center mb-1 shrink-0">การประเมินเนื้อหาทฤษฎี - ส่วนที่ 3</h3>
-                    <div class="relative flex-1 min-h-0 w-full"><canvas id="part3Chart"></canvas></div>
-                </div>
-                <div class="h-[35%] bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden min-h-0">
-                    <div class="bg-[#111827] text-white px-3 py-1.5 text-[10px] font-bold shrink-0">ข้อเสนอแนะเพิ่มเติม (ล่าสุด)</div>
+                <div class="h-[50%] bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden min-h-0">
+                    <div class="bg-[#254382] text-white px-3 py-1.5 text-[10px] font-bold shrink-0">S7_งานที่จะนำไปใช้ / ผลลัพธ์ / สิ่งสนับสนุน</div>
                     <div class="p-2.5 overflow-y-auto text-[10px] leading-relaxed text-gray-700 flex-1 bg-slate-50 min-h-0">
-                        <ul id="list-suggestions" class="space-y-1.5 list-disc pl-4">กำลังโหลด...</ul>
+                        <ul id="list-s7" class="space-y-1.5 list-disc pl-4">กำลังโหลด...</ul>
+                    </div>
+                </div>
+                <div class="h-[50%] bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden min-h-0">
+                    <div class="bg-[#111827] text-white px-3 py-1.5 text-[10px] font-bold shrink-0">S8_เรื่องที่ควรปรับปรุง 1,2,3 / ข้อเสนอแนะอื่นๆ</div>
+                    <div class="p-2.5 overflow-y-auto text-[10px] leading-relaxed text-gray-700 flex-1 bg-slate-50 min-h-0">
+                        <ul id="list-s8" class="space-y-1.5 list-disc pl-4">กำลังโหลด...</ul>
                     </div>
                 </div>
             </div>
         </main>
-
-        <!-- Popup Modal: ผลประเมินวิทยากร -->
-        <div id="modal-speaker" class="modal-overlay fixed inset-0 bg-gray-900/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-            <div class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden flex flex-col">
-                <!-- Header ของ Modal -->
-                <div id="modal-header" class="bg-[#254382] p-4 flex justify-between items-center text-white">
-                    <div>
-                        <h3 class="font-bold text-lg leading-tight">ผลการประเมินวิทยากร</h3>
-                        <p class="text-sm opacity-90 font-medium" id="modal-speaker-name">-</p>
-                    </div>
-                    <button onclick="closeSpeakerModal()" class="text-white hover:text-gray-200 bg-white/20 hover:bg-white/30 w-8 h-8 rounded-full flex items-center justify-center transition">
-                        <i class="fa-solid fa-xmark text-lg"></i>
-                    </button>
-                </div>
-                
-                <!-- เนื้อหาใน Modal -->
-                <div class="p-6 flex flex-col md:flex-row gap-6 items-center bg-gray-50">
-                    <!-- กราฟ Radar (ซ้าย) -->
-                    <div class="w-full md:w-1/2 relative min-h-[220px]">
-                        <canvas id="speakerRadarChart"></canvas>
-                    </div>
-                    
-                    <!-- แถบคะแนน (ขวา) -->
-                    <div class="w-full md:w-1/2 flex flex-col gap-3">
-                        <div class="bg-white p-3 rounded-lg border border-gray-100 shadow-sm flex flex-col gap-1">
-                            <p class="text-[11px] text-gray-500 font-bold">สื่อการสอน</p>
-                            <div class="flex items-center gap-2">
-                                <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden"><div id="s-bar-1" class="h-full transition-all duration-1000 ease-out" style="width: 0%"></div></div>
-                                <span id="s-score-1" class="text-sm font-bold w-6 text-right">0.0</span>
-                            </div>
-                        </div>
-                        <div class="bg-white p-3 rounded-lg border border-gray-100 shadow-sm flex flex-col gap-1">
-                            <p class="text-[11px] text-gray-500 font-bold">เทคนิคการนำเสนอ</p>
-                            <div class="flex items-center gap-2">
-                                <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden"><div id="s-bar-2" class="h-full transition-all duration-1000 ease-out" style="width: 0%"></div></div>
-                                <span id="s-score-2" class="text-sm font-bold w-6 text-right">0.0</span>
-                            </div>
-                        </div>
-                        <div class="bg-white p-3 rounded-lg border border-gray-100 shadow-sm flex flex-col gap-1">
-                            <p class="text-[11px] text-gray-500 font-bold">ความครบถ้วนของเนื้อหา</p>
-                            <div class="flex items-center gap-2">
-                                <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden"><div id="s-bar-3" class="h-full transition-all duration-1000 ease-out" style="width: 0%"></div></div>
-                                <span id="s-score-3" class="text-sm font-bold w-6 text-right">0.0</span>
-                            </div>
-                        </div>
-                        <div class="bg-white p-3 rounded-lg border border-gray-100 shadow-sm flex flex-col gap-1">
-                            <p class="text-[11px] text-gray-500 font-bold">การตอบคำถาม</p>
-                            <div class="flex items-center gap-2">
-                                <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden"><div id="s-bar-4" class="h-full transition-all duration-1000 ease-out" style="width: 0%"></div></div>
-                                <span id="s-score-4" class="text-sm font-bold w-6 text-right">0.0</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
 
     <script>
-        // ใส่ URL ของ Apps Script ตรงนี้
+        // === นำ URL ของ Apps Script มาใส่ตรงนี้ ===
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwW0xcNEvHoQ-fE9f4Sl4eK0110nphDxTm7DGJIRAKySj7i6jIqGsHdc5dxyXhjG42_7Q/exec';
         
         let globalData = [];
         let charts = {};
-        
-        let s1_scores = [0,0,0,0]; // คะแนน ดร.สุทธิ์กมล
-        let s2_scores = [0,0,0,0]; // คะแนน คุณกิตติ
 
         Chart.defaults.font.family = "'Prompt', sans-serif";
         Chart.defaults.color = '#475569';
@@ -214,7 +148,7 @@
         window.onload = async function() {
             initCharts();
             try {
-                const response = await fetch(SCRIPT_URL + '?action=getDashboardData');
+                const response = await fetch(SCRIPT_URL + '?action=getPracticalDashboardData');
                 const result = await response.json();
                 if(result.status === 'success') {
                     globalData = result.data;
@@ -222,19 +156,21 @@
                     applyFilters();
                 }
             } catch (err) {
-                console.error("ดึงข้อมูลไม่สำเร็จ:", err);
+                console.error(err);
             }
         }
 
+        // ฟังก์ชันกรองข้อมูล (เพิ่ม .trim() เพื่อป้องกันช่องว่างส่วนเกิน)
         function applyFilters() {
             const deptFilter = document.getElementById('filter-dept').value;
             const groupFilter = document.getElementById('filter-group').value; 
             
             const filteredData = globalData.filter(row => {
-                let passDept = (deptFilter === 'ทั้งหมด' || (row[1] || '').toString().includes(deptFilter));
-                let passGroup = (groupFilter === 'ทั้งหมด' || (row[2] || '').toString() === groupFilter);
+                let passDept = (deptFilter === 'ทั้งหมด' || (row[1] || '').toString().trim().includes(deptFilter));
+                let passGroup = (groupFilter === 'ทั้งหมด' || (row[2] || '').toString().trim() === groupFilter.trim());
                 return passDept && passGroup;
             });
+
             updateDashboard(filteredData);
         }
 
@@ -242,170 +178,113 @@
             const total = data.length;
             document.getElementById('kpi-total').innerText = total;
 
-            if(total === 0) return;
+            // ถ้าไม่มีข้อมูลตรงกับที่กรอง ให้เคลียร์กราฟเป็น 0
+            if(total === 0) {
+                document.getElementById('kpi-avg-p4').innerText = '0.00';
+                document.getElementById('kpi-avg-p5').innerText = '0.00';
+                document.getElementById('kpi-avg-p6').innerText = '0.00';
+                document.getElementById('list-s7').innerHTML = '<li class="text-gray-400 list-none">ไม่มีข้อมูล</li>';
+                document.getElementById('list-s8').innerHTML = '<li class="text-gray-400 list-none">ไม่มีข้อมูล</li>';
+                clearCharts();
+                return;
+            }
 
             let deptCounts = { 'BBGI NP':0, 'BBGI BP':0, 'BBGI PS':0, 'อื่นๆ':0 };
             let expCounts = { 'น้อยกว่า 1 ปี':0, '1-3 ปี':0, '4-6 ปี':0, 'มากกว่า 6 ปี':0 };
             
-            let totalPart3Score = 0, part3Count = 0;
-            let p2Before = Array(8).fill(0), p2After = Array(8).fill(0), p2Count = Array(8).fill(0);
-            let p3Score = Array(8).fill(0), p3IndivCount = Array(8).fill(0);
+            let p4Score = Array(9).fill(0), p4Count = Array(9).fill(0);
+            let p5Score = Array(8).fill(0), p5Count = Array(8).fill(0);
+            let p6Score = Array(5).fill(0), p6Count = Array(5).fill(0);
             
-            let usefulList = [], suggestionList = [];
-            let s1Sum = [0,0,0,0], s1Count = [0,0,0,0];
-            let s2Sum = [0,0,0,0], s2Count = [0,0,0,0];
+            let totalP4 = 0, countP4Total = 0;
+            let totalP5 = 0, countP5Total = 0;
+            let totalP6 = 0, countP6Total = 0;
+            
+            let s7List = [], s8List = [];
 
             data.forEach(row => {
-                let dept = (row[1] || '').toString();
+                let dept = (row[1] || '').toString().trim();
                 if(dept.includes('NP')) deptCounts['BBGI NP']++;
                 else if(dept.includes('BP')) deptCounts['BBGI BP']++;
                 else if(dept.includes('PS')) deptCounts['BBGI PS']++;
                 else deptCounts['อื่นๆ']++;
                 
-                let exp = (row[3] || '').toString();
+                let exp = (row[3] || '').toString().trim();
                 if(expCounts[exp] !== undefined) expCounts[exp]++;
                 
-                if(row[5] && row[5].trim() !== '') usefulList.push(row[5]);
-                if(row[6] && row[6].trim() !== '') suggestionList.push(row[6]);
-
-                let p2Idx = 7;
-                for(let q = 0; q < 8; q++) {
-                    if(row[p2Idx] && row[p2Idx+1]) { p2Before[q] += Number(row[p2Idx]); p2After[q] += Number(row[p2Idx+1]); p2Count[q]++; }
-                    p2Idx += 3;
+                // ดึงข้อมูลส่วน S7: index 5 (งาน), index 6 (ผลลัพธ์), index 7 (สิ่งสนับสนุน)
+                if(row[5] || row[6] || row[7]) {
+                    let str = `<b>งาน:</b> ${row[5] || '-'} <br><b>ผลลัพธ์:</b> ${row[6] || '-'} <br><b>สิ่งสนับสนุน:</b> ${row[7] || '-'}`;
+                    s7List.push(str);
+                }
+                
+                // ดึงข้อมูลส่วน S8: index 8(ร.1), index 9(ร.2), index 10(ร.3), index 11(อื่นๆ)
+                if(row[8] || row[9] || row[10] || row[11]) {
+                    let str = `<b>เรื่องที่ 1:</b> ${row[8] || '-'} <br><b>เรื่องที่ 2:</b> ${row[9] || '-'} <br><b>เรื่องที่ 3:</b> ${row[10] || '-'} <br><b>อื่นๆ:</b> ${row[11] || '-'}`;
+                    s8List.push(str);
                 }
 
-                let p3Idx = 31;
-                for(let q = 0; q < 8; q++) {
-                    let score = row[p3Idx+q];
-                    if(score && !isNaN(score) && score !== '—') { p3Score[q] += Number(score); p3IndivCount[q]++; totalPart3Score += Number(score); part3Count++; }
+                // คำนวณส่วนที่ 4 (index 12 ถึง 20)
+                let p4Idx = 12;
+                for(let q=0; q<9; q++) {
+                    let s = row[p4Idx+q];
+                    if(s && !isNaN(s)) { p4Score[q] += Number(s); p4Count[q]++; totalP4 += Number(s); countP4Total++; }
                 }
 
-                // วิทยากร (คอลัมน์ 39-46)
-                for(let i=0; i<4; i++) {
-                    let v = row[39+i];
-                    if(v && !isNaN(v)) { s1Sum[i] += Number(v); s1Count[i]++; }
+                // คำนวณส่วนที่ 5 (index 21 ถึง 28)
+                let p5Idx = 21;
+                for(let q=0; q<8; q++) {
+                    let s = row[p5Idx+q];
+                    if(s && !isNaN(s)) { p5Score[q] += Number(s); p5Count[q]++; totalP5 += Number(s); countP5Total++; }
                 }
-                for(let i=0; i<4; i++) {
-                    let v = row[43+i];
-                    if(v && !isNaN(v)) { s2Sum[i] += Number(v); s2Count[i]++; }
+
+                // คำนวณส่วนที่ 6 (index 29 ถึง 33)
+                let p6Idx = 29;
+                for(let q=0; q<5; q++) {
+                    let s = row[p6Idx+q];
+                    if(s && !isNaN(s)) { p6Score[q] += Number(s); p6Count[q]++; totalP6 += Number(s); countP6Total++; }
                 }
             });
 
-            s1_scores = s1Sum.map((v,i) => s1Count[i] ? (v/s1Count[i]) : 0);
-            s2_scores = s2Sum.map((v,i) => s2Count[i] ? (v/s2Count[i]) : 0);
-            
-            let s1Avg = s1_scores.reduce((a,b)=>a+b,0) / (s1_scores.filter(v=>v>0).length || 1);
-            let s2Avg = s2_scores.reduce((a,b)=>a+b,0) / (s2_scores.filter(v=>v>0).length || 1);
-            
-            document.getElementById('kpi-s1').innerText = s1Avg > 0 ? s1Avg.toFixed(2) : "0.00";
-            document.getElementById('kpi-s2').innerText = s2Avg > 0 ? s2Avg.toFixed(2) : "0.00";
+            // อัปเดต KPI
+            document.getElementById('kpi-avg-p4').innerText = countP4Total > 0 ? (totalP4 / countP4Total).toFixed(2) : "0.00";
+            document.getElementById('kpi-avg-p5').innerText = countP5Total > 0 ? (totalP5 / countP5Total).toFixed(2) : "0.00";
+            document.getElementById('kpi-avg-p6').innerText = countP6Total > 0 ? (totalP6 / countP6Total).toFixed(2) : "0.00";
 
-            document.getElementById('list-useful').innerHTML = usefulList.slice(-5).reverse().map(t => `<li class="mb-1">${t}</li>`).join('') || '<li class="text-gray-400 list-none">ไม่มีข้อมูล</li>';
-            document.getElementById('list-suggestions').innerHTML = suggestionList.slice(-5).reverse().map(t => `<li class="mb-1">${t}</li>`).join('') || '<li class="text-gray-400 list-none">ไม่มีข้อมูล</li>';
+            // อัปเดตตารางรายการ
+            document.getElementById('list-s7').innerHTML = s7List.slice(-5).reverse().map(t => `<li class="mb-2 border-b pb-1 border-gray-100 last:border-0">${t}</li>`).join('') || '<li class="text-gray-400 list-none">ไม่มีข้อมูล</li>';
+            document.getElementById('list-s8').innerHTML = s8List.slice(-5).reverse().map(t => `<li class="mb-2 border-b pb-1 border-gray-100 last:border-0">${t}</li>`).join('') || '<li class="text-gray-400 list-none">ไม่มีข้อมูล</li>';
 
+            // อัปเดตกราฟ
             charts.dept.data.datasets[0].data = Object.values(deptCounts); charts.dept.update();
             charts.exp.data.datasets[0].data = Object.values(expCounts); charts.exp.update();
+
+            charts.part4.data.datasets[0].data = p4Score.map((sum, i) => p4Count[i] ? (sum/p4Count[i]).toFixed(1) : 0);
+            charts.part4.update();
+
+            charts.part5.data.datasets[0].data = p5Score.map((sum, i) => p5Count[i] ? (sum/p5Count[i]).toFixed(1) : 0);
+            charts.part5.update();
             
-            charts.part2.data.datasets[0].data = p2Before.map((sum, i) => p2Count[i] ? (sum/p2Count[i]).toFixed(1) : 0);
-            charts.part2.data.datasets[1].data = p2After.map((sum, i) => p2Count[i] ? (sum/p2Count[i]).toFixed(1) : 0);
-            charts.part2.update();
-            
-            charts.part3.data.datasets[0].data = p3Score.map((sum, i) => p3IndivCount[i] ? (sum/p3IndivCount[i]).toFixed(1) : 0);
-            charts.part3.update();
+            charts.part6.data.datasets[0].data = p6Score.map((sum, i) => p6Count[i] ? (sum/p6Count[i]).toFixed(1) : 0);
+            charts.part6.update();
         }
-
-        // ================= ฟังก์ชันจัดการ Popup (Modal) ของวิทยากร =================
-        let radarChart = null;
-
-        function openSpeakerModal(id) {
-            const modal = document.getElementById('modal-speaker');
-            const header = document.getElementById('modal-header');
-            const nameEl = document.getElementById('modal-speaker-name');
-            
-            // รีเซ็ตความยาวแถบสีก่อนให้เป็น 0% ก่อนโชว์
-            for(let i=1; i<=4; i++) {
-                document.getElementById(`s-bar-${i}`).style.width = '0%';
-                document.getElementById(`s-score-${i}`).innerText = '0.0';
-            }
-            
-            let scores = id === 1 ? s1_scores : s2_scores;
-            let bgColor = id === 1 ? 'bg-blue-500' : 'bg-green-500';
-            
-            if(id === 1) {
-                nameEl.innerText = 'ดร.สุทธิ์กมล สุทธิกุล';
-                header.className = 'bg-[#254382] p-4 flex justify-between items-center text-white';
-            } else {
-                nameEl.innerText = 'คุณกิตติ อรสูญ';
-                header.className = 'bg-[#2e753a] p-4 flex justify-between items-center text-white';
-            }
-
-            // เปิด Modal
-            modal.classList.add('active');
-            
-            // หน่วงเวลาเล็กน้อยเพื่อให้แอนิเมชันวิ่ง และวาดกราฟ
-            setTimeout(() => {
-                scores.forEach((s, idx) => {
-                    document.getElementById(`s-score-${idx+1}`).innerText = s.toFixed(1);
-                    let bar = document.getElementById(`s-bar-${idx+1}`);
-                    bar.className = bgColor + ' h-full transition-all duration-1000 ease-out';
-                    bar.style.width = `${(s/5)*100}%`;
-                });
-                renderRadar(scores, id);
-            }, 100);
-        }
-
-        function closeSpeakerModal() {
-            document.getElementById('modal-speaker').classList.remove('active');
-        }
-
-        // ปิดเมื่อคลิกพื้นที่ว่างด้านนอก (Backdrop)
-        document.getElementById('modal-speaker').addEventListener('click', function(e) {
-            if(e.target === this) closeSpeakerModal();
-        });
-
-        function renderRadar(scores, id) {
-            const ctx = document.getElementById('speakerRadarChart').getContext('2d');
-            const color = id === 1 ? 'rgba(37, 67, 130, ' : 'rgba(46, 117, 58, '; // น้ำเงิน หรือ เขียว
-            
-            if(radarChart) radarChart.destroy(); // ลบกราฟเก่าทิ้ง
-            
-            radarChart = new Chart(ctx, {
-                type: 'radar',
-                data: {
-                    labels: ['สื่อการสอน', 'เทคนิค', 'ความครบถ้วน', 'ตอบคำถาม'],
-                    datasets: [{
-                        data: scores,
-                        backgroundColor: color + '0.2)',
-                        borderColor: color + '1)',
-                        pointBackgroundColor: color + '1)',
-                        borderWidth: 2,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true, 
-                    maintainAspectRatio: false,
-                    scales: { 
-                        r: { 
-                            min: 0, 
-                            max: 5, 
-                            ticks: { display: false, stepSize: 1 },
-                            pointLabels: { font: { size: 10, family: "'Prompt', sans-serif" } }
-                        } 
-                    },
-                    plugins: { legend: { display: false } }
-                }
-            });
-        }
-        // =========================================================================
 
         function initCharts() {
             const donutOpts = { responsive: true, maintainAspectRatio: false, cutout: '55%', plugins: { legend: { position: 'right', labels: { boxWidth: 8, font: { size: 9 } } } } };
             charts.dept = new Chart(document.getElementById('deptChart'), { type: 'doughnut', data: { labels: ['BBGI NP', 'BBGI BP', 'BBGI PS', 'อื่นๆ'], datasets: [{ data: [0,0,0,0], backgroundColor: ['#254382', '#2e753a', '#eab308', '#cbd5e1'] }] }, options: donutOpts });
             charts.exp = new Chart(document.getElementById('expChart'), { type: 'doughnut', data: { labels: ['< 1 ปี', '1-3 ปี', '4-6 ปี', '> 6 ปี'], datasets: [{ data: [0,0,0,0], backgroundColor: ['#254382', '#2e753a', '#eab308', '#a855f7'] }] }, options: donutOpts });
-            
-            charts.part2 = new Chart(document.getElementById('part2Chart'), { type: 'bar', data: { labels: ['ข้อ 1','ข้อ 2','ข้อ 3','ข้อ 4','ข้อ 5','ข้อ 6','ข้อ 7','ข้อ 8'], datasets: [{ label: 'ก่อน', data: [], backgroundColor: '#8bb4f2', borderRadius: 2 }, { label: 'หลัง', data: [], backgroundColor: '#254382', borderRadius: 2 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { max: 5, ticks: { font: { size: 9 } } }, x: { ticks: { font: { size: 9 } } } }, plugins: { legend: { display: false } } } });
-            charts.part3 = new Chart(document.getElementById('part3Chart'), { type: 'bar', data: { labels: ['ข้อ 1','ข้อ 2','ข้อ 3','ข้อ 4','ข้อ 5','ข้อ 6','ข้อ 7','ข้อ 8'], datasets: [{ data: [], backgroundColor: '#254382', borderRadius: 2 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, scales: { x: { max: 5, ticks: { font: { size: 9 } } }, y: { ticks: { font: { size: 9 } } } }, plugins: { legend: { display: false } } } });
+            charts.part4 = new Chart(document.getElementById('part4Chart'), { type: 'bar', data: { labels: ['ข้อ 1','ข้อ 2','ข้อ 3','ข้อ 4','ข้อ 5','ข้อ 6','ข้อ 7','ข้อ 8','ข้อ 9'], datasets: [{ label: 'คะแนนเฉลี่ย', data: [], backgroundColor: '#8bb4f2', borderRadius: 2, barPercentage: 0.7 }] }, options: { responsive: true, maintainAspectRatio: false, layout: { padding: { top: 10, right: 10, bottom: 0, left: 0 } }, scales: { y: { max: 5, ticks: { font: { size: 9 } } }, x: { ticks: { font: { size: 9 } } } }, plugins: { legend: { display: false } } } });
+            charts.part5 = new Chart(document.getElementById('part5Chart'), { type: 'bar', data: { labels: ['ข้อ 1','ข้อ 2','ข้อ 3','ข้อ 4','ข้อ 5','ข้อ 6','ข้อ 7','ข้อ 8'], datasets: [{ label: 'คะแนนเฉลี่ย', data: [], backgroundColor: '#254382', borderRadius: 2, barPercentage: 0.7 }] }, options: { responsive: true, maintainAspectRatio: false, layout: { padding: { top: 10, right: 10, bottom: 0, left: 0 } }, scales: { y: { max: 5, ticks: { font: { size: 9 } } }, x: { ticks: { font: { size: 9 } } } }, plugins: { legend: { display: false } } } });
+            charts.part6 = new Chart(document.getElementById('part6Chart'), { type: 'bar', data: { labels: ['ข้อ 1','ข้อ 2','ข้อ 3','ข้อ 4','ข้อ 5'], datasets: [{ data: [], backgroundColor: '#2e753a', borderRadius: 2, barPercentage: 0.7 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, layout: { padding: { top: 5, right: 10, bottom: 0, left: 0 } }, scales: { x: { max: 5, ticks: { font: { size: 9 } } }, y: { ticks: { font: { size: 9 } } } }, plugins: { legend: { display: false } } } });
+        }
+
+        // ฟังก์ชันล้างกราฟเมื่อกรองแล้วเป็น 0
+        function clearCharts() {
+            charts.dept.data.datasets[0].data = [0,0,0,0]; charts.dept.update();
+            charts.exp.data.datasets[0].data = [0,0,0,0]; charts.exp.update();
+            charts.part4.data.datasets[0].data = Array(9).fill(0); charts.part4.update();
+            charts.part5.data.datasets[0].data = Array(8).fill(0); charts.part5.update();
+            charts.part6.data.datasets[0].data = Array(5).fill(0); charts.part6.update();
         }
     </script>
 </body>
