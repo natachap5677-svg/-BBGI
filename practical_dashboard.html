@@ -74,15 +74,15 @@
                 <div class="flex-1 flex items-center justify-between px-4 pb-1"><div class="text-3xl font-black text-blue-900 leading-none"><span id="kpi-total">0</span> <span class="text-xs font-medium text-gray-500">คน</span></div><i class="fa-solid fa-users text-2xl text-gray-300"></i></div>
             </div>
             <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden">
-                <div class="bg-[#2e753a] text-white text-center text-[10px] font-bold py-1">คะแนนภาคปฏิบัติ (ส่วน 2)</div>
+                <div class="bg-[#2e753a] text-white text-center text-[10px] font-bold py-1">คะแนนภาคปฏิบัติ (ส่วน 4)</div>
                 <div class="flex-1 flex items-center justify-between px-4 pb-1"><div class="text-3xl font-black text-green-700 leading-none"><span id="kpi-avg-p4">0.00</span><span class="text-xs font-medium text-gray-400">/5</span></div><i class="fa-solid fa-flask text-2xl text-gray-300"></i></div>
             </div>
             <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden">
-                <div class="bg-[#254382] text-white text-center text-[10px] font-bold py-1">กระบวนการเรียนรู้ (ส่วน 3)</div>
+                <div class="bg-[#254382] text-white text-center text-[10px] font-bold py-1">กระบวนการเรียนรู้ (ส่วน 5)</div>
                 <div class="flex-1 flex items-center justify-between px-4 pb-1"><div class="text-3xl font-black text-blue-900 leading-none"><span id="kpi-avg-p5">0.00</span><span class="text-xs font-medium text-gray-400">/5</span></div><i class="fa-solid fa-chalkboard-user text-2xl text-gray-300"></i></div>
             </div>
             <div class="flex-1 bg-white rounded-md shadow-sm border border-gray-200 flex flex-col overflow-hidden">
-                <div class="bg-[#2e753a] text-white text-center text-[10px] font-bold py-1">ความเหมาะสมโดยรวม (ส่วน 4)</div>
+                <div class="bg-[#2e753a] text-white text-center text-[10px] font-bold py-1">ความเหมาะสมโดยรวม (ส่วน 6)</div>
                 <div class="flex-1 flex items-center justify-between px-4 pb-1"><div class="text-3xl font-black text-green-700 leading-none"><span id="kpi-avg-p6">0.00</span><span class="text-xs font-medium text-gray-400">/5</span></div><i class="fa-solid fa-star text-2xl text-yellow-400"></i></div>
             </div>
         </section>
@@ -104,15 +104,15 @@
             <!-- Middle (Bar P4, P5, P6) -->
             <div class="w-[50%] flex flex-col gap-3 min-h-0 h-full">
                 <div class="h-[33%] bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0">
-                    <h3 class="text-xs font-bold text-gray-800 text-center mb-1 shrink-0">การประเมินภาคปฏิบัติ - ส่วนที่ 2</h3>
+                    <h3 class="text-xs font-bold text-gray-800 text-center mb-1 shrink-0">การประเมินภาคปฏิบัติ - ส่วนที่ 4</h3>
                     <div class="relative flex-1 min-h-0 w-full"><canvas id="part4Chart"></canvas></div>
                 </div>
                 <div class="h-[33%] bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0">
-                    <h3 class="text-xs font-bold text-gray-800 text-center mb-1 shrink-0">กระบวนการเรียนรู้ - ส่วนที่ 3</h3>
+                    <h3 class="text-xs font-bold text-gray-800 text-center mb-1 shrink-0">กระบวนการเรียนรู้ - ส่วนที่ 5</h3>
                     <div class="relative flex-1 min-h-0 w-full"><canvas id="part5Chart"></canvas></div>
                 </div>
                 <div class="h-[34%] bg-white rounded-md shadow-sm border border-gray-200 p-2 flex flex-col min-h-0">
-                    <h3 class="text-xs font-bold text-gray-800 text-center mb-1 shrink-0">ความเหมาะสมโดยรวม - ส่วนที่ 4</h3>
+                    <h3 class="text-xs font-bold text-gray-800 text-center mb-1 shrink-0">ความเหมาะสมโดยรวม - ส่วนที่ 6</h3>
                     <div class="relative flex-1 min-h-0 w-full"><canvas id="part6Chart"></canvas></div>
                 </div>
             </div>
@@ -249,7 +249,7 @@
             document.getElementById('kpi-avg-p5').innerText = countP5Total > 0 ? (totalP5 / countP5Total).toFixed(2) : "0.00";
             document.getElementById('kpi-avg-p6').innerText = countP6Total > 0 ? (totalP6 / countP6Total).toFixed(2) : "0.00";
 
-            // ดึงข้อความทั้งหมดมาแสดงผล (เอา .slice(-5) ออก)
+            // ดึงข้อความทั้งหมดมาแสดงผล
             document.getElementById('list-s7').innerHTML = s7List.reverse().map(t => `<li class="mb-2 border-b pb-1 border-gray-100 last:border-0">${t}</li>`).join('') || '<li class="text-gray-400 list-none">ไม่มีข้อมูล</li>';
             document.getElementById('list-s8').innerHTML = s8List.reverse().map(t => `<li class="mb-2 border-b pb-1 border-gray-100 last:border-0">${t}</li>`).join('') || '<li class="text-gray-400 list-none">ไม่มีข้อมูล</li>';
 
@@ -271,9 +271,112 @@
             const donutOpts = { responsive: true, maintainAspectRatio: false, cutout: '55%', plugins: { legend: { position: 'right', labels: { boxWidth: 8, font: { size: 9 } } } } };
             charts.dept = new Chart(document.getElementById('deptChart'), { type: 'doughnut', data: { labels: ['BBGI NP', 'BBGI BP', 'BBGI PS', 'อื่นๆ'], datasets: [{ data: [0,0,0,0], backgroundColor: ['#254382', '#2e753a', '#eab308', '#cbd5e1'] }] }, options: donutOpts });
             charts.exp = new Chart(document.getElementById('expChart'), { type: 'doughnut', data: { labels: ['< 1 ปี', '1-3 ปี', '4-6 ปี', '> 6 ปี'], datasets: [{ data: [0,0,0,0], backgroundColor: ['#254382', '#2e753a', '#eab308', '#a855f7'] }] }, options: donutOpts });
-            charts.part4 = new Chart(document.getElementById('part4Chart'), { type: 'bar', data: { labels: ['ความชัดเจนของคู่มือ ขั้นตอน และเกณฑ์ความสำเร็จของการทดลอง','ความพร้อมและความเหมาะสมของวัตถุดิบ สารเคมี เครื่องมือ และอุปกรณ์','การจัดกลุ่มแบบผสมสังกัดช่วยให้เกิดการแลกเปลี่ยนประสบการณ์','การเปรียบเทียบ 4 สภาวะช่วยให้เข้าใจผลของวัตถุดิบ ความเข้มข้น และอุณหภูมิ','ได้ฝึกเตรียมเชื้อ เตรียมอาหาร และควบคุมตัวแปรการหมักด้วยตนเอง','ได้ฝึกเก็บตัวอย่าง ตรวจวัด และคำนวณประสิทธิภาพการหมัก','ได้ฝึกวิเคราะห์ปัญหายีสต์ ผลพลอยได้ และแนวทางปรับสภาวะการหมัก','วิทยากรและผู้ช่วยให้คำแนะนำได้ทั่วถึงและทันเวลา','ระยะเวลา 3 วันเพียงพอต่อการปฏิบัติ วิเคราะห์ และอภิปรายผล'], datasets: [{ label: 'คะแนนเฉลี่ย', data: [], backgroundColor: '#8bb4f2', borderRadius: 2, barPercentage: 0.7 }] }, options: { responsive: true, maintainAspectRatio: false, layout: { padding: { top: 10, right: 10, bottom: 0, left: 0 } }, scales: { y: { max: 5, ticks: { font: { size: 9 } } }, x: { ticks: { font: { size: 9 } } } }, plugins: { legend: { display: false } } } });
-            charts.part5 = new Chart(document.getElementById('part5Chart'), { type: 'bar', data: { labels: ['วิทยากรมีความเชี่ยวชาญและถ่ายทอดได้ถูกต้องชัดเจน','วิทยากรเชื่อมโยงเนื้อหากับสภาพการผลิตจริงและตอบคำถามได้ตรงประเด็น','กิจกรรมเปิดโอกาสให้ผู้เข้าอบรมคิด วิเคราะห์ ทดลอง และแลกเปลี่ยนความคิดเห็น','เอกสารประกอบการอบรมและคู่มือปฏิบัติการอ่านเข้าใจง่ายและนำกลับไปใช้ได้','Pre test และ Post test สอดคล้องกับวัตถุประสงค์และช่วยสะท้อนการเรียนรู้','การแบ่งเวลาเรียน พัก และปฏิบัติการมีความเหมาะสม','สถานที่ ห้องเรียน ห้องปฏิบัติการ และโสตทัศนูปกรณ์มีความพร้อม','การประสานงานและการอำนวยความสะดวกตลอดหลักสูตรมีประสิทธิภาพ'], datasets: [{ label: 'คะแนนเฉลี่ย', data: [], backgroundColor: '#254382', borderRadius: 2, barPercentage: 0.7 }] }, options: { responsive: true, maintainAspectRatio: false, layout: { padding: { top: 10, right: 10, bottom: 0, left: 0 } }, scales: { y: { max: 5, ticks: { font: { size: 9 } } }, x: { ticks: { font: { size: 9 } } } }, plugins: { legend: { display: false } } } });
-            charts.part6 = new Chart(document.getElementById('part6Chart'), { type: 'bar', data: { labels: ['หลักสูตรตอบโจทย์ปัญหาและความต้องการของหน่วยงาน','ความรู้และทักษะที่ได้รับสามารถนำไปใช้ปรับปรุงงานได้','ความคุ้มค่าของเวลาและทรัพยากรที่ใช้ในการเข้าร่วมอบรม','ความพึงพอใจต่อโครงการโดยรวม','ความตั้งใจแนะนำหลักสูตรนี้แก่เพื่อนร่วมงานที่เกี่ยวข้อง'], datasets: [{ data: [], backgroundColor: '#2e753a', borderRadius: 2, barPercentage: 0.7 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, layout: { padding: { top: 5, right: 10, bottom: 0, left: 0 } }, scales: { x: { max: 5, ticks: { font: { size: 9 } } }, y: { ticks: { font: { size: 9 } } } }, plugins: { legend: { display: false } } } });
+            
+            // ข้อมูลสำหรับกราฟส่วนที่ 4
+            const part4ShortLabels = ['ข้อ 1','ข้อ 2','ข้อ 3','ข้อ 4','ข้อ 5','ข้อ 6','ข้อ 7','ข้อ 8','ข้อ 9'];
+            const part4FullLabels = [
+                'ความชัดเจนของคู่มือ ขั้นตอน และเกณฑ์ความสำเร็จของการทดลอง',
+                'ความพร้อมและความเหมาะสมของวัตถุดิบ สารเคมี เครื่องมือ และอุปกรณ์',
+                'การจัดกลุ่มแบบผสมสังกัดช่วยให้เกิดการแลกเปลี่ยนประสบการณ์',
+                'การเปรียบเทียบ 4 สภาวะช่วยให้เข้าใจผลของวัตถุดิบ ความเข้มข้น และอุณหภูมิ',
+                'ได้ฝึกเตรียมเชื้อ เตรียมอาหาร และควบคุมตัวแปรการหมักด้วยตนเอง',
+                'ได้ฝึกเก็บตัวอย่าง ตรวจวัด และคำนวณประสิทธิภาพการหมัก',
+                'ได้ฝึกวิเคราะห์ปัญหายีสต์ ผลพลอยได้ และแนวทางปรับสภาวะการหมัก',
+                'วิทยากรและผู้ช่วยให้คำแนะนำได้ทั่วถึงและทันเวลา',
+                'ระยะเวลา 3 วันเพียงพอต่อการปฏิบัติ วิเคราะห์ และอภิปรายผล'
+            ];
+
+            charts.part4 = new Chart(document.getElementById('part4Chart'), { 
+                type: 'bar', 
+                data: { 
+                    labels: part4ShortLabels, 
+                    datasets: [{ label: 'คะแนนเฉลี่ย', data: [], backgroundColor: '#8bb4f2', borderRadius: 2, barPercentage: 0.7 }] 
+                }, 
+                options: { 
+                    responsive: true, maintainAspectRatio: false, 
+                    layout: { padding: { top: 10, right: 10, bottom: 0, left: 0 } }, 
+                    scales: { y: { max: 5, ticks: { font: { size: 9 } } }, x: { ticks: { font: { size: 9 } } } }, 
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                title: function(context) {
+                                    return part4FullLabels[context[0].dataIndex];
+                                }
+                            }
+                        }
+                    } 
+                } 
+            });
+
+            // ข้อมูลสำหรับกราฟส่วนที่ 5
+            const part5ShortLabels = ['ข้อ 1','ข้อ 2','ข้อ 3','ข้อ 4','ข้อ 5','ข้อ 6','ข้อ 7','ข้อ 8'];
+            const part5FullLabels = [
+                'วิทยากรมีความเชี่ยวชาญและถ่ายทอดได้ถูกต้องชัดเจน',
+                'วิทยากรเชื่อมโยงเนื้อหากับสภาพการผลิตจริงและตอบคำถามได้ตรงประเด็น',
+                'กิจกรรมเปิดโอกาสให้ผู้เข้าอบรมคิด วิเคราะห์ ทดลอง และแลกเปลี่ยนความคิดเห็น',
+                'เอกสารประกอบการอบรมและคู่มือปฏิบัติการอ่านเข้าใจง่ายและนำกลับไปใช้ได้',
+                'Pre test และ Post test สอดคล้องกับวัตถุประสงค์และช่วยสะท้อนการเรียนรู้',
+                'การแบ่งเวลาเรียน พัก และปฏิบัติการมีความเหมาะสม',
+                'สถานที่ ห้องเรียน ห้องปฏิบัติการ และโสตทัศนูปกรณ์มีความพร้อม',
+                'การประสานงานและการอำนวยความสะดวกตลอดหลักสูตรมีประสิทธิภาพ'
+            ];
+
+            charts.part5 = new Chart(document.getElementById('part5Chart'), { 
+                type: 'bar', 
+                data: { 
+                    labels: part5ShortLabels, 
+                    datasets: [{ label: 'คะแนนเฉลี่ย', data: [], backgroundColor: '#254382', borderRadius: 2, barPercentage: 0.7 }] 
+                }, 
+                options: { 
+                    responsive: true, maintainAspectRatio: false, 
+                    layout: { padding: { top: 10, right: 10, bottom: 0, left: 0 } }, 
+                    scales: { y: { max: 5, ticks: { font: { size: 9 } } }, x: { ticks: { font: { size: 9 } } } }, 
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                title: function(context) {
+                                    return part5FullLabels[context[0].dataIndex];
+                                }
+                            }
+                        }
+                    } 
+                } 
+            });
+
+            // ข้อมูลสำหรับกราฟส่วนที่ 6
+            const part6ShortLabels = ['ข้อ 1','ข้อ 2','ข้อ 3','ข้อ 4','ข้อ 5'];
+            const part6FullLabels = [
+                'หลักสูตรตอบโจทย์ปัญหาและความต้องการของหน่วยงาน',
+                'ความรู้และทักษะที่ได้รับสามารถนำไปใช้ปรับปรุงงานได้',
+                'ความคุ้มค่าของเวลาและทรัพยากรที่ใช้ในการเข้าร่วมอบรม',
+                'ความพึงพอใจต่อโครงการโดยรวม',
+                'ความตั้งใจแนะนำหลักสูตรนี้แก่เพื่อนร่วมงานที่เกี่ยวข้อง'
+            ];
+
+            charts.part6 = new Chart(document.getElementById('part6Chart'), { 
+                type: 'bar', 
+                data: { 
+                    labels: part6ShortLabels, 
+                    datasets: [{ data: [], backgroundColor: '#2e753a', borderRadius: 2, barPercentage: 0.7 }] 
+                }, 
+                options: { 
+                    indexAxis: 'y', responsive: true, maintainAspectRatio: false, 
+                    layout: { padding: { top: 5, right: 10, bottom: 0, left: 0 } }, 
+                    scales: { x: { max: 5, ticks: { font: { size: 9 } } }, y: { ticks: { font: { size: 9 } } } }, 
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                title: function(context) {
+                                    return part6FullLabels[context[0].dataIndex];
+                                }
+                            }
+                        }
+                    } 
+                } 
+            });
         }
 
         // ฟังก์ชันล้างกราฟเมื่อกรองแล้วเป็น 0
