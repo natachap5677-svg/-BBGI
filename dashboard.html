@@ -414,8 +414,78 @@
             charts.dept = new Chart(document.getElementById('deptChart'), { type: 'doughnut', data: { labels: ['BBGI NP', 'BBGI BP', 'BBGI PS', 'อื่นๆ'], datasets: [{ data: [0,0,0,0], backgroundColor: ['#254382', '#2e753a', '#eab308', '#cbd5e1'] }] }, options: donutOpts });
             charts.exp = new Chart(document.getElementById('expChart'), { type: 'doughnut', data: { labels: ['< 1 ปี', '1-3 ปี', '4-6 ปี', '> 6 ปี'], datasets: [{ data: [0,0,0,0], backgroundColor: ['#254382', '#2e753a', '#eab308', '#a855f7'] }] }, options: donutOpts });
             
-            charts.part2 = new Chart(document.getElementById('part2Chart'), { type: 'bar', data: { labels: ['ข้อ 1','ข้อ 2','ข้อ 3','ข้อ 4','ข้อ 5','ข้อ 6','ข้อ 7','ข้อ 8'], datasets: [{ label: 'ก่อน', data: [], backgroundColor: '#8bb4f2', borderRadius: 2 }, { label: 'หลัง', data: [], backgroundColor: '#254382', borderRadius: 2 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { max: 5, ticks: { font: { size: 9 } } }, x: { ticks: { font: { size: 9 } } } }, plugins: { legend: { display: false } } } });
-            charts.part3 = new Chart(document.getElementById('part3Chart'), { type: 'bar', data: { labels: ['ข้อ 1','ข้อ 2','ข้อ 3','ข้อ 4','ข้อ 5','ข้อ 6','ข้อ 7','ข้อ 8'], datasets: [{ data: [], backgroundColor: '#254382', borderRadius: 2 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, scales: { x: { max: 5, ticks: { font: { size: 9 } } }, y: { ticks: { font: { size: 9 } } } }, plugins: { legend: { display: false } } } });
+            // ข้อมูลสำหรับกราฟส่วนที่ 2
+            const part2ShortLabels = ['ข้อ 1','ข้อ 2','ข้อ 3','ข้อ 4','ข้อ 5','ข้อ 6','ข้อ 7','ข้อ 8'];
+            const part2FullLabels = [
+                'อธิบายหลักชีวเคมีและปฏิกิริยาการหมักเอทานอลแบบ SSF',
+                'เลือกและอธิบายการควบคุมระบบ Batch, Fed batch และ Continuous',
+                'ประเมินสมดุลมวล น้ำตาล เอทานอล ผลได้ และประสิทธิภาพ',
+                'คำนวณและปรับสมดุลอาหารให้เหมาะกับสภาวะการหมัก',
+                'วิเคราะห์ความเครียดของยีสต์และกำหนดแนวทางแก้ไข',
+                'ระบุสาเหตุและแนวทางลดผลพลอยได้ที่ไม่ต้องการ',
+                'ประเมินสมดุลพลังงานและแนวทางควบคุมอุณหภูมิ',
+                'วิเคราะห์ผลการทดลอง 4 สภาวะและเสนอแนวทางเพิ่มประสิทธิภาพ'
+            ];
+
+            charts.part2 = new Chart(document.getElementById('part2Chart'), { 
+                type: 'bar', 
+                data: { 
+                    labels: part2ShortLabels, 
+                    datasets: [
+                        { label: 'ก่อน', data: [], backgroundColor: '#8bb4f2', borderRadius: 2 }, 
+                        { label: 'หลัง', data: [], backgroundColor: '#254382', borderRadius: 2 }
+                    ] 
+                }, 
+                options: { 
+                    responsive: true, maintainAspectRatio: false, 
+                    scales: { y: { max: 5, ticks: { font: { size: 9 } } }, x: { ticks: { font: { size: 9 } } } }, 
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                title: function(context) {
+                                    return part2FullLabels[context[0].dataIndex];
+                                }
+                            }
+                        }
+                    } 
+                } 
+            });
+
+            // ข้อมูลสำหรับกราฟส่วนที่ 3
+            const part3ShortLabels = ['ข้อ 1','ข้อ 2','ข้อ 3','ข้อ 4','ข้อ 5','ข้อ 6','ข้อ 7','ข้อ 8'];
+            const part3FullLabels = [
+                'หลักการทางชีวเคมีและปฏิกิริยาการหมักเอทานอล',
+                'คุณลักษณะและการเตรียมวัตถุดิบสำหรับการผลิตเอทานอล',
+                'รูปแบบการดำเนินระบบและการควบคุมกระบวนการหมักเอทานอล',
+                'สรีรวิทยาของยีสต์ โภชนาการ และการตอบสนองต่อภาวะความเครียด',
+                'การประเมินสมดุลมวลและสมรรถนะของกระบวนการหมัก',
+                'สมดุลพลังงานและการควบคุมอุณหภูมิของกระบวนการหมัก',
+                'ความเชื่อมโยงของทฤษฎีกับโจทย์จริงของโรงงาน BBGI',
+                'ความเหมาะสมของลำดับเนื้อหาและเวลาที่จัดสรร'
+            ];
+
+            charts.part3 = new Chart(document.getElementById('part3Chart'), { 
+                type: 'bar', 
+                data: { 
+                    labels: part3ShortLabels, 
+                    datasets: [{ data: [], backgroundColor: '#254382', borderRadius: 2 }] 
+                }, 
+                options: { 
+                    indexAxis: 'y', responsive: true, maintainAspectRatio: false, 
+                    scales: { x: { max: 5, ticks: { font: { size: 9 } } }, y: { ticks: { font: { size: 9 } } } }, 
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                title: function(context) {
+                                    return part3FullLabels[context[0].dataIndex];
+                                }
+                            }
+                        }
+                    } 
+                } 
+            });
         }
 
         // ฟังก์ชันล้างกราฟเมื่อไม่มีข้อมูลตรงตัวกรอง
